@@ -1,0 +1,162 @@
+﻿@model Femalab.Model.Entities.Attention
+
+@using (Html.BeginForm("AddOrEdit", "Attention", FormMethod.Post, new { @id = "AddOrEditFormID", @class = "needs-validation", role = "form" }))
+{
+
+    @Html.AntiForgeryToken()
+    HtmlHelper.UnobtrusiveJavaScriptEnabled = false;
+
+    <div class="modal-dialog modal-xl" role="document">
+        <div class="modal-content ">
+
+            <div class="modal-header card-header border-left-primary">
+                <h5 class="modal-title" id="PatientModalLongTitle">Receta Médica</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body card-body border-left-primary">
+
+                <div class="border-left-success">
+                    <div class="row mx-2">
+                        <div class="col-lg-2 col-sm-12">
+                            <div class="form-group">
+                                <label for="Nombres">Nombres</label>
+                                <input type="text" class="col form-control" id="Nombres" aria-describedby="pacienteHelp" placeholder="Nombres">
+                                <small id="pacienteHelp" class="form-text text-muted">Presione F1 para buscar</small>
+                            </div>
+                        </div>
+                        <div class="col-lg-2 col-sm-12">
+                            <div class="form-group">
+                                <label for="Apellido">Apellidos</label>
+                                <input type="text" class="col form-control" id="Apellidos" placeholder="Apellidos">
+                            </div>
+                        </div>
+                        <div class="col-lg-2 col-sm-12">
+                            <div class="form-group">
+                                <label for="TipoDocumento">Tipo Documento</label>
+                                <select class="form-control" id="TipoDocumento">
+                                    <option value="00">Tipo Documento</option>
+                                    <option value="01">DNI</option>
+                                    <option value="02">CE</option>
+                                    <option value="03">PASAPORTE</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-lg-2 col-sm-12">
+                            <div class="form-group">
+                                <label for="Documento">Documento</label>
+                                <input type="text" class="col form-control" id="Documento" placeholder="Documento">
+                            </div>
+                        </div>
+                        <div class="col-lg-2 col-sm-12">
+                            <div class="form-group">
+                                <label for="TipoDocumento">Tipo Consulta</label>
+                                <select class="col form-control" id="TipoDocumento">
+                                    <option value="00">Medicina General</option>
+                                    <option value="01">Pediatría</option>
+                                    <option value="02">Ginecología</option>
+                                    <option value="03">Nutrición</option>
+                                    <option value="04">Oftalmologia</option>
+                                    <option value="05">Imágenes</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-lg-2 col-sm-12">
+                            <div class="form-group">
+                                <label for="TipoDocumento">Médico</label>
+                                <select class="col form-control" id="TipoDocumento">
+                                    <option value="00">Médico</option>
+                                    <option value="01">Médico 01</option>
+                                    <option value="02">Médico 02</option>
+                                    <option value="03">Médico 03</option>
+                                    <option value="04">Médico 04</option>
+                                    <option value="05">Médico 05</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row mx-2">
+                        <div class="col-lg-2 col-sm-12">
+                            <div class="form-group">
+                                <label for="exampleFormControlSelect1">Género</label>
+                                <select class="col form-control" id="Genero">
+                                    <option value="00">Género</option>
+                                    <option value="01">MASCULINO</option>
+                                    <option value="02">FEMENINO</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-lg-2 col-sm-12">
+                            <div class="form-group">
+                                <label for="Fecha">Fecha de Nacimiento</label>
+                                <input value="2019-01-01" class="col form-control text-box single-line" id="Fecha" name="Fecha" type="date">
+                            </div>
+                        </div>
+                        <div class="col-lg-2 col-sm-12">
+                            <div class="form-group">
+                                <label for="exampleInputEmail1">Edad</label>
+                                <input type="text" class="col form-control" id="Edad" placeholder="Edad">
+                            </div>
+                        </div>
+                        <div class="col-lg-2 col-sm-12">
+                            <div class="form-group">
+                                <label for="exampleInputEmail1">Peso (Kg)</label>
+                                <input type="text" class="col form-control" id="Peso" placeholder="Peso (Kg)">
+                            </div>
+                        </div>
+                        <div class="col-lg-2 col-sm-12">
+                            <div class="form-group">
+                                <label for="exampleInputEmail1">Talla</label>
+                                <input type="text" class="col form-control" id="Talla" placeholder="Talla">
+                            </div>
+                        </div>
+                        <div class="col-lg-2 col-sm-12">
+                            <div class="form-group">
+                                <label for="exampleInputEmail1">Estatura (cm)</label>
+                                <input type="text" class="col form-control" id="Estatura" placeholder="Estatura (cm">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="border-left-warning mt-1">
+                    <div class="row mx-2">
+                        <div class="col-lg-6 col-sm-12">
+                            <div class="form-group">
+                                <label for="Nombres">Medicamentos : </label>
+                                <input type="text" class="col form-control" id="Prueba" aria-describedby="Prueba" placeholder=" Mediacmento ">
+                                <small id="Prueba" class="form-text text-muted">Se mostrarán las conincidencias del valor a buscar</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="border-left-info mt-1">
+                    <div class="row mx-2">
+                        <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                            <thead>
+                                <tr>
+                                    <th>Código</th>
+                                    <th>Abreviatura</th>
+                                    <th>Medicamento</th>
+                                    <th>Indicación</th>
+                                    <th style="width:150px">Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody id="tbAttentionBody"></tbody>
+                        </table>
+                    </div>
+                </div>
+
+            </div>
+            <div class="modal-footer border-left-primary">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                <input type="submit" class="btn btn-primary" value="Guardar" />
+            </div>
+        </div>
+    </div>
+}
+
+
+<script src="~/Scripts/attention/pharmacy.js"></script>
+

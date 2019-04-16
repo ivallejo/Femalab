@@ -1,0 +1,57 @@
+﻿@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@section styles {
+    @Styles.Render("~/Content/admintablescss")
+    @Styles.Render("~/Content/toas")
+}
+
+
+
+<h1 class="h3 mb-2 text-gray-800">Atenciones</h1>
+<p class="mb-4"></p>
+
+<div class="card shadow mb-4">
+    <div class="card-header py-3">
+        <h6 class="m-0 font-weight-bold text-primary">Listado de Atenciones.</h6>
+    </div>
+    <div class="card-body">
+        <div class="table-responsive">
+
+            @*<a href="#" class="btn btn-success"><i class="fas fa-plus-circle"></i> Nuevo</a>*@
+            <button type="button" id="btnAddAttention" data-url='@Url.Action("Attention","Attention")' class="btn btn-success ml-1 addattention"><i class="fas fa-plus-circle"></i> Consulta </button>
+            <button type="button" id="btnAddLaboratory" data-url='@Url.Action("Laboratory","Attention")' class="btn btn-info ml-1 addattention"><i class="fas fa-plus-circle"></i> Laboratorio </button>            
+            <button type="button" id="btnAddPharmacy" data-url='@Url.Action("Pharmacy","Attention")' class="btn btn-primary ml-1 addattention"><i class="fas fa-plus-circle"></i> Farmacia </button>
+
+            <div class="modal fade bd-example-modal-xl" id="ModalAttentionAddOrEdit" tabindex="-1" role="dialog" aria-labelledby="ModalCenterTitle" aria-hidden="true" ></div>
+
+            <br />
+            <br />
+
+            <input type="hidden" id="hddUrlRemoveAttention" value="@Url.Action("Remove","Attention")" />
+
+            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                <thead>
+                    <tr>
+                        <th style="width:60px">Código</th>
+                        <th>Paciente</th>
+                        <th style="width:50px">Tipo</th>
+                        <th style="width:160px">Agregado</th>
+                        <th style="width:140px">Acciones</th>
+                    </tr>
+                </thead>                
+                <tbody id="tbAttentionBody"></tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+@section scripts
+{
+    @Scripts.Render("~/bundles/admintablesjs")
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/bundles/toas")
+    @Scripts.Render("~/bundles/attention")
+
+}

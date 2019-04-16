@@ -1,0 +1,215 @@
+﻿
+@model Femalab.Model.Entities.Attention
+
+@*@section styles {
+        @Styles.Render("~/Content/laboratorycss")
+    }*@
+
+
+<link href="~/Content/css-easy-autocomplete/easy-autocomplete.css" rel="stylesheet" />
+
+@using (Html.BeginForm("Laboratory", "Attention", FormMethod.Post, new { @id = "AddOrEditFormID", @class = "needs-validation", role = "form" }))
+{
+
+    @Html.AntiForgeryToken()
+    HtmlHelper.UnobtrusiveJavaScriptEnabled = false;
+
+    <div class="modal-dialog modal-xl" role="document">
+        <div class="modal-content ">
+
+            <div class="modal-header card-header border-left-primary">
+                <h5 class="modal-title" id="PatientModalLongTitle">Orden Laboratorio</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+
+            @Html.HiddenFor(p => p.Id)
+            @Html.HiddenFor(p => p.Code)
+            @Html.HiddenFor(p => p.Visits)
+            @Html.HiddenFor(p => p.PatientId)
+            @Html.HiddenFor(p => p.Patient.Id)
+            @Html.HiddenFor(p => p.State)
+            @Html.HiddenFor(p => p.AttentionCategoryId)
+            @Html.HiddenFor(p => p.CreatedBy)
+            @Html.HiddenFor(p => p.CreatedDate)
+
+            <div class="modal-body card-body border-left-primary">
+                <div class="border-left-success">
+                    <div class="row mx-2">
+
+                        
+                        <div class="col-lg-2 col-sm-12">
+                            <div class="form-group">
+                                <label for="Documento">Documento</label>
+                                @Html.EditorFor(p => p.Patient.Document, new { htmlAttributes = new { @class = "col form-control", placeholder = "Documento" } })
+                            </div>
+                        </div>
+
+                        <div class="col-lg-2 col-sm-12">
+                            <div class="form-group">
+                                <label for="TipoDocumento">Tipo Documento</label>
+                                @Html.DropDownListFor(p => p.Patient.DocumentType,
+                                              new List<SelectListItem>{
+                                                                      new SelectListItem{ Text="Tipo Documento", Value="00"},
+                                                                      new SelectListItem{ Text="DNI", Value="01"},
+                                                                      new SelectListItem{ Text="CE", Value="02"},
+                                                                      new SelectListItem{ Text="PASAPORTE", Value="03"}
+                                                                      },
+                                              htmlAttributes: new { @class = "col form-control" }
+                                              )
+                            </div>
+                        </div>
+
+                        <div class="col-lg-2 col-sm-12">
+                            <div class="form-group">
+                                <label for="Nombres">Nombres</label>
+                                @Html.EditorFor(p => p.Patient.FirstName, new { htmlAttributes = new { @class = "col form-control", placeholder = "Nombres" } })
+                                <small id="pacienteHelp" class="form-text text-muted">Presione F1 para buscar</small>
+                            </div>
+                        </div>
+                        <div class="col-lg-2 col-sm-12">
+                            <div class="form-group">
+                                <label for="Apellido">Apellidos</label>
+                                @Html.EditorFor(p => p.Patient.LastName, new { htmlAttributes = new { @class = "col form-control", placeholder = "Apellidos" } })
+                            </div>
+                        </div>
+
+
+                    </div>
+                    <div class="row mx-2">
+                        <div class="col-lg-2 col-sm-12">
+                            <div class="form-group">
+                                <label for="exampleFormControlSelect1">Género</label>
+                                @Html.DropDownListFor(p => p.Patient.Gender,
+                                                new List<SelectListItem>{
+                                                                        new SelectListItem{ Text="Género", Value="0"},
+                                                                        new SelectListItem{ Text="Masculino", Value="M"},
+                                                                        new SelectListItem{ Text="Femenino", Value="F"}
+                                                                        },
+                                                htmlAttributes: new { @class = "col form-control" }
+                                                )
+                            </div>
+                        </div>
+                        <div class="col-lg-2 col-sm-12">
+                            <div class="form-group">
+                                <label for="Fecha">Fecha de Nacimiento</label>
+                                @Html.EditorFor(p => p.Patient.BirthDate, new { htmlAttributes = new { @Value = Model.Patient.BirthDate.ToString("yyyy-MM-dd"), @class = "col form-control" } })
+                            </div>
+                        </div>
+                        <div class="col-lg-2 col-sm-12">
+                            <div class="form-group">
+                                <label for="exampleInputEmail1">Edad</label>
+                                @Html.EditorFor(p => p.Age, new { htmlAttributes = new { @class = "col form-control", placeholder = "Edad" } })
+                            </div>
+                        </div>
+                        <div class="col-lg-2 col-sm-12">
+                            <div class="form-group">
+                                <label for="exampleInputEmail1">Peso (Kg)</label>
+                                @Html.EditorFor(p => p.Weight, new { htmlAttributes = new { @class = "col form-control", placeholder = "Peso (Kg)" } })
+                            </div>
+                        </div>
+                        <div class="col-lg-2 col-sm-12">
+                            <div class="form-group">
+                                <label for="exampleInputEmail1">Talla</label>
+                                @Html.EditorFor(p => p.Size, new { htmlAttributes = new { @class = "col form-control", placeholder = "Talla" } })
+                            </div>
+                        </div>
+                        <div class="col-lg-2 col-sm-12">
+                            <div class="form-group">
+                                <label for="exampleInputEmail1">Estatura (cm)</label>
+                                @Html.EditorFor(p => p.Height, new { htmlAttributes = new { @class = "col form-control", placeholder = "Estatura (cm)" } })
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="border-left-warning mt-1">
+                    <div class="row mx-2">
+                        
+                        <div class="col-lg-2 col-sm-6">
+                            <div class="form-group">
+                                <label for="txtCodeProduct">Código : </label>
+                                <input type="text" data-id="" class="col form-control" id="txtCodeProduct" placeholder="A0000">
+                            </div>
+                        </div>
+
+                        <div class="col-lg-6 col-sm-12">
+                            <div class="form-group">
+                                <label for="txtProduct">Examenes : </label>
+                                <input type="text" class="col form-control" id="txtProduct" aria-describedby="Prueba" placeholder="Perfil / Prueba / Paquete">
+                                <small id="Prueba" class="form-text text-muted">Se mostrarán las conincidencias del valor a buscar</small>
+                            </div>
+                        </div>
+                        <div class="col-lg-2 col-sm-12">
+                            <div class="form-group">
+                                <label for="Nombres">Tipo : </label>
+                                <input type="text" class="col form-control" id="txtTypeProduct" placeholder="Tipo">
+                            </div>
+                        </div>
+
+                        <div class="col-lg-1 col-sm-6">
+                            <div class="form-group">
+                                <label for="Nombres">Precio : </label>
+                                <input type="text" class="col form-control" id="txtPriceProduct" placeholder="0.00">
+                            </div>
+                        </div>
+
+                        <div class="col-lg-1 col-sm-6 text-right">
+                            <label for="Nombres"> . </label><br />
+
+                            <button type="button" class="btn btn-success addProduct">
+                                <i class="fas fa-plus-circle"></i>
+                            </button>
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="border-left-info mt-1">
+                    <div class="row mx-2">
+                        <table class="table table-bordered" id="tbProduct" width="100%" cellspacing="0">
+                            <thead>
+                                <tr>
+                                    <th style="width:95px">Código</th>
+                                    <th>Examén</th>
+                                    <th style="width:130px">Tipo</th>
+                                    <th style="width:40px">Cnt.</th>
+                                    <th style="width:60px">Precio</th>
+                                    <th style="width:70px"></th>
+                                </tr>
+                            </thead>
+                            <tbody id="tbProductBody"></tbody>
+                        </table>
+                    </div>
+                </div>
+
+            </div>
+            <div class="modal-footer border-left-primary">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                <input type="submit" class="btn btn-primary" value="Guardar" />
+            </div>
+        </div>
+    </div>
+}
+
+@*@section scripts
+{
+    @Scripts.Render("~/bundles/laboratoryquery")
+    @Scripts.Render("~/bundles/autocomplete")
+
+    <script type="text/javascript">
+        var options = {
+            data: ["blue", "green", "pink", "red", "yellow"]
+        };
+        debugger
+        $("#txtPrueba").easyAutocomplete(options);
+    </script>
+
+}*@
+
+<script src="~/Scripts/jquery-easy-autocomplete/jquery.easy-autocomplete.min.js"></script>
+<script src="~/Scripts/attention/laboratory.js"></script>
+
+<script type="text/javascript">
+    
+</script>

@@ -1,0 +1,178 @@
+﻿
+@model Femalab.Model.Entities.Attention
+
+@using (Html.BeginForm("Attention", "Attention", FormMethod.Post, new { @id = "AddOrEditFormID", @class = "needs-validation", role = "form" }))
+{
+
+    @Html.AntiForgeryToken()
+    HtmlHelper.UnobtrusiveJavaScriptEnabled = false;
+
+    <div class="modal-dialog modal-xl" role="document">
+        <div class="modal-content ">
+
+            <div class="modal-header card-header">
+                <h5 class="modal-title" id="PatientModalLongTitle">Consulta Médica</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+
+            @Html.HiddenFor(p => p.Id)
+            @Html.HiddenFor(p => p.Code)
+            @Html.HiddenFor(p => p.Visits)
+            @Html.HiddenFor(p => p.PatientId)
+            @Html.HiddenFor(p => p.Patient.Id)
+            @Html.HiddenFor(p => p.State)
+            @Html.HiddenFor(p => p.AttentionCategoryId)
+            @Html.HiddenFor(p => p.CreatedBy)
+            @Html.HiddenFor(p => p.CreatedDate)
+                                 
+            <div class="modal-body card-body">
+                <div class="border-left-success">
+                    <div class="row mx-2">
+                        <div class="col-lg-2 col-sm-12">
+                            <div class="form-group">
+                                <label for="Nombres">Nombres</label>
+                                @Html.EditorFor(p => p.Patient.FirstName, new { htmlAttributes = new { @class = "col form-control", placeholder = "Nombres" } })
+                                <small id="pacienteHelp" class="form-text text-muted">Presione F1 para buscar</small>
+                            </div>
+                        </div>
+                        <div class="col-lg-2 col-sm-12">
+                            <div class="form-group">
+                                <label for="Apellido">Apellidos</label>
+                                @Html.EditorFor(p => p.Patient.LastName, new { htmlAttributes = new { @class = "col form-control", placeholder = "Apellidos" } })
+                            </div>
+                        </div>
+                        <div class="col-lg-2 col-sm-12">
+                            <div class="form-group">
+                                <label for="TipoDocumento">Tipo Documento</label>
+                                @Html.DropDownListFor(p => p.Patient.DocumentType,
+                                              new List<SelectListItem>{
+                                                                      new SelectListItem{ Text="Tipo Documento", Value="00"},
+                                                                      new SelectListItem{ Text="DNI", Value="01"},
+                                                                      new SelectListItem{ Text="CE", Value="02"},
+                                                                      new SelectListItem{ Text="PASAPORTE", Value="03"}
+                                                                      },
+                                              htmlAttributes: new { @class = "col form-control" }
+                                              )
+                            </div>
+                        </div>
+                        <div class="col-lg-2 col-sm-12">
+                            <div class="form-group">
+                                <label for="Documento">Documento</label>
+                                @Html.EditorFor(p => p.Patient.Document, new { htmlAttributes = new { @class = "col form-control", placeholder = "Documento" } })
+                            </div>
+                        </div>
+                        <div class="col-lg-2 col-sm-12">
+                            <div class="form-group">
+                                <label for="TipoDocumento">Tipo Consulta</label>
+                                @Html.DropDownListFor(x => Model.AttentionTypeId, ViewBag.AttentionTypes as IEnumerable<SelectListItem>, htmlAttributes: new { @class = "form-control" })
+                            </div>
+                        </div>
+                        <div class="col-lg-2 col-sm-12">
+                            <div class="form-group">
+                                <label for="TipoDocumento">Médico</label>
+                                @Html.DropDownListFor(x => Model.DoctorId, ViewBag.Doctors as IEnumerable<SelectListItem>, htmlAttributes: new { @class = "form-control" })
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row mx-2">
+                        <div class="col-lg-2 col-sm-12">
+                            <div class="form-group">
+                                <label for="exampleFormControlSelect1">Género</label>
+                                @Html.DropDownListFor(p => p.Patient.Gender,
+                                                new List<SelectListItem>{
+                                                                        new SelectListItem{ Text="Género", Value="0"},
+                                                                        new SelectListItem{ Text="Masculino", Value="M"},
+                                                                        new SelectListItem{ Text="Femenino", Value="F"}
+                                                                        },
+                                                htmlAttributes: new { @class = "col form-control" }
+                                                )
+                            </div>
+                        </div>
+                        <div class="col-lg-2 col-sm-12">
+                            <div class="form-group">
+                                <label for="Fecha">Fecha de Nacimiento</label>
+                                @Html.EditorFor(p => p.Patient.BirthDate, new { htmlAttributes = new { @Value = Model.Patient.BirthDate.ToString("yyyy-MM-dd"), @class = "col form-control" } })
+                            </div>
+                        </div>
+                        <div class="col-lg-2 col-sm-12">
+                            <div class="form-group">
+                                <label for="exampleInputEmail1">Edad</label>
+                                @Html.EditorFor(p => p.Age, new { htmlAttributes = new { @class = "col form-control", placeholder = "Edad" } })
+                            </div>
+                        </div>
+                        <div class="col-lg-2 col-sm-12">
+                            <div class="form-group">
+                                <label for="exampleInputEmail1">Peso (Kg)</label>
+                                @Html.EditorFor(p => p.Weight, new { htmlAttributes = new { @class = "col form-control", placeholder = "Peso (Kg)" } })
+                            </div>
+                        </div>
+                        <div class="col-lg-2 col-sm-12">
+                            <div class="form-group">
+                                <label for="exampleInputEmail1">Talla</label>
+                                @Html.EditorFor(p => p.Size, new { htmlAttributes = new { @class = "col form-control", placeholder = "Talla" } })
+                            </div>
+                        </div>
+                        <div class="col-lg-2 col-sm-12">
+                            <div class="form-group">
+                                <label for="exampleInputEmail1">Estatura (cm)</label>
+                                @Html.EditorFor(p => p.Height, new { htmlAttributes = new { @class = "col form-control", placeholder = "Estatura (cm)" } })
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <br />
+                <div class="border-left-info">
+                    <div class="row mx-2">
+                        <div class="col-lg-4 col-sm-12">
+                            <div class="form-group">
+                                <label for="exampleInputEmail1">Consulta Por</label>
+                                @Html.EditorFor(p => p.QueryBy, new { htmlAttributes = new { @class = "col form-control" } })
+                            </div>
+                        </div>
+                        <div class="col-lg-4 col-sm-12">
+                            <div class="form-group">
+                                <label for="exampleInputEmail1">Examen Fisico</label>
+                                @Html.EditorFor(p => p.PhysicalExam, new { htmlAttributes = new { @class = "col form-control" } })
+                            </div>
+                        </div>
+                        <div class="col-lg-4 col-sm-12">
+                            <div class="form-group">
+                                <label for="exampleInputEmail1">Examen Laboratorio</label>
+                                @Html.EditorFor(p => p.LaboratoryExam, new { htmlAttributes = new { @class = "col form-control" } })
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row mx-2">
+                        <div class="col-lg-4 col-sm-12">
+                            <div class="form-group">
+                                <label for="exampleInputEmail1">Antecedentes Familiares</label>
+                                @Html.EditorFor(p => p.FamilyHistory, new { htmlAttributes = new { @class = "col form-control" } })
+                            </div>
+                        </div>
+                        <div class="col-lg-4 col-sm-12">
+                            <div class="form-group">
+                                <label for="exampleInputEmail1">Diagnostico</label>
+                                @Html.EditorFor(p => p.Diagnosis, new { htmlAttributes = new { @class = "col form-control" } })
+                            </div>
+                        </div>
+                        <div class="col-lg-4 col-sm-12">
+                            <div class="form-group">
+                                <label for="exampleInputEmail1">Tratamiento</label>
+                                @Html.EditorFor(p => p.Treatment, new { htmlAttributes = new { @class = "col form-control" } })
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                <input type="submit" class="btn btn-success" id="btnGuardar" value="Guardar" />
+            </div>
+        </div>
+    </div>
+}
+
+    <script src="~/Scripts/attention/attention.js"></script>
