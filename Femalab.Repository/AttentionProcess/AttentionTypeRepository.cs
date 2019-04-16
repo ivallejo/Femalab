@@ -1,4 +1,5 @@
-﻿using Femalab.Model.Entities;
+﻿using Autofac.Features.Indexed;
+using Femalab.Model.Entities;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
@@ -10,7 +11,7 @@ namespace Femalab.Repository.AttentionProcess
 {
     public class AttentionTypeRepository : GenericRepository<AttentionType>, IAttentionTypeRepository
     {
-        public AttentionTypeRepository(DbContext context) : base(context)
+        public AttentionTypeRepository(IIndex<String, DbContext> context) : base(context)
         {
         }
     }

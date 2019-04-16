@@ -1,4 +1,5 @@
-﻿using Femalab.Model.Entities;
+﻿using Autofac.Features.Indexed;
+using Femalab.Model.Entities;
 using Femalab.Repository;
 using System;
 using System.Collections.Generic;
@@ -11,7 +12,7 @@ namespace Femalab.Repository.Master
 {
     public class PatientRepository : GenericRepository<Patient>, IPatientRepository
     {
-        public PatientRepository(DbContext context)
+        public PatientRepository(IIndex<String, DbContext> context)
             : base(context)
         {
 

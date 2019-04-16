@@ -1,5 +1,5 @@
 ﻿$(document).ready(function () {
-
+            
     $.validator.addMethod("valueNotEquals", function (value, element, arg) {
         return arg !== value;
     }, "Value must not equal arg.");
@@ -109,3 +109,61 @@
     });
 });
 
+
+$("#Patient_Document").focusout( function (e) {
+    getPerson()
+});
+
+function getPerson() {    
+
+    var posting = $.post("../Attention/GetPerson", { Id: $("#Patient_Document").val() } );
+
+    posting
+        .done(function (data) {
+
+            $("#Patient_DocumentType").val("01")
+            $("#Patient_FirstName").val(`${data.NOMBRES}`)
+            $("#Patient_LastName").val(`${data.APE_PATERNO} ${data.APE_MATERNO}`)
+            $("#Patient_Gender").val(`${(data.SEXO == '2') ? 'F' : 'M'}`)
+            
+            const ano = data.FECHA_NACIMIENTO.substring(0, 4);
+            const mes = data.FECHA_NACIMIENTO.substring(4, 6);
+            const dia = data.FECHA_NACIMIENTO.substring(6, 8);
+                       
+            var today = ano + "-" + mes + "-" + dia;
+
+            $('#Patient_BirthDate').attr("value", today);
+
+            const birthday = new Date($('#Patient_BirthDate').val());
+
+            $("#Age").val(_calculateAge(birthday))
+
+            const notifier = new Notifier();
+            notifier.success('Paciente encontrado.', 'Paciente encontrado!');
+        })
+        .fail(function () {
+
+            $("#Patient_DocumentType").val("01")
+            $("#Patient_FirstName").val("")
+            $("#Patient_LastName").val("")
+            $("#Patient_Gender").val("0")
+
+            let today = new Date();
+            const dd = ("0" + (today.getDate())).slice(-2);
+            const mm = ("0" + (today.getMonth() + 1)).slice(-2);
+            const yyyy = today.getFullYear();
+            today = yyyy + '-' + mm + '-' + dd;
+
+            $('#Patient_BirthDate').attr("value", today);
+            $("#Age").val("")
+
+            const notifier = new Notifier();
+            notifier.error('Paciente no encontrado.', 'Paciente no encontrado!');       
+        })       
+}
+
+function _calculateAge(birthday) { // birthday is a date
+    var ageDifMs = Date.now() - birthday.getTime();
+    var ageDate = new Date(ageDifMs); // miliseconds from epoch
+    return Math.abs(ageDate.getUTCFullYear() - 1970);
+}

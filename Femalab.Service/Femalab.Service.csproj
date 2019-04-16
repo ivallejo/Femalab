@@ -41,7 +41,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Master\Interfaces\IPersonaService.cs" />
     <Compile Include="Master\Interfaces\IProductService.cs" />
+    <Compile Include="Master\PersonaService.cs" />
     <Compile Include="Master\ProductService.cs" />
     <Compile Include="AttentionService\AttentionCategoryService.cs" />
     <Compile Include="AttentionService\AttentionService.cs" />

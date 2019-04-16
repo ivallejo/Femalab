@@ -1,4 +1,5 @@
-﻿using Femalab.Model;
+﻿using Autofac.Features.Indexed;
+using Femalab.Model;
 using Femalab.Model.Infrastructure;
 using System;
 using System.Collections.Generic;
@@ -15,10 +16,10 @@ namespace Femalab.Repository
     {
         protected DbContext _entities;
         protected readonly IDbSet<T> _dbset;
-        public GenericRepository(DbContext context)
+        public GenericRepository(IIndex<String, DbContext> context)
         {
-            _entities = context;
-            _dbset = context.Set<T>();
+            _entities = context["databaseA"];
+            _dbset = context["databaseA"].Set<T>();
         }
 
         public virtual T Add(T entity)

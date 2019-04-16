@@ -40,6 +40,8 @@
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Security" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -75,12 +77,36 @@
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Persistence\FemalabContext.cs" />
-    <Compile Include="Persistence\PersonaConext.cs" />
+    <Compile Include="Persistence\PERSONA.cs">
+      <DependentUpon>PersonaModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Persistence\PersonaModel.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>PersonaModel.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Persistence\PersonaModel.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>PersonaModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Persistence\PersonaModel.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>PersonaModel.edmx</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
     <None Include="packages.config" />
+    <EntityDeploy Include="Persistence\PersonaModel.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>PersonaModel.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <None Include="Persistence\PersonaModel.edmx.diagram">
+      <DependentUpon>PersonaModel.edmx</DependentUpon>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201904050411306_Model initial.resx">
@@ -92,6 +118,21 @@
     <EmbeddedResource Include="Migrations\201904131747566_updatemodels-data.resx">
       <DependentUpon>201904131747566_updatemodels-data.cs</DependentUpon>
     </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Persistence\PersonaModel.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>PersonaModel.edmx</DependentUpon>
+      <LastGenOutput>PersonaModel.Context.cs</LastGenOutput>
+    </Content>
+    <Content Include="Persistence\PersonaModel.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>PersonaModel.edmx</DependentUpon>
+      <LastGenOutput>PersonaModel.cs</LastGenOutput>
+    </Content>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

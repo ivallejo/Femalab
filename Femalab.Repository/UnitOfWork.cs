@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Autofac.Features.Indexed;
+using System;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
@@ -11,9 +12,9 @@ namespace Femalab.Repository
     {
         private DbContext _dbcontext;
 
-        public UnitOfWork(DbContext context)
+        public UnitOfWork(IIndex<String, DbContext> context)
         {
-            _dbcontext = context; 
+            _dbcontext = context["databaseA"]; 
         }
 
         public int commit()

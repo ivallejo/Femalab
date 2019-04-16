@@ -30,19 +30,14 @@
             <div class="modal-body card-body">
                 <div class="border-left-success">
                     <div class="row mx-2">
+                                               
                         <div class="col-lg-2 col-sm-12">
                             <div class="form-group">
-                                <label for="Nombres">Nombres</label>
-                                @Html.EditorFor(p => p.Patient.FirstName, new { htmlAttributes = new { @class = "col form-control", placeholder = "Nombres" } })
-                                <small id="pacienteHelp" class="form-text text-muted">Presione F1 para buscar</small>
+                                <label for="Documento">Documento</label>
+                                @Html.EditorFor(p => p.Patient.Document, new { htmlAttributes = new { @class = "col form-control", placeholder = "Documento" } })
                             </div>
                         </div>
-                        <div class="col-lg-2 col-sm-12">
-                            <div class="form-group">
-                                <label for="Apellido">Apellidos</label>
-                                @Html.EditorFor(p => p.Patient.LastName, new { htmlAttributes = new { @class = "col form-control", placeholder = "Apellidos" } })
-                            </div>
-                        </div>
+
                         <div class="col-lg-2 col-sm-12">
                             <div class="form-group">
                                 <label for="TipoDocumento">Tipo Documento</label>
@@ -57,12 +52,21 @@
                                               )
                             </div>
                         </div>
+
                         <div class="col-lg-2 col-sm-12">
                             <div class="form-group">
-                                <label for="Documento">Documento</label>
-                                @Html.EditorFor(p => p.Patient.Document, new { htmlAttributes = new { @class = "col form-control", placeholder = "Documento" } })
+                                <label for="Nombres">Nombres</label>
+                                @Html.EditorFor(p => p.Patient.FirstName, new { htmlAttributes = new { @class = "col form-control", placeholder = "Nombres" } })
+                                <small id="pacienteHelp" class="form-text text-muted">Presione F1 para buscar</small>
                             </div>
                         </div>
+                        <div class="col-lg-2 col-sm-12">
+                            <div class="form-group">
+                                <label for="Apellido">Apellidos</label>
+                                @Html.EditorFor(p => p.Patient.LastName, new { htmlAttributes = new { @class = "col form-control", placeholder = "Apellidos" } })
+                            </div>
+                        </div>
+
                         <div class="col-lg-2 col-sm-12">
                             <div class="form-group">
                                 <label for="TipoDocumento">Tipo Consulta</label>

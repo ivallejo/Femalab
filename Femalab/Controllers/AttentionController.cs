@@ -12,13 +12,15 @@ namespace Femalab.Controllers
         IAttentionService attentionService;
         IDoctorService doctorService;
         IProductService productService;
+        IPersonaService personaService;
 
-        public AttentionController(IAttentionService attentionService, IDoctorService doctorService, IAttentionTypeService attentionTypeService, IProductService productService)
+        public AttentionController(IAttentionService attentionService, IDoctorService doctorService, IAttentionTypeService attentionTypeService, IProductService productService, IPersonaService personaService)
         {
             this.attentionService = attentionService;
             this.doctorService = doctorService;
             this.attentionTypeService = attentionTypeService;
             this.productService = productService;
+            this.personaService = personaService;
         }
 
         // GET: Attention
@@ -67,6 +69,8 @@ namespace Femalab.Controllers
             {
                 attention = new Attention();
                 attention.Patient = new Patient();
+                attention.DoctorId = 1;
+                attention.AttentionTypeId = 1;
             }
 
             //Doctores
@@ -75,12 +79,11 @@ namespace Femalab.Controllers
                                 .Select(c => new SelectListItem
                                 {
                                     Text = c.FullName,
-                                    Value = c.Id.ToString(),
-                                    Selected = (c.Id == attention.DoctorId)
+                                    Value = c.Id.ToString()
                                 })
                                 .ToList();
-            doctors.Insert(0, new SelectListItem { Value = 0.ToString(), Text = "MÉDICO", Selected = false });
-            ViewBag.Doctors = doctors;
+            doctors.Insert(0, new SelectListItem { Value = 0.ToString(), Text = "MÉDICO", Selected = false });            
+            
 
             //Type
             var attentiontypes = attentionTypeService
@@ -88,13 +91,13 @@ namespace Femalab.Controllers
                                 .Select(c => new SelectListItem
                                 {
                                     Text = c.Type,
-                                    Value = c.Id.ToString(),
-                                    Selected = (c.Id == attention.DoctorId)
+                                    Value = c.Id.ToString()
                                 })
                                 .ToList();
             attentiontypes.Insert(0, new SelectListItem { Value = 0.ToString(), Text = "TIPO CONSULTA", Selected = false });
-            ViewBag.AttentionTypes = attentiontypes;
 
+            ViewBag.Doctors = doctors;
+            ViewBag.AttentionTypes = attentiontypes;
 
             return PartialView(attention);
         }
@@ -169,5 +172,35 @@ namespace Femalab.Controllers
                               }).OrderByDescending(x => x.Description).ToList();
             return Json(attentions);
         }
+
+        [HttpPost]
+        [AllowAnonymous]
+        public JsonResult GetPerson(string Id)
+        {
+            var at = personaService.GetById(Id);
+            if (at !=null)
+            {
+                var person = new
+                {
+                    at.DNI,
+                    at.APE_PATERNO,
+                    at.APE_MATERNO,
+                    at.NOMBRES,
+                    at.SEXO,
+                    at.FECHA_NACIMIENTO,
+                    at.UBIGEO_DIRECCION
+                };
+                return Json(person);
+            }
+            else
+            {
+                return Json(null);
+            }
+            
+
+            
+        }
+
+
     }
 }

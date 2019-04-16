@@ -14,8 +14,9 @@ namespace Femalab.Modules
         protected override void Load(ContainerBuilder builder)
         {
             builder.RegisterModule(new RepositoryModule());
-
-            builder.RegisterType(typeof(FemalabContext)).As(typeof(DbContext)).InstancePerLifetimeScope();
+            builder.RegisterType<FemalabContext>().Named<DbContext>("databaseA").InstancePerLifetimeScope();
+            builder.RegisterType<PersonaContext>().Named<DbContext>("databaseB").InstancePerLifetimeScope();
+            //builder.RegisterType(typeof(FemalabContext)).As(typeof(DbContext)).InstancePerLifetimeScope();
             builder.RegisterType(typeof(UnitOfWork)).As(typeof(IUnitOfWork)).InstancePerRequest();
 
         }
