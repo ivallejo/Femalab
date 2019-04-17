@@ -3,6 +3,7 @@ using Femalab.Model.Infrastructure;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -14,6 +15,7 @@ namespace Femalab.Service
         void Create(T entity);
         void Delete(T entity);
         IEnumerable<T> GetAll();
+        IEnumerable<T> GetBy(Expression<Func<T, bool>> predicate);
         void Update(T entity);
     }
 }

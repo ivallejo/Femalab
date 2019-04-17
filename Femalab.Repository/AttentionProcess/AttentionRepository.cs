@@ -29,6 +29,8 @@ namespace Femalab.Repository.AttentionProcess
         {
             _entities.Entry(model.Patient).State = System.Data.Entity.EntityState.Added;
             _dbset.Add(model);
+            //model.AttentionDetails.ToList().ForEach(x=> x.AttentionId = model.Id);
+            //_entities.Entry(model.AttentionDetails).State = System.Data.Entity.EntityState.Added;
         }
 
         public void UpdateAttention(Attention model)

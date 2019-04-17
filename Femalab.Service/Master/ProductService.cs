@@ -14,5 +14,6 @@ namespace Femalab.Service.MasterService
             _unitOfWork = unitOfWork;
             _productRepository = productRepository;
         }
+
     }
 }

@@ -3,6 +3,7 @@ using Femalab.Model.Infrastructure;
 using Femalab.Repository;
 using System;
 using System.Collections.Generic;
+using System.Linq.Expressions;
 
 namespace Femalab.Service
 {
@@ -38,6 +39,11 @@ namespace Femalab.Service
         public IEnumerable<T> GetAll()
         {
             return _repository.GetAll();
+        }
+
+        public IEnumerable<T> GetBy(Expression<Func<T, bool>> predicate)
+        {
+            return _repository.FindBy(predicate);
         }
 
         public void Update(T entity)

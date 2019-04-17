@@ -1,6 +1,7 @@
 ﻿using Femalab.Model.Entities;
 using Femalab.Service.AttentionService;
 using Femalab.Service.MasterService;
+using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
 
@@ -140,6 +141,49 @@ namespace Femalab.Controllers
 
             return PartialView(attention);
         }
+
+        [HttpPost]
+        [AllowAnonymous]
+        [ValidateAntiForgeryToken]
+        public ActionResult Laboratory(Attention Model)
+        {
+            Model.AttentionCategoryId = 1;
+            if (ModelState.IsValid)
+            {
+                if (Model.Id == 0)
+                {
+
+                    //var products = productService.GetBy(x => Products.Contains(x.Id));
+                    //var detailsAttention = (from p in Products
+                    //                        select new AttentionDetails
+                    //                        {
+                    //                            Id = 0,
+                    //                            AttentionId = 0,
+                    //                            ProductId = p.Id,
+                    //                            Description = p.Description,
+                    //                            Quantity = 1,
+                    //                            Price = p.Price
+                    //                        }).ToList();
+
+                    //Model.AttentionDetails = Details;
+
+                    attentionService.CreateAttention(Model);
+                    return Json(new { response = 1 });
+                }
+                else
+                {
+                    attentionService.UpdateAttention(Model);
+                    var attention = attentionService.GetById(Model.Id);
+                    return Json(new { response = 2, attention.Id, attention.AttentionCategory.Tag, attention.Patient.Document, attention.Patient.LastName, attention.Patient.FirstName, TypeTag = attention.AttentionType.Tag, attention.AttentionType.Type, attention.CreatedDate });
+                }
+            }
+            else
+            {
+                return Json(new { response = 1 });
+            }
+        }
+
+
 
         [HttpGet]
         public ActionResult Pharmacy(int id = 0)
