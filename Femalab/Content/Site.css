@@ -39,3 +39,40 @@ textarea {
     background-color: #f2dede;
     border-color: #b94a48;
 }
+
+
+.btn-success-site {
+    /*color: #fff;
+    background-color: #1cc88a;*/
+    border-color: #1cc88a;
+}
+
+.btn-success-site:hover {
+    color: #fff;
+    background-color: #17a673;
+    border-color: #169b6b;
+}
+
+.btn-success-site:focus, .btn-success-site.focus {
+    -webkit-box-shadow: 0 0 0 0.2rem rgba(62, 208, 156, 0.5);
+    box-shadow: 0 0 0 0.2rem rgba(62, 208, 156, 0.5);
+}
+
+.btn-success-site.disabled, .btn-success-site:disabled {
+    color: #fff;
+    background-color: #1cc88a;
+    border-color: #1cc88a;
+}
+
+.btn-success-site:not(:disabled):not(.disabled):active, .btn-success-site:not(:disabled):not(.disabled).active,
+.show > .btn-success-site.dropdown-toggle {
+    color: #fff;
+    background-color: #169b6b;
+    border-color: #149063;
+}
+
+.btn-success-site:not(:disabled):not(.disabled):active:focus, .btn-success-site:not(:disabled):not(.disabled).active:focus,
+.show > .btn-success-site.dropdown-toggle:focus {
+    -webkit-box-shadow: 0 0 0 0.2rem rgba(62, 208, 156, 0.5);
+    box-shadow: 0 0 0 0.2rem rgba(62, 208, 156, 0.5);
+}

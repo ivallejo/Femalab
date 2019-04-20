@@ -1,4 +1,11 @@
-﻿$(document).ready(function () {
+﻿function clearInputs() {
+    $("#Age").val("")
+    $("#Weight").val("")
+    $("#Size").val("")
+    $("#Height").val("")
+}
+
+$(document).ready(function () {
             
     $.validator.addMethod("valueNotEquals", function (value, element, arg) {
         return arg !== value;
@@ -107,6 +114,9 @@
             return false;
         }
     });
+
+    clearInputs()
+
 });
 
 

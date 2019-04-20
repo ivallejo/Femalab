@@ -3,11 +3,40 @@ var postData = [
     
 ]
 
+var arrProducts = [
+
+]
+
 function clearInputs() {
-    $("#Age").val("")
-    $("#Weight").val("")
-    $("#Size").val("")
-    $("#Height").val("")
+
+    if ($("#Age").val() == "0") $("#Age").val("") 
+    if ($("#Weight").val() == "0.00") $("#Weight").val("")
+    if ($("#Size").val() == "0.00") $("#Size").val("")
+    if ($("#Height").val() == "0.00") $("#Height").val("")
+
+    if ($('#Patient_BirthDate').val() == '0001-01-01') {
+        document.getElementById('Patient_BirthDate').valueAsDate = new Date();
+    } else {
+        const birthday = new Date($('#Patient_BirthDate').val());
+        $("#Age").val(_calculateAge(birthday))
+    }
+
+
+    
+
+}
+
+function addPosData() {
+
+   
+    $($("#tbProductBody").children()).each(function (index,element) {
+        
+        let id = $(element).data("id")
+        let price = $(element).children()[4].innerHTML
+
+        postData.push({ ProductId: id, Quantity: 1, Price: price })
+    })
+
 }
 
 function getAllProducts() {
@@ -15,6 +44,8 @@ function getAllProducts() {
         type: "POST",
         url: "../Attention/GetProductAll",
         success: function (data) { 
+
+            arrProducts = data;
 
             let optionsExamCode = {
                 data: data,
@@ -62,6 +93,43 @@ function getAllProducts() {
             $(".easy-autocomplete").removeAttr("style");
         }
     });
+}
+
+function addService() {
+    $('.addService').click(function () {
+        
+        let id = $(this).attr('data-id')
+
+        let obj = postData.find(x => x.ProductId == id);
+        if (obj == undefined) {
+
+            obj = arrProducts.find(x => x.Id == id);
+            let code = obj.Code
+            let exam = obj.Description
+            let type = obj.Specialty
+            let price = obj.Price.toFixed(2)
+
+            postData.push({ ProductId: id, Quantity: 1, Price: price })
+
+
+            $("#tbProductBody").append(`\
+                        <tr id="tr-${id}" data-id="${id}">\                
+                            <td> ${code} </td>\
+                            <td> ${exam} </td>\
+                            <td> ${type} </td>\
+                            <td> 1 </td>\
+                            <td> ${price} </td>\
+                            <td>\
+                               <button title="Eliminar" data-id="${id}" class="btn btn-danger my-sm-1 removeProduct"> <i class="fas fa-trash"></i></button>\
+                            </td>\
+                        </tr>\
+                        `)
+
+            removeProduct()
+
+        }
+
+    })
 }
 
 function addProduct() {
@@ -126,13 +194,19 @@ $("#Patient_Document").focusout(function (e) {
     getPerson()
 });
 
+$("#Patient_BirthDate").focusout(function (e) {
+    clearInputs()
+});
+
 function getPerson() {
 
     var posting = $.post("../Attention/GetPerson", { Id: $("#Patient_Document").val() });
 
     posting
         .done(function (data) {
-
+            
+            $("#PatientId").val(data.ID)
+            $("#Patient_Id").val(data.ID)
             $("#Patient_DocumentType").val("01")
             $("#Patient_FirstName").val(`${data.NOMBRES}`)
             $("#Patient_LastName").val(`${data.APE_PATERNO} ${data.APE_MATERNO}`)
@@ -144,8 +218,9 @@ function getPerson() {
 
             var today = ano + "-" + mes + "-" + dia;
 
-            $('#Patient_BirthDate').attr("value", today);
-
+            
+            //$('#Patient_BirthDate').attr("value", today);
+            $('#Patient_BirthDate').val(today);
             const birthday = new Date($('#Patient_BirthDate').val());
 
             $("#Age").val(_calculateAge(birthday))
@@ -166,7 +241,9 @@ function getPerson() {
             const yyyy = today.getFullYear();
             today = yyyy + '-' + mm + '-' + dd;
 
-            $('#Patient_BirthDate').attr("value", today);
+            //$('#Patient_BirthDate').attr("value", today);
+            //$('#Patient_BirthDate').attr("value", today);
+            $('#Patient_BirthDate').val(today);
             $("#Age").val("")
 
             const notifier = new Notifier();
@@ -255,7 +332,12 @@ $(document).ready(function () {
             }
         },
         submitHandler: function (form) {
-            
+
+            if ($("#Age").val() == "") $("#Age").val("0")
+            if ($("#Weight").val() == "") $("#Weight").val("0.00")
+            if ($("#Size").val() == "") $("#Size").val("0.00")
+            if ($("#Height").val() == "") $("#Height").val("0.00")
+
             let i;
             for (i = 0; i < postData.length; i++) {
                 createElement(i, postData[i].ProductId, postData[i].Quantity, postData[i].Price)
@@ -277,15 +359,19 @@ $(document).ready(function () {
                     }
                     case 2: {
 
-                        const { Id, Document, LastName, FirstName, TypeTag, Type } = data
+                        const { Id, Document, LastName, FirstName, TypeTag, Type, Gender, Age, Weight, Size } = data
                         const tr = document.getElementById(`tr-${Id}`)
-                        const _type = tr.children[2].children[0].children[0].classList
+                        //const _type = tr.children[2].children[0].children[0].classList
 
                         tr.children[0].innerHTML = Document
                         tr.children[1].innerHTML = LastName + ' ' + FirstName
-                        tr.children[2].children[0].children[0].innerHTML = Type
-                        _type.remove(_type[1])
-                        _type.add(`badge-${TypeTag}`)
+                        tr.children[2].innerHTML = (Gender == 'M') ? '<i class="fas fa-mars fa-2x text-primary"></i>' : '<i class="fas fa-2x fa-venus text-danger"></i>'
+                        tr.children[3].innerHTML = Age
+                        tr.children[4].innerHTML = Weight
+                        tr.children[5].innerHTML = Size
+                        //tr.children[2].children[0].children[0].innerHTML = Type
+                        //_type.remove(_type[1])
+                        //_type.add(`badge-${TypeTag}`)
 
                         notifier.info('Atención actualizada satisfactoriamente.', 'Atención Actualizada!');
                         break
@@ -299,6 +385,9 @@ $(document).ready(function () {
     clearInputs()
     getAllProducts()
     addProduct()
+    addService()
+    removeProduct()
+    addPosData()
 
 });
 
@@ -308,7 +397,6 @@ $(document).ready(function () {
 
 function createElement(Index,_ProductId, _Quantity, _Price) {
        
-    debugger
     var ProductId = document.createElement("input");
     ProductId.setAttribute("type", "hidden");
     ProductId.setAttribute("name", `AttentionDetails[${Index}].ProductId`);

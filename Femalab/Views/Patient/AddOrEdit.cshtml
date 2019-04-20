@@ -16,76 +16,78 @@
                 </button>
             </div>
             <div class="modal-body card-body border-left-primary">
-                
-                    <div class="form-group">
-                        <div class="col-md-12">
-                            @Html.EditorFor(p => p.FirstName, new { htmlAttributes = new { @class = "col form-control", placeholder = "Nombres" } })
-                            @Html.ValidationMessageFor(m => m.FirstName, "", new { @class = "text-danger  " })
-                        </div>
+
+
+                @Html.HiddenFor(p => p.Id)
+                <div class="form-group">
+                    <div class="col-md-12">
+                        @Html.EditorFor(p => p.FirstName, new { htmlAttributes = new { @class = "col form-control", placeholder = "Nombres" } })
+                        @Html.ValidationMessageFor(m => m.FirstName, "", new { @class = "text-danger  " })
                     </div>
-                    <div class="form-group">
-                        <div class="col-md-12">
-                            @Html.EditorFor(p => p.LastName, new { htmlAttributes = new { @class = "col form-control", placeholder = "Apellidos" } })
-                            @Html.ValidationMessageFor(m => m.LastName, "", new { @class = "text-danger  " })
-                        </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-md-12">
+                        @Html.EditorFor(p => p.LastName, new { htmlAttributes = new { @class = "col form-control", placeholder = "Apellidos" } })
+                        @Html.ValidationMessageFor(m => m.LastName, "", new { @class = "text-danger  " })
                     </div>
-                    <div class="form-group">
-                        <div class="col-md-12">
-                            @Html.DropDownListFor(p => p.DocumentType,
+                </div>
+                <div class="form-group">
+                    <div class="col-md-12">
+                        @Html.DropDownListFor(p => p.DocumentType,
+                                           new List<SelectListItem>{
+                                                                   new SelectListItem{ Text="Tipo Documento", Value="00"},
+                                                                   new SelectListItem{ Text="DNI", Value="01"},
+                                                                   new SelectListItem{ Text="CE", Value="02"},
+                                                                   new SelectListItem{ Text="PASAPORTE", Value="03"}
+                                                                   },
+                                           htmlAttributes: new { @class = "col form-control" }
+                                           )
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-md-12">
+                        @Html.EditorFor(p => p.Document, new { htmlAttributes = new { @class = "col form-control", placeholder = "Documento" } })
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-md-12">
+                        @Html.DropDownListFor(p => p.Gender,
                                                new List<SelectListItem>{
-                                                                       new SelectListItem{ Text="Tipo Documento", Value="00"},
-                                                                       new SelectListItem{ Text="DNI", Value="01"},
-                                                                       new SelectListItem{ Text="CE", Value="02"},
-                                                                       new SelectListItem{ Text="PASAPORTE", Value="03"}
+                                                                       new SelectListItem{ Text="Género", Value="0"},
+                                                                       new SelectListItem{ Text="Masculino", Value="M"},
+                                                                       new SelectListItem{ Text="Femenino", Value="F"}
                                                                        },
                                                htmlAttributes: new { @class = "col form-control" }
                                                )
-                        </div>
                     </div>
-                    <div class="form-group">
-                        <div class="col-md-12">
-                            @Html.EditorFor(p => p.Document, new { htmlAttributes = new { @class = "col form-control", placeholder = "Documento" } })
-                        </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-md-12">
+                        <input type="hidden" name="hddBirthDate" value="@Html.AttributeEncode(Model.BirthDate)" id="hddBirthDate" />
+                        @Html.EditorFor(p => p.BirthDate, new { htmlAttributes = new { @Value = Model.BirthDate.ToString("yyyy-MM-dd"), @class = "col form-control" } })
                     </div>
-                    <div class="form-group">
-                        <div class="col-md-12">
-                         @Html.DropDownListFor(p => p.Gender, 
-                                                new List<SelectListItem>{
-                                                                        new SelectListItem{ Text="Género", Value="0"},
-                                                                        new SelectListItem{ Text="Masculino", Value="M"},
-                                                                        new SelectListItem{ Text="Femenino", Value="F"}
-                                                                        }, 
-                                                htmlAttributes: new { @class = "col form-control" }
-                                                )
-                        </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-md-12">
+                        @Html.EditorFor(p => p.Phone, new { htmlAttributes = new { @class = "col form-control", placeholder = "Teléfono" } })
                     </div>
-                    <div class="form-group">
-                        <div class="col-md-12">
-                            <input type="hidden" name="hddBirthDate" value="@Html.AttributeEncode(Model.BirthDate)" id="hddBirthDate" />
-                            @Html.EditorFor(p => p.BirthDate, new { htmlAttributes = new { @Value = Model.BirthDate.ToString("yyyy-MM-dd"), @class = "col form-control" } })
-                        </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-md-12">
+                        @Html.EditorFor(p => p.Email, new { htmlAttributes = new { @class = "col form-control", placeholder = "Email" } })
                     </div>
-                    <div class="form-group">
-                        <div class="col-md-12">
-                            @Html.EditorFor(p => p.Phone, new { htmlAttributes = new { @class = "col form-control", placeholder = "Teléfono" } })
-                        </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-md-12">
+                        @Html.EditorFor(p => p.Address, new { htmlAttributes = new { @class = "col form-control", placeholder = "Dirección" } })
                     </div>
-                    <div class="form-group">
-                        <div class="col-md-12">
-                            @Html.EditorFor(p => p.Email, new { htmlAttributes = new { @class = "col form-control", placeholder = "Email" } })
-                        </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-md-12">
+                        @Html.EditorFor(p => p.Observation, new { htmlAttributes = new { @class = "col form-control", placeholder = "Observación" } })
                     </div>
-                    <div class="form-group">
-                        <div class="col-md-12">
-                            @Html.EditorFor(p => p.Address, new { htmlAttributes = new { @class = "col form-control", placeholder = "Dirección" } })
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <div class="col-md-12">
-                            @Html.EditorFor(p => p.Observation, new { htmlAttributes = new { @class = "col form-control", placeholder = "Observación" } })
-                        </div>
-                    </div>                    
-               
+                </div>
+
             </div>
 
             <div class="modal-footer border-left-primary">

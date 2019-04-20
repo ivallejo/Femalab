@@ -42,7 +42,6 @@
                 <div class="border-left-success">
                     <div class="row mx-2">
 
-
                         <div class="col-lg-2 col-sm-12">
                             <div class="form-group">
                                 <label for="Documento">Documento</label>
@@ -69,7 +68,6 @@
                             <div class="form-group">
                                 <label for="Nombres">Nombres</label>
                                 @Html.EditorFor(p => p.Patient.FirstName, new { htmlAttributes = new { @class = "col form-control", placeholder = "Nombres" } })
-                                <small id="pacienteHelp" class="form-text text-muted">Presione F1 para buscar</small>
                             </div>
                         </div>
                         <div class="col-lg-2 col-sm-12">
@@ -78,7 +76,18 @@
                                 @Html.EditorFor(p => p.Patient.LastName, new { htmlAttributes = new { @class = "col form-control", placeholder = "Apellidos" } })
                             </div>
                         </div>
-
+                        <div class="col-lg-2 col-sm-12">
+                            <div class="form-group">
+                                <label for="Apellido">Teléfono</label>
+                                @Html.EditorFor(p => p.Patient.Phone, new { htmlAttributes = new { @class = "col form-control", placeholder = "Teléfono" } })
+                            </div>
+                        </div>
+                        <div class="col-lg-2 col-sm-12">
+                            <div class="form-group">
+                                <label for="Apellido">Correo</label>
+                                @Html.EditorFor(p => p.Patient.Email, new { htmlAttributes = new { @class = "col form-control", placeholder = "Correo" } })
+                            </div>
+                        </div>
 
                     </div>
                     <div class="row mx-2">
@@ -129,6 +138,68 @@
                 </div>
                 <div class="border-left-warning mt-1">
                     <div class="row mx-2">
+                        <div class="col-lg-2 col-sm-6">
+                            <div class="form-group">
+                                <a href="#" class="btn btn-success-site btn-icon-split col addService" data-id="1" style="justify-content: left;">
+                                    <span class="icon">
+                                        <i class="fas fa-check align-middle"></i>
+                                    </span>
+                                    <span class="text text-left">Medicina G.</span>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="col-lg-2 col-sm-6">
+                            <div class="form-group">
+                                <a href="#" class="btn btn-success-site btn-icon-split col addService" data-id="5" style="justify-content: left;">
+                                    <span class="icon">
+                                        <i class="fas fa-check align-middle"></i>
+                                    </span>
+                                    <span class="text text-left">Oftalmologia</span>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="col-lg-2 col-sm-6">
+                            <div class="form-group">
+                                <a href="#" class="btn btn-success-site btn-icon-split col addService" data-id="4" style="justify-content: left;">
+                                    <span class="icon">
+                                        <i class="fas fa-check align-middle"></i>
+                                    </span>
+                                    <span class="text text-left">Nutrición</span>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="col-lg-2 col-sm-6">
+                            <div class="form-group">
+                                <a href="#" class="btn btn-success-site btn-icon-split col addService" data-id="2" style="justify-content: left;">
+                                    <span class="icon">
+                                        <i class="fas fa-check align-middle"></i>
+                                    </span>
+                                    <span class="text text-left">Pediatría</span>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="col-lg-2 col-sm-6">
+                            <div class="form-group">
+                                <a href="#" class="btn btn-success-site btn-icon-split col addService" data-id="3" style="justify-content: left;">
+                                    <span class="icon">
+                                        <i class="fas fa-check align-middle"></i>
+                                    </span>
+                                    <span class="text text-left">Ginecología</span>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="col-lg-2 col-sm-6">
+                            <div class="form-group">
+                                <a href="#" class="btn btn-success-site btn-icon-split col addService" data-id="6" style="justify-content: left;">
+                                    <span class="icon">
+                                        <i class="fas fa-check align-middle"></i>
+                                    </span>
+                                    <span class="text text-left">Imágenes</span>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row mx-2">
 
                         <div class="col-lg-2 col-sm-6">
                             <div class="form-group">
@@ -141,9 +212,10 @@
                             <div class="form-group">
                                 <label for="txtProduct">Examenes : </label>
                                 <input type="text" class="col form-control" id="txtProduct" aria-describedby="Prueba" placeholder="Perfil / Prueba / Paquete">
-                                <small id="Prueba" class="form-text text-muted">Se mostrarán las conincidencias del valor a buscar</small>
+                                @*<small id="Prueba" class="form-text text-muted">Se mostrarán las conincidencias del valor a buscar</small>*@
                             </div>
                         </div>
+
                         <div class="col-lg-2 col-sm-12">
                             <div class="form-group">
                                 <label for="Nombres">Tipo : </label>
@@ -161,10 +233,11 @@
                         <div class="col-lg-1 col-sm-6 text-right">
                             <label for="Nombres"> . </label><br />
 
-                            <button type="button" class="btn btn-success addProduct">
+                            <button type="button" class="btn btn-primary addProduct">
                                 <i class="fas fa-plus-circle"></i>
                             </button>
                         </div>
+
                     </div>
                 </div>
 
@@ -181,7 +254,23 @@
                                     <th style="width:70px"></th>
                                 </tr>
                             </thead>
-                            <tbody id="tbProductBody"></tbody>
+                            <tbody id="tbProductBody">
+                                @foreach (var item in Model.AttentionDetails)
+                                {
+                                    <tr id="tr-@item.ProductId" data-id="@item.ProductId">
+                                        <td>@item.Product.Code</td>
+                                        <td>@item.Product.Description</td>
+                                        <td>@item.Product.Specialty.Description</td>
+                                        <td>1</td>
+                                        <td>@item.Product.Price</td>
+                                        <td>
+                                            <button  title="Eliminar" data-id="@item.ProductId" class="btn btn-danger my-sm-1 removeProduct"> 
+                                                <i class="fas fa-trash"></i>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
                         </table>
                     </div>
                 </div>

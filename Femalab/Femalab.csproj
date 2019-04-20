@@ -142,6 +142,7 @@
     <Compile Include="Controllers\AuthController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\PatientController.cs" />
+    <Compile Include="Controllers\ProductController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -172,6 +173,7 @@
     <Content Include="Scripts\attention\addoredit.js" />
     <Content Include="Scripts\attention\attention.js" />
     <Content Include="Scripts\attention\index.js" />
+    <Content Include="Scripts\attention\invoice.js" />
     <Content Include="Scripts\attention\laboratory.js" />
     <Content Include="Scripts\attention\pharmacy.js" />
     <Content Include="Scripts\bootstrap.js" />
@@ -206,6 +208,8 @@
     <Content Include="Scripts\notifier.js" />
     <Content Include="Scripts\patient\AddOrEdit.js" />
     <Content Include="Scripts\patient\Index.js" />
+    <Content Include="Scripts\product\AddOrEdit.js" />
+    <Content Include="Scripts\product\Index.js" />
     <Content Include="Scripts\sb-admin-2.js" />
     <Content Include="Scripts\sb-admin-2.min.js" />
     <Content Include="Scripts\toastr.js" />
@@ -240,6 +244,8 @@
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Patient\AddOrEdit.cshtml" />
     <Content Include="Views\Patient\Index.cshtml" />
+    <Content Include="Views\Attention\Invoice.cshtml" />
+    <Content Include="Views\Product\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

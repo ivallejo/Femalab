@@ -31,6 +31,14 @@ function addActionsAttention() {
         });
     });
 
+    $('.invoice-attention').click(function () {
+        var url = $(this).data('url')
+        $.get(url, function (data) {
+            $("#ModalAttentionAddOrEdit").html(data)
+            $("#ModalAttentionAddOrEdit").modal('show')
+        });
+    });
+
 }
 
 function getAllAttentions() {
@@ -38,6 +46,7 @@ function getAllAttentions() {
         type: "POST",
         url: "../Attention/GetAll",
         success: function (data) {
+            $('#dataTable').DataTable().clear();
             $('#dataTable').DataTable().destroy();
             $.each(data, function (i, item) {
                 let createdDate = new Date(parseInt(item.CreatedDate.replace("/Date(", "").replace(")/", ""), 10))
@@ -46,20 +55,22 @@ function getAllAttentions() {
                 $("#tbAttentionBody").append(`\
                     <tr id="tr-${item.Id}">\                
                         <td class="border-left-${item.CategoryTag}"> ${item.Document} </td>\
-                        <td> ${item.LastName + ' ' + item.FirstName}</td>\
-                        <td> <h5><span class="badge badge-${item.TypeTag}">${item.Type}</span></h5> </td>\
+                        <td> ${item.LastName + ' ' + item.FirstName} </td>\
+                        <td style='text-align:center'> ${((item.Gender == 'M') ? '<i class="fas fa-mars fa-2x text-primary"></i>' : '<i class="fas fa-2x fa-venus text-danger"></i>')} </td>\
+                        <td> ${item.Age} </td>\
+                        <td> ${item.Weight} </td>\
+                        <td> ${item.Size} </td>\                      
                         <td> ${formattedCreatedDate} </td>\
-                        <td>\
-                            <button title="Detalle" data-id="${item.Id}" class="btn btn-success my-sm-1 details-attention" data-url="/Attention/${item.Action + '/' + item.Id}" > <i class="fas fa-info-circle"></i></button>\
-                            <button title="Editar" data-id="${item.Id}" class="btn btn-warning my-sm-1 edit-attention" data-url="/Attention/${item.Action + '/' + item.Id}" > <i class="fas fa-user-edit"></i></button>\
-                            <button title="Eliminar" data-id="${item.Id}" class="btn btn-danger my-sm-1 remove-attention" data-url="/Attention/Remove/${item.Id}"> <i class="fas fa-trash"></i></button>\
+                        <td>\                            
+                            <button title="Editar" data-id="${item.Id}" class="btn btn-warning my-sm-1 edit-attention" data-url="/Attention/${item.Action + '/' + item.Id}" > <i class="fas fa-user-edit fa-sm"></i></button>\
+                            <button title="Editar" data-id="${item.Id}" class="btn btn-success my-sm-1 invoice-attention" data-url="/Attention/Invoice/${item.Id}" > <i class="fas fa-file-invoice fa-sm"></i></button>\
                         </td>\
                     </tr>\
                 `)
             })
             addActionsAttention()   
             $('#dataTable').DataTable({
-                order : [[3, 'desc']],
+                order : [[6, 'desc']],
                 language : {                    
                     "sProcessing": "Procesando...",
                     "sLengthMenu": "Mostrar _MENU_ registros",

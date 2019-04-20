@@ -76,9 +76,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AttentionProcess\AttentionCategoryRepository.cs" />
+    <Compile Include="AttentionProcess\AttentionDetailsRepository.cs" />
     <Compile Include="AttentionProcess\AttentionRepository.cs" />
     <Compile Include="AttentionProcess\AttentionTypeRepository.cs" />
     <Compile Include="AttentionProcess\Interfaces\IAttentionCategoryRepository.cs" />
+    <Compile Include="AttentionProcess\Interfaces\IAttentionDetailsRepository.cs" />
     <Compile Include="AttentionProcess\Interfaces\IAttentionRepository.cs" />
     <Compile Include="AttentionProcess\Interfaces\IAttentionTypeRepository.cs" />
     <Compile Include="GenericRepository.cs" />

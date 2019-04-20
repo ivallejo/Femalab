@@ -14,6 +14,9 @@ namespace Femalab.Service.MasterService
             _unitOfWork = unitOfWork;
             _productRepository = productRepository;
         }
-
+        public Product GetById(long Id)
+        {
+            return _productRepository.GetById(Id);
+        }
     }
 }

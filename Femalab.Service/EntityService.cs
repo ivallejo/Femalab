@@ -48,7 +48,7 @@ namespace Femalab.Service
 
         public void Update(T entity)
         {
-            if (entity != null) throw new ArgumentNullException("entity");
+            if (entity == null) throw new ArgumentNullException("entity");
             _repository.Edit(entity);
             _unitOfWork.commit();
         }

@@ -7,51 +7,28 @@ function pad(n, width, z) {
 
 function addActionsPatients() {
 
-    $('#btnAddPatient').click(function () {
-        var url = $('#ModalPatientAddOrEdit').data('url')
+    $('#btnAddProduct').click(function () {
+        var url = $('#ModalProductAddOrEdit').data('url')
         $.get(url, function (data) {
-            $("#ModalPatientAddOrEdit").html(data)
-            $("#ModalPatientAddOrEdit").modal('show')
+            $("#ModalProductAddOrEdit").html(data)
+            $("#ModalProductAddOrEdit").modal('show')
         });
     });
 
     $('.details-patient').click(function () {
-        var url = $('#ModalPatientAddOrEdit').data('url') + '/' + $(this).data("id")
+        var url = $('#ModalProductAddOrEdit').data('url') + '/' + $(this).data("id")
         $.get(url, function (data) {
-            $("#ModalPatientAddOrEdit").html(data)
-            $("#ModalPatientAddOrEdit").modal('show')
+            $("#ModalProductAddOrEdit").html(data)
+            $("#ModalProductAddOrEdit").modal('show')
         });
     });
-
-    //$('.remove-patient').click(function () {
-    //    Swal.fire({
-    //        title: 'Esta Seguro de eliminar al paciente?',
-    //        text: "No podr\u00E1 revertir la acci\u00F3n!",
-    //        type: 'warning',
-    //        showCancelButton: true,
-    //        confirmButtonColor: '#3085d6',
-    //        cancelButtonColor: '#d33',
-    //        confirmButtonText: 'S\u00ED, Eliminar!',
-    //        cancelButtonText: 'Cancelar'
-    //    }).then((result) => {
-    //        if (result.value) {
-    //            var url = $('#hddUrlRemovePatient').val()
-    //            var posting = $.post(url, { id: $(this).data("id") });
-    //            posting.done(function (data) {                    
-    //                getAllPatients()                            
-    //                    let notifier = new Notifier();
-    //                    notifier.success('Paciente eliminado satisfactoriamente.','Paciente Eliminado!');
-    //                });
-    //        }
-    //    })
-    //});
 }
 
 function getAllPatients() {
 
     $.ajax({
         type: "POST",
-        url: "../Patient/GetAll",
+        url: "../Product/GetAll",
         success: function (data) {
 
             //$("#tbPatientBody").empty()
@@ -59,12 +36,10 @@ function getAllPatients() {
             $('#dataTable').DataTable().destroy();
 
             $.each(data, function (i, item) {
-                let birthDate = new Date(parseInt(item.BirthDate.replace("/Date(", "").replace(")/", ""), 10))
                 let createdDate = new Date(parseInt(item.CreatedDate.replace("/Date(", "").replace(")/", ""), 10))
-                let formattedBirthDate = birthDate.getFullYear() + "-" + pad((birthDate.getMonth() + 1), 2) + "-" + pad(birthDate.getDate(), 2) + " "
                 let formattedCreatedDate = createdDate.getFullYear() + "-" + pad((createdDate.getMonth() + 1), 2) + "-" + pad(createdDate.getDate(), 2) + " " + pad(createdDate.getHours(), 2) + ":" + pad(createdDate.getMinutes(), 2) + ":" + pad(createdDate.getSeconds(), 2)
 
-                $("#tbPatientBody").append(`<tr><td style='text-align:center'> ${item.Document} </td><td style='text-align:center'> ${((item.Gender == 'M') ? '<i class="fas fa-mars fa-2x text-primary"></i>' : '<i class="fas fa-2x fa-venus text-danger"></i>')} </td><td> ${item.LastName + ' ' + item.FirstName} </td><td> ${formattedBirthDate} </td><td> ${formattedCreatedDate} </td><td> <button title="Editar" data-id="${item.Id}" class="btn btn-warning mb-2 mr-2 details-patient"> <i class="fas fa-user-edit"></i></button><button title="Detalle" data-id="${item.Id}" class="btn btn-success mb-2 mr-2 details-patient"> <i class="fas fa-history"></i></button></td></tr>`)
+                $("#tbProductBody").append(`<tr><td style='text-align:center'> ${item.Code} </td><td> ${item.Description} </td><td> ${formattedBirthDate} </td><td> ${formattedCreatedDate} </td><td> <button title="Editar" data-id="${item.Id}" class="btn btn-warning mb-2 mr-2 details-patient"> <i class="fas fa-user-edit"></i></button><button title="Detalle" data-id="${item.Id}" class="btn btn-success mb-2 mr-2 details-patient"> <i class="fas fa-history"></i></button></td></tr>`)
 
             })
 

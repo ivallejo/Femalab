@@ -59,7 +59,10 @@ namespace Femalab.Controllers
         {
             if (ModelState.IsValid)
             {
-                patientService.Create(Model);
+                if (Model.Id == 0)
+                    patientService.Create(Model);
+                else
+                    patientService.Update(Model);
             }
             return Json(1);
         }

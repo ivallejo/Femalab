@@ -20,7 +20,7 @@
         <div class="table-responsive">
 
             @*<a href="#" class="btn btn-success"><i class="fas fa-plus-circle"></i> Nuevo</a>*@
-            <button type="button" id="btnAddAttention" data-url='@Url.Action("Attention","Attention")' class="btn btn-success ml-1 addattention"><i class="fas fa-plus-circle"></i> Consulta </button>
+            @*<button type="button" id="btnAddAttention" data-url='@Url.Action("Attention","Attention")' class="btn btn-success ml-1 addattention"><i class="fas fa-plus-circle"></i> Consulta </button>*@
             <button type="button" id="btnAddLaboratory" data-url='@Url.Action("Laboratory","Attention")' class="btn btn-info ml-1 addattention"><i class="fas fa-plus-circle"></i> Laboratorio </button>            
             <button type="button" id="btnAddPharmacy" data-url='@Url.Action("Pharmacy","Attention")' class="btn btn-primary ml-1 addattention"><i class="fas fa-plus-circle"></i> Farmacia </button>
 
@@ -36,9 +36,12 @@
                     <tr>
                         <th style="width:60px">Código</th>
                         <th>Paciente</th>
-                        <th style="width:50px">Tipo</th>
+                        <th style="width:40px">Género</th>
+                        <th style="width:40px">Edad</th>
+                        <th style="width:40px">Peso</th>
+                        <th style="width:40px">Talla</th>
                         <th style="width:160px">Agregado</th>
-                        <th style="width:140px">Acciones</th>
+                        <th style="width:100px">Acciones</th>
                     </tr>
                 </thead>                
                 <tbody id="tbAttentionBody"></tbody>

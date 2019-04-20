@@ -81,13 +81,20 @@ namespace Femalab.Model.Migrations
             {
                 context.Product.AddOrUpdate(
                     p => p.Category,
-                    new Product { Code = "A0001", Description = "ACIDO FOLICO", SpecialtyId = 10, CategoryId = 2, State = true, Price = 47.00m },
-                    new Product { Code = "A0002", Description = "ACIDO URICO", SpecialtyId = 8, CategoryId = 2, State = true, Price = 8.00m },
-                    new Product { Code = "A0003", Description = "ACIDO URICO EN ORINA DE 12 HORAS", SpecialtyId = 8, CategoryId = 2, State = true, Price = 6.00m },
-                    new Product { Code = "A0004", Description = "ACIDO URICO EN ORINA DE 24 HORAS", SpecialtyId = 8, CategoryId = 2, State = true, Price = 11.00m },
-                    new Product { Code = "A0005", Description = "ACIDO VALPROICO", SpecialtyId = 10, CategoryId = 2, State = true, Price = 61.00m },
-                    new Product { Code = "A0006", Description = "ACIDO VANIL MANDELICO EN ORINA DE 24 HORAS", SpecialtyId = 10, CategoryId = 2, State = true, Price = 88.00m },
-                    new Product { Code = "H0007", Description = "HORMONA ADRENOCORTICOTROFICA (ACTH)", SpecialtyId = 7, CategoryId = 2, State = true, Price = 103.00m }
+                    new Product { Code = "00001", Description = "MEDICINA GENERAL", SpecialtyId = 1, CategoryId = 1, State = true, Price = 10.00m },
+                    new Product { Code = "00002", Description = "PEDIATRÍA", SpecialtyId = 1, CategoryId = 1, State = true, Price = 10.00m },
+                    new Product { Code = "00003", Description = "GINECOLOGÍA", SpecialtyId = 1, CategoryId = 1, State = true, Price = 10.00m },
+                    new Product { Code = "00004", Description = "NUTRICIÓN", SpecialtyId = 1, CategoryId = 1, State = true, Price = 10.00m },
+                    new Product { Code = "00005", Description = "OFTALMOLOGÍA", SpecialtyId = 1, CategoryId = 1, State = true, Price = 10.00m },
+                    new Product { Code = "00006", Description = "IMÁGENES", SpecialtyId = 1, CategoryId = 1, State = true, Price = 10.00m }
+
+                    //new Product { Code = "A0001", Description = "ACIDO FOLICO", SpecialtyId = 10, CategoryId = 2, State = true, Price = 47.00m },
+                    //new Product { Code = "A0002", Description = "ACIDO URICO", SpecialtyId = 8, CategoryId = 2, State = true, Price = 8.00m },
+                    //new Product { Code = "A0003", Description = "ACIDO URICO EN ORINA DE 12 HORAS", SpecialtyId = 8, CategoryId = 2, State = true, Price = 6.00m },
+                    //new Product { Code = "A0004", Description = "ACIDO URICO EN ORINA DE 24 HORAS", SpecialtyId = 8, CategoryId = 2, State = true, Price = 11.00m },
+                    //new Product { Code = "A0005", Description = "ACIDO VALPROICO", SpecialtyId = 10, CategoryId = 2, State = true, Price = 61.00m },
+                    //new Product { Code = "A0006", Description = "ACIDO VANIL MANDELICO EN ORINA DE 24 HORAS", SpecialtyId = 10, CategoryId = 2, State = true, Price = 88.00m },
+                    //new Product { Code = "H0007", Description = "HORMONA ADRENOCORTICOTROFICA (ACTH)", SpecialtyId = 7, CategoryId = 2, State = true, Price = 103.00m }
 
                 );
             }

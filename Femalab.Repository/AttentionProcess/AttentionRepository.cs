@@ -14,6 +14,7 @@ namespace Femalab.Repository.AttentionProcess
             : base(context)
         {
         }
+
         public override IEnumerable<Attention> GetAll()
         {
             return _entities.Set<Attention>()
@@ -27,10 +28,12 @@ namespace Femalab.Repository.AttentionProcess
 
         public void CreateAttention(Attention model)
         {
-            _entities.Entry(model.Patient).State = System.Data.Entity.EntityState.Added;
-            _dbset.Add(model);
-            //model.AttentionDetails.ToList().ForEach(x=> x.AttentionId = model.Id);
-            //_entities.Entry(model.AttentionDetails).State = System.Data.Entity.EntityState.Added;
+            if (model.PatientId != 0)
+            {
+                _entities.Entry(model.Patient).State = System.Data.Entity.EntityState.Modified;
+                model.Patient = null;
+            }
+            _dbset.Add(model);            
         }
 
         public void UpdateAttention(Attention model)
@@ -46,7 +49,8 @@ namespace Femalab.Repository.AttentionProcess
                          .Include(d => d.Doctor)
                          .Include(at => at.AttentionType)
                          .Include(ac => ac.AttentionCategory)
-                         .Include(ad => ad.AttentionDetails)
+                         .Include(ad => ad.AttentionDetails.Select(p => p.Product).Select(s => s.Specialty))
+                         .Include(ad => ad.AttentionDetails.Select(p => p.Product).Select(s => s.Category))
                          .FirstOrDefault();
         }
     }
