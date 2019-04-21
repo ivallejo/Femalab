@@ -1,6 +1,7 @@
 ﻿using Femalab.Model.Entities;
 using Femalab.Repository;
 using Femalab.Repository.Master;
+using System.Collections.Generic;
 
 namespace Femalab.Service.MasterService
 {
@@ -13,6 +14,10 @@ namespace Femalab.Service.MasterService
         {
             _unitOfWork = unitOfWork;
             _productRepository = productRepository;
+        }
+        public IEnumerable<Product> GetAll_Attentention()
+        {
+            return _productRepository.GetAll_Attentention();
         }
         public Product GetById(long Id)
         {

@@ -1,0 +1,90 @@
+﻿
+@model Femalab.Model.Entities.Product
+
+@using (Html.BeginForm("AddOrEdit", "Product", FormMethod.Post, new { @id = "AddOrEditFormID", @class = "needs-validation", role = "form" }))
+{
+
+    @Html.AntiForgeryToken()
+    HtmlHelper.UnobtrusiveJavaScriptEnabled = false;
+
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content ">
+
+            <div class="modal-header card-header border-left-primary">
+                <h5 class="modal-title" id="ProductModalLongTitle">Producto</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body card-body border-left-primary">
+
+
+                @Html.HiddenFor(p => p.Id)
+                <div class="form-group">
+                    <div class="col-md-12">
+                        <label for="TipoDocumento">Código</label>
+                        @Html.EditorFor(p => p.Code, new { htmlAttributes = new { @class = "col form-control", placeholder = "Código" } })
+                        @Html.ValidationMessageFor(m => m.Code, "", new { @class = "text-danger  " })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-md-12">
+                        <label for="TipoDocumento">Categoría</label>
+                        @Html.DropDownListFor(x => Model.CategoryId, ViewBag.Category as IEnumerable<SelectListItem>, htmlAttributes: new { @class = "col form-control" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-md-12">
+                        <label for="TipoDocumento">Especialidad</label>
+                        @Html.DropDownListFor(x => Model.SpecialtyId, ViewBag.Specialty as IEnumerable<SelectListItem>, htmlAttributes: new { @class = "col form-control" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-md-12">
+                        <label for="TipoDocumento">Producto</label>
+                        @Html.EditorFor(p => p.Description, new { htmlAttributes = new { @class = "col form-control", placeholder = "Descripción" } })
+                        @Html.ValidationMessageFor(m => m.Description, "", new { @class = "text-danger  " })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-md-12">
+
+                        <label for="TipoDocumento">Precio</label>
+                        @Html.EditorFor(p => p.Price, new { htmlAttributes = new { @class = "col form-control", placeholder = "Price" } })
+                        @Html.ValidationMessageFor(m => m.Price, "", new { @class = "text-danger  " })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-md-12">
+                        <label for="TipoDocumento">Stock</label>
+                        @Html.EditorFor(p => p.StockInitial, new { htmlAttributes = new { @class = "col form-control", placeholder = "Stock Inicial" } })
+                        @Html.ValidationMessageFor(m => m.StockInitial, "", new { @class = "text-danger  " })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-md-12">
+                        <label for="TipoDocumento">Observación</label>
+                        @Html.EditorFor(p => p.Observation, new { htmlAttributes = new { @class = "col form-control", placeholder = "Observación" } })
+                        @Html.ValidationMessageFor(m => m.Observation, "", new { @class = "text-danger  " })
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="modal-footer border-left-primary">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                <input type="submit" class="btn btn-primary" value="Guardar" />
+            </div>
+
+        </div>
+    </div>
+}
+
+
+<script src="~/Scripts/product/addoredit.js"></script>

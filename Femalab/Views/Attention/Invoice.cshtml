@@ -4,8 +4,7 @@
 {*@
 
     <div class="modal-dialog modal-xl" role="document">
-        <div class="modal-content ">
-
+        <div class="modal-content " style="border: none;background-color: transparent;">
             <div class="row">
                 <!-- Area Chart -->
                 <div class="col-xl-8 col-lg-7">
@@ -116,72 +115,73 @@
                         <!-- Card Body -->
                         <div class="card-body">
 
-                            <div class="row mx-2">
+                            <div class="row mr-2">
 
-                                <div class="col mb-3">
-                                    <label for="validationDefaultUsername">Tarjeta</label>
-                                    <div class="input-group">
-                                        <div class="input-group-prepend">
-                                            <span class="input-group-text" id="inputGroupPrepend2">$</span>
-                                        </div>
-                                        <input type="text" class="form-control" id="validationDefaultUsername" placeholder="Tarjeta" aria-describedby="inputGroupPrepend2" value="@Model.AttentionDetails.Sum(x => x.Product.Price)">
-                                        <button class="btn btn-success ml-1">
-                                            <i class="fas fa-plus-circle"></i>
-                                        </button>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row mx-2">
-                                <div class="col mb-3">
+                                <div class="col-5 mb-3">
                                     <label for="validationDefaultUsername2">Efectivo</label>
                                     <div class="input-group">
                                         <div class="input-group-prepend">
                                             <span class="input-group-text" id="inputGroupPrepend4">$</span>
                                         </div>
                                         <input type="text" class="form-control" id="validationDefaultUsername2" placeholder="Efectivo" aria-describedby="inputGroupPrepend4" value="@Model.AttentionDetails.Sum(x => x.Product.Price)">
+                                    </div>
+                                </div>
+                                <div class="col-5 mb-3">
+                                    <label for="validationDefaultUsername">Tarjeta</label>
+                                    <div class="input-group">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text" id="inputGroupPrepend2">$</span>
+                                        </div>
+                                        <input type="text" class="form-control" id="validationDefaultUsername" placeholder="Tarjeta" aria-describedby="inputGroupPrepend2" value="0.00">
+
+                                    </div>
+                                </div>
+                                <div class="col-2 mb-3">
+                                    <label for="validationDefaultUsername2">.</label>
+                                    <div class="input-group">
                                         <button class="btn btn-success ml-1">
                                             <i class="fas fa-plus-circle"></i>
                                         </button>
                                     </div>
-                                </div>                              
+                                </div>
                             </div>
 
-                            <div class="row mx-2">
+                            <div class="row ">
                                 <div class="col">
                                     <label for="Apellido">Detalle</label>
-                                    <table class="table table-bordered" id="tbProduct" width="100%" cellspacing="0">
+                                    <table class="table table-bordered" id="tbPay" width="100%" cellspacing="0">
                                         <thead>
                                             <tr>
-                                                <th style="width:45px">N°</th>
                                                 <th style="width:100px">Tipo</th>
                                                 <th style="width:150px">Importe</th>
-                                                <th style="width:40px">x</th>
+                                                <th style="width:30px;text-align:center">x</th>
                                             </tr>
                                         </thead>
-                                        <tbody id="tbProductBody">
-                                            
+                                        <tbody id="tbPayBody">
+                                            @*<tr>
+                                                <td>Efectivo</td>
+                                                <td>10.00</td>
+                                                <td><button title="Eliminar" data-id="" class="btn btn-danger mb-2 mr-2 remove-pay"> <i class="fas fa-trash"></i></button></td>
+                                            </tr>
+                                            <tr>
+                                                <td>Efectivo</td>
+                                                <td>10.00</td>
+                                                <td><button title="Eliminar" data-id="" class="btn btn-danger mb-2 mr-2 remove-pay"> <i class="fas fa-trash"></i></button></td>
+                                            </tr>*@
                                         </tbody>
                                     </table>
                                 </div>
                             </div>
 
-                            @*<div class="chart-pie pt-4 pb-2">
-                                <canvas id="myPieChart"></canvas>
+                            <div class="row ">
+                                <div class="col text-right">
+                                    <input type="submit" class="btn btn-primary" value="Guardar" />
+                                </div>
                             </div>
-                            <div class="mt-4 text-center small">
-                                <span class="mr-2">
-                                  <i class="fas fa-circle text-primary"></i> Direct
-                                </span>
-                                <span class="mr-2">
-                                  <i class="fas fa-circle text-success"></i> Social
-                                </span>
-                                <span class="mr-2">
-                                  <i class="fas fa-circle text-info"></i> Referral
-                                </span>
-                            </div>*@
-
-
                         </div>
+
+                        
+
                     </div>
                 </div>
             </div>

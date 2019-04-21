@@ -10,6 +10,8 @@ namespace Femalab.Repository.Master
 {
     public interface IProductRepository : IGenericRepository<Product>
     {
+        IEnumerable<Product> GetAll_Attentention();
+
         Product GetById(long id);
     }
 }

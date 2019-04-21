@@ -86,14 +86,18 @@
     <Compile Include="GenericRepository.cs" />
     <Compile Include="IGenericRepository.cs" />
     <Compile Include="IUnitOfWork.cs" />
+    <Compile Include="Master\CategoryRepository.cs" />
     <Compile Include="Master\DoctorRepository.cs" />
+    <Compile Include="Master\Interfaces\ICategoryRepository.cs" />
     <Compile Include="Master\Interfaces\IDoctorRepository.cs" />
     <Compile Include="Master\Interfaces\IPersonaRepository.cs" />
     <Compile Include="Master\Interfaces\IProductRepository.cs" />
     <Compile Include="Master\Interfaces\IPatientRepository.cs" />
+    <Compile Include="Master\Interfaces\ISpecialtyRepository.cs" />
     <Compile Include="Master\PersonaRepository.cs" />
     <Compile Include="Master\ProductRepository.cs" />
     <Compile Include="Master\PatientRepository.cs" />
+    <Compile Include="Master\SpecialtyRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="UnitOfWork.cs" />
   </ItemGroup>

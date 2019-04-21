@@ -242,7 +242,7 @@ namespace Femalab.Controllers
         [AllowAnonymous]
         public JsonResult GetProductAll()
         {
-            var attentions = (from at in productService.GetAll()
+            var attentions = (from at in productService.GetAll_Attentention()
                               select new
                               {
                                   at.Id,

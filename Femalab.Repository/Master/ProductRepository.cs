@@ -17,11 +17,12 @@ namespace Femalab.Repository.Master
         {
 
         }
-        public override IEnumerable<Product> GetAll()
+        public IEnumerable<Product> GetAll_Attentention()
         {
             return _entities.Set<Product>()
                 .Include(x => x.Category)
                 .Include(x => x.Specialty)
+                .AsNoTracking()
                 .AsEnumerable();
         }
 

@@ -21,57 +21,47 @@
             e.closest('.help-block').remove();
         },
         rules: {
-            'FirstName': {
+            'Code': {
                 required: true
             },
-            'LastName': {
+            'CategoryId': {
+                valueNotEquals: "-1"
+            },
+            'SpecialtyId': {
+                valueNotEquals: "-1"
+            },
+            'Description': {
                 required: true
             },
-            'DocumentType': {
-                valueNotEquals: "00"
-            },
-            'Document': {
-                required: true
-            },
-            'Gender': {
-                valueNotEquals: "0"
-            },
-            'BirthDate': {
-                required: true
+            'Price': {
+                valueNotEquals: "0.00"
             }
         },
         messages: {
-            'FirstName': {
-                required: 'Por favor, ingrese un nombre'
+            'Code': {
+                required: 'Por favor, ingrese un código'
             },
-            'LastName': {
-                required: 'Por favor, ingrese un apellido'
+            'CategoryId': {
+                required: 'Por favor, seleccione una categoría'
             },
-            'DocumentType': {
-                valueNotEquals: 'Por favor, seleccione una tipo de documento'
+            'SpecialtyId': {
+                valueNotEquals: 'Por favor, seleccione una especialidad'
             },
-            'Document': {
-                required: 'Por favor, ingrese un documento'
+            'Description': {
+                required: 'Por favor, ingrese una descripción'
             },
-            'Gender': {
-                valueNotEquals: 'Por favor, seleccione un género'
-            },
-            'BirthDate': {
-                required: 'Por favor, ingrese una fecha de nacimiento'
+            'Price': {
+                valueNotEquals: 'Por favor, ingrese un precio'
             }
         },
         submitHandler: function (form) {
 
-            var posting = $.post("../Patient/AddOrEdit", $(form).serialize());
+            var posting = $.post("../Product/AddOrEdit", $(form).serialize());
             posting.done(function (data) {
-                getAllPatients()
-                $("#ModalPatientAddOrEdit").modal('hide')
-                //Swal.fire(
-                //    'Paciente Registrado!',
-                //    'Paciente registrado satisfactoriamente.'
-                //)
+                getAllProducts()
+                $("#ModalProductAddOrEdit").modal('hide')
                 let notifier = new Notifier();
-                notifier.success('Paciente registrado satisfactoriamente.','Paciente Registrado!');
+                notifier.success('Producto registrado satisfactoriamente.','Producto Registrado!');
             });
           
             return false; 

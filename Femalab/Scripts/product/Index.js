@@ -5,7 +5,7 @@ function pad(n, width, z) {
     return n.length >= width ? n : new Array(width - n.length + 1).join(z) + n;
 }
 
-function addActionsPatients() {
+function addActionsProducts() {
 
     $('#btnAddProduct').click(function () {
         var url = $('#ModalProductAddOrEdit').data('url')
@@ -15,7 +15,7 @@ function addActionsPatients() {
         });
     });
 
-    $('.details-patient').click(function () {
+    $('.details-product').click(function () {
         var url = $('#ModalProductAddOrEdit').data('url') + '/' + $(this).data("id")
         $.get(url, function (data) {
             $("#ModalProductAddOrEdit").html(data)
@@ -24,14 +24,13 @@ function addActionsPatients() {
     });
 }
 
-function getAllPatients() {
+function getAllProducts() {
 
     $.ajax({
         type: "POST",
         url: "../Product/GetAll",
         success: function (data) {
 
-            //$("#tbPatientBody").empty()
             $('#dataTable').DataTable().clear();
             $('#dataTable').DataTable().destroy();
 
@@ -39,11 +38,11 @@ function getAllPatients() {
                 let createdDate = new Date(parseInt(item.CreatedDate.replace("/Date(", "").replace(")/", ""), 10))
                 let formattedCreatedDate = createdDate.getFullYear() + "-" + pad((createdDate.getMonth() + 1), 2) + "-" + pad(createdDate.getDate(), 2) + " " + pad(createdDate.getHours(), 2) + ":" + pad(createdDate.getMinutes(), 2) + ":" + pad(createdDate.getSeconds(), 2)
 
-                $("#tbProductBody").append(`<tr><td style='text-align:center'> ${item.Code} </td><td> ${item.Description} </td><td> ${formattedBirthDate} </td><td> ${formattedCreatedDate} </td><td> <button title="Editar" data-id="${item.Id}" class="btn btn-warning mb-2 mr-2 details-patient"> <i class="fas fa-user-edit"></i></button><button title="Detalle" data-id="${item.Id}" class="btn btn-success mb-2 mr-2 details-patient"> <i class="fas fa-history"></i></button></td></tr>`)
+                $("#tbProductBody").append(`<tr><td style='text-align:center'> ${item.Code} </td><td> ${item.Description} </td><td> ${item.Price.toFixed(2)} </td><td> ${formattedCreatedDate} </td><td> <button title="Editar" data-id="${item.Id}" class="btn btn-warning mb-2 mr-2 details-product"> <i class="fas fa-user-edit"></i></button><button title="Detalle" data-id="${item.Id}" class="btn btn-success mb-2 mr-2 details-product"> <i class="fas fa-history"></i></button></td></tr>`)
 
             })
 
-            addActionsPatients()
+            addActionsProducts()
 
             $('#dataTable').DataTable({
                 order: [[4, 'desc']],
@@ -80,9 +79,9 @@ function getAllPatients() {
 
 $(document).ready(function () {
 
-    getAllPatients()
+    getAllProducts()
 
-    addActionsPatients()
+    addActionsProducts()
 
 });
 
