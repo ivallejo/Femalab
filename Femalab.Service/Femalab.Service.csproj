@@ -43,6 +43,10 @@
   <ItemGroup>
     <Compile Include="AttentionService\AttentionDetailsService.cs" />
     <Compile Include="AttentionService\Interfaces\IAttentionDetailsService.cs" />
+    <Compile Include="AttentionService\Interfaces\IInvoiceService.cs" />
+    <Compile Include="AttentionService\Interfaces\IPaymentService.cs" />
+    <Compile Include="AttentionService\InvoiceService.cs" />
+    <Compile Include="AttentionService\PaymentService.cs" />
     <Compile Include="Master\CategoryService.cs" />
     <Compile Include="Master\Interfaces\ICategoryService.cs" />
     <Compile Include="Master\Interfaces\IPersonaService.cs" />

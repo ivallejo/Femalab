@@ -2,7 +2,7 @@
 
 @*@using (Html.BeginForm("Laboratory", "Attention", FormMethod.Post, new { @id = "AddOrEditFormID", @class = "needs-validation", role = "form" }))
 {*@
-
+<input type="hidden" id="hddTotal" value="@Model.AttentionDetails.Sum(x => x.Product.Price)" />
     <div class="modal-dialog modal-xl" role="document">
         <div class="modal-content " style="border: none;background-color: transparent;">
             <div class="row">
@@ -11,7 +11,7 @@
                     <div id="card-invoice" class="card shadow">
                         <!-- Card Header - Dropdown -->
                         <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                            <h6 class="m-0 font-weight-bold text-primary">Boleta</h6>
+                            <h6 class="m-0 font-weight-bold text-primary">Boleta / Factura / NC / ND</h6>
                             <div class="dropdown no-arrow">
                                 <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                     <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
@@ -22,9 +22,42 @@
                         <div class="card-body">
 
                             <div class="row mx-2">
+                                <div class="col-lg-8 col-sm-12">
+                                    <div class="form-group">
+                                        <label for="Nombres">Tipo Comprobante</label>
+                                        @Html.DropDownListFor(p => p.Patient.DocumentType,
+                                                      new List<SelectListItem>{
+                                                                              new SelectListItem{ Text="BOLETA ELECTRONICA", Value="01"},
+                                                                              new SelectListItem{ Text="FACTURA ELECTRONICA", Value="01"}
+                                                                              },
+                                                      htmlAttributes: new { @class = "col form-control" }
+                                                      )
+                                    </div>
+                                </div>
                                 <div class="col-lg-2 col-sm-12">
                                     <div class="form-group">
-                                        <label for="Nombres">Documento</label>
+                                        <label for="Nombres">Serie</label>
+                                        @Html.DropDownListFor(p => p.Patient.DocumentType,
+                                                      new List<SelectListItem>{
+                                                                              new SelectListItem{ Text="F001", Value="01"}
+                                                                              },
+                                                      htmlAttributes: new { @class = "col form-control" }
+                                                      )
+                                    </div>
+                                </div>
+                                <div class="col-lg-2 col-sm-12">
+                                    <div class="form-group">
+                                        <label for="Nombres">T. Cambio</label>
+                                        @Html.EditorFor(p => p.Patient.Document, new { htmlAttributes = new { @class = "col form-control", placeholder = "Documento" } })
+                                    </div>
+                                </div>
+
+                            </div>
+
+                            <div class="row mx-2">
+                                <div class="col-lg-2 col-sm-12">
+                                    <div class="form-group">
+                                        <label for="Nombres">T.Documento</label>
                                         @Html.DropDownListFor(p => p.Patient.DocumentType,
                                                       new List<SelectListItem>{
                                                                               new SelectListItem{ Text="Tipo Documento", Value="00"},
@@ -36,27 +69,26 @@
                                                       )
                                     </div>
                                 </div>
-                                <div class="col-lg-4 col-sm-12">
+                                <div class="col-lg-2 col-sm-12">
                                     <div class="form-group">
-                                        <label for="Nombres">.</label>
+                                        <label for="Nombres">Documento</label>
                                         @Html.EditorFor(p => p.Patient.Document, new { htmlAttributes = new { @class = "col form-control", placeholder = "Documento" } })
                                     </div>
                                 </div>
-                            </div>
 
-                            <div class="row mx-2">
-                                <div class="col-lg-6 col-sm-12">
+                                <div class="col-lg-4 col-sm-12">
                                     <div class="form-group">
                                         <label for="Nombres">Paciente</label>
                                         @Html.EditorFor(p => p.Patient.FirstName, new { htmlAttributes = new { @class = "col form-control", placeholder = "Nombres" } })
                                     </div>
                                 </div>
-                                <div class="col-lg-6 col-sm-12">
+                                <div class="col-lg-4 col-sm-12">
                                     <div class="form-group">
                                         <label for="Apellido">.</label>
                                         @Html.EditorFor(p => p.Patient.LastName, new { htmlAttributes = new { @class = "col form-control", placeholder = "Apellidos" } })
                                     </div>
                                 </div>
+
                             </div>
 
                             <div class="row mx-2">
@@ -94,7 +126,7 @@
                                             </tr>
                                         </tfooter>
                                     </table>
-                                </div>                                
+                                </div>
                             </div>
 
                         </div>
@@ -123,7 +155,7 @@
                                         <div class="input-group-prepend">
                                             <span class="input-group-text" id="inputGroupPrepend4">$</span>
                                         </div>
-                                        <input type="text" class="form-control" id="validationDefaultUsername2" placeholder="Efectivo" aria-describedby="inputGroupPrepend4" value="@Model.AttentionDetails.Sum(x => x.Product.Price)">
+                                        <input type="text" class="form-control" id="txtEfectivo" placeholder="Efectivo" aria-describedby="inputGroupPrepend4" value="@Model.AttentionDetails.Sum(x => x.Product.Price)">
                                     </div>
                                 </div>
                                 <div class="col-5 mb-3">
@@ -132,14 +164,14 @@
                                         <div class="input-group-prepend">
                                             <span class="input-group-text" id="inputGroupPrepend2">$</span>
                                         </div>
-                                        <input type="text" class="form-control" id="validationDefaultUsername" placeholder="Tarjeta" aria-describedby="inputGroupPrepend2" value="0.00">
+                                        <input type="text" class="form-control" id="txtTarjeta" placeholder="Tarjeta" aria-describedby="inputGroupPrepend2" value="0.00">
 
                                     </div>
                                 </div>
                                 <div class="col-2 mb-3">
                                     <label for="validationDefaultUsername2">.</label>
                                     <div class="input-group">
-                                        <button class="btn btn-success ml-1">
+                                        <button class="btn btn-success ml-1 addPay">
                                             <i class="fas fa-plus-circle"></i>
                                         </button>
                                     </div>

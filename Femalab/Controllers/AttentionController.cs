@@ -1,5 +1,7 @@
 ﻿using Femalab.Model.Entities;
+using Femalab.Model.ViewModel;
 using Femalab.Service.AttentionService;
+using Femalab.Service.AttentionService.Interfaces;
 using Femalab.Service.MasterService;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,8 +18,10 @@ namespace Femalab.Controllers
         IPersonaService personaService;
         IPatientService patientService;
         IAttentionDetailsService attentioDetailsService;
+        IInvoiceService invoiceService;
+        IPaymentService paymentService;
 
-        public AttentionController(IAttentionService attentionService, IDoctorService doctorService, IAttentionTypeService attentionTypeService, IProductService productService, IPersonaService personaService, IPatientService patientService, IAttentionDetailsService attentioDetailsService)
+        public AttentionController(IAttentionService attentionService, IDoctorService doctorService, IAttentionTypeService attentionTypeService, IProductService productService, IPersonaService personaService, IPatientService patientService, IAttentionDetailsService attentioDetailsService, IInvoiceService invoiceService, IPaymentService paymentService)
         {
             this.attentionService = attentionService;
             this.doctorService = doctorService;
@@ -26,6 +30,8 @@ namespace Femalab.Controllers
             this.personaService = personaService;
             this.patientService = patientService;
             this.attentioDetailsService = attentioDetailsService;
+            this.invoiceService = invoiceService;
+            this.paymentService = paymentService;
         }
 
         // GET: Attention
@@ -197,7 +203,8 @@ namespace Femalab.Controllers
                     attention.Height = Model.Height;
                     attention.Weight = Model.Weight;
                     attention.Size = Model.Size;
-                    
+                    attention.QueryBy = Model.QueryBy;
+
                     attentionService.UpdateAttention(attention);
 
                     return Json(new { response = 2, attention.Id, attention.AttentionCategory.Tag, attention.Patient.Document, attention.Patient.LastName, attention.Patient.FirstName, TypeTag = attention.AttentionType.Tag, attention.AttentionType.Type, attention.CreatedDate,attention.Patient.Gender, attention.Age,attention.Weight,attention.Size });
@@ -225,15 +232,72 @@ namespace Femalab.Controllers
 
         [HttpGet]
         public ActionResult Invoice(int id = 0)
-        {
-            var attention = attentionService.GetById(id);
-            if (attention == null)
+        {            
+            Invoice invoice = invoiceService.GetBy(x => x.AttentionId == id).FirstOrDefault();
+            
+
+            if (invoice == null)
             {
-                attention = new Attention();
-                attention.Patient = new Patient();
+
+
+                
+
+                var attention = attentionService.GetById(id);
+                if (attention != null)
+                {
+                    var customer = patientService.GetById(attention.PatientId);
+
+                    invoice = new Invoice();
+
+                    invoice.Id = 0;
+                    invoice.AttentionId = attention.Id;
+                    invoice.Currency = "PE";
+                    invoice.Observations = "";
+                    invoice.VoucherType = "03";
+                    invoice.Series = "B001";
+                    invoice.DocumentNumber = 1;
+
+                    var total = attention.AttentionDetails.Sum(x => x.Product.Price);
+
+                    invoice.TotalValue = total;
+                    invoice.IGV = 18;
+                    invoice.TotalSale = decimal.Round( (total / 1.18M) ,2);
+                    invoice.TotalTax = total - invoice.TotalSale;
+                    invoice.TotalValue = total;
+
+                    invoice.Customer = new Customer();
+                    invoice.Customer.Address = attention.Patient.Address;
+                    invoice.Customer.DocumentType = attention.Patient.DocumentType;
+                    invoice.Customer.Document = attention.Patient.Document;
+                    invoice.Customer.Country = "PE";
+                    invoice.Customer.Email = attention.Patient.Email;
+                    invoice.Customer.FirstName = attention.Patient.FirstName;
+                    invoice.Customer.Phone = attention.Patient.Phone;
+                    invoice.Customer.TradeName = attention.Patient.FirstName;
+
+                    invoice.Payment = new Payment();
+
+                    invoice.InvoiceDetails = new List<InvoiceDetails>();
+                    InvoiceDetails invoiceDetails;
+                    foreach (var item in attention.AttentionDetails)
+                    {
+                        invoiceDetails = new InvoiceDetails();
+
+                        invoiceDetails.Id = 0;
+                        invoiceDetails.InvoiceId = 0;
+                        invoiceDetails.Description = item.Description;
+                        invoiceDetails.ProductId = item.ProductId;
+                        invoiceDetails.Price = item.Price;
+                        invoiceDetails.Quantity = item.Quantity;
+
+                        invoice.InvoiceDetails.Add(invoiceDetails);
+                    }
+
+
+                }
             }
 
-            return PartialView(attention);
+            return PartialView(invoice);
         }
 
 
@@ -296,12 +360,24 @@ namespace Femalab.Controllers
             else
             {
                 return Json(null);
-            }
-            
-
-            
+            }            
         }
 
+        [HttpGet]
+        public ActionResult InvoiceTest(int id = 0)
+        {
+            //id = 105;
+            var attention = attentionService.GetById(id);
+            if (attention == null)
+            {
+                attention = new Attention();
+                attention.Patient = new Patient();
+                attention.AttentionDetails = new List<AttentionDetails>();
+            }
 
+
+
+            return PartialView(attention);
+        }
     }
 }

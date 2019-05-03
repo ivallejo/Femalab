@@ -39,6 +39,19 @@ function addActionsAttention() {
         });
     });
 
+    $('.receipt-attention').click(function () {
+        var url = $(this).data('url')
+        $.get(url, function (data) {
+            
+            win = window.open();
+            win.document.write(data);
+
+            var document_focus = false;
+            $(document).ready(function () { win.window.print(); document_focus = true; });
+            setInterval(function () { if (document_focus === true) { win.window.close(); } }, 300);
+
+        });
+    });
 }
 
 function getAllAttentions() {
@@ -62,8 +75,9 @@ function getAllAttentions() {
                         <td> ${item.Size} </td>\                      
                         <td> ${formattedCreatedDate} </td>\
                         <td>\                            
-                            <button title="Editar" data-id="${item.Id}" class="btn btn-warning my-sm-1 edit-attention" data-url="/Attention/${item.Action + '/' + item.Id}" > <i class="fas fa-user-edit fa-sm"></i></button>\
-                            <button title="Editar" data-id="${item.Id}" class="btn btn-success my-sm-1 invoice-attention" data-url="/Attention/Invoice/${item.Id}" > <i class="fas fa-file-invoice fa-sm"></i></button>\
+                            <button title="Editar" data-id="${item.Id}" class="btn btn-warning my-sm-1 edit-attention" data-url="/Attention/${item.Action + '/' + item.Id}" > <i class="fas fa-pen fa-sm"></i></button>\
+                            <button title="Recibo" data-id="${item.Id}" class="btn btn-success my-sm-1 receipt-attention" data-url="/Attention/InvoiceTest/${item.Id}" > <i class="fas fa-receipt fa-sm"></i></button>\
+                            <button title="Pagar" data-id="${item.Id}" class="btn btn-primary my-sm-1 invoice-attention" data-url="/Attention/Invoice/${item.Id}" > <i class="fas fa-file-invoice fa-sm"></i></button>\
                         </td>\
                     </tr>\
                 `)

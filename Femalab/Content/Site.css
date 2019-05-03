@@ -76,3 +76,16 @@ textarea {
     -webkit-box-shadow: 0 0 0 0.2rem rgba(62, 208, 156, 0.5);
     box-shadow: 0 0 0 0.2rem rgba(62, 208, 156, 0.5);
 }
+
+
+@page {
+    size: auto; /* auto is the current printer page size */
+    margin: 0mm; /* this affects the margin in the printer settings */
+}
+
+@media print {
+    #print {
+        display: none;
+    }
+}
+
