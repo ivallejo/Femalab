@@ -36,5 +36,9 @@ namespace Femalab.Model.Entities
         public string Email { get; set; }
         [MaxLength(4)]
         public string DomicileFiscalCode { get; set; }
+
+        public long IdUbigeo { get; set; }
+        [ForeignKey(nameof(IdUbigeo))]
+        public Ubigeo Ubigeo { get; set; }
     }
 }

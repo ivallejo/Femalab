@@ -27,6 +27,13 @@ namespace Femalab.Model.Persistence
         public DbSet<Specialty> Specialty { get; set; }
         public DbSet<Product> Product { get; set; }
 
+        public DbSet<Invoice> Invoice { get; set; }
+        public DbSet<InvoiceDetails> InvoiceDetails { get; set; }
+        public DbSet<Payment> Payment { get; set; }
+        public DbSet<Customer> Customer { get; set; }
+        public DbSet<Ubigeo> Ubigeo { get; set; }
+
+
         public override int SaveChanges()
         {
             var modifiedEntries = ChangeTracker.Entries()

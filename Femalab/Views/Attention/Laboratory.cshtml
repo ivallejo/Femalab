@@ -54,10 +54,11 @@
                                 <label for="TipoDocumento">Tipo Documento</label>
                                 @Html.DropDownListFor(p => p.Patient.DocumentType,
                                               new List<SelectListItem>{
-                                                                      new SelectListItem{ Text="Tipo Documento", Value="00"},
+                                                                      new SelectListItem{ Text="TIPO DOCUMENTO", Value="00"},
                                                                       new SelectListItem{ Text="DNI", Value="01"},
-                                                                      new SelectListItem{ Text="CE", Value="02"},
-                                                                      new SelectListItem{ Text="PASAPORTE", Value="03"}
+                                                                      new SelectListItem{ Text="CE", Value="04"},
+                                                                      new SelectListItem{ Text="PASAPORTE", Value="07"},
+                                                                    new SelectListItem{ Text="CED. DIPLOMATICA DE IDENTIDAD", Value="0A"}
                                                                       },
                                               htmlAttributes: new { @class = "col form-control" }
                                               )
@@ -96,9 +97,9 @@
                                 <label for="exampleFormControlSelect1">Género</label>
                                 @Html.DropDownListFor(p => p.Patient.Gender,
                                                 new List<SelectListItem>{
-                                                                        new SelectListItem{ Text="Género", Value="0"},
-                                                                        new SelectListItem{ Text="Masculino", Value="M"},
-                                                                        new SelectListItem{ Text="Femenino", Value="F"}
+                                                                        new SelectListItem{ Text="GÉNERO", Value="0"},
+                                                                        new SelectListItem{ Text="MASCULINO", Value="M"},
+                                                                        new SelectListItem{ Text="FEMENINO", Value="F"}
                                                                         },
                                                 htmlAttributes: new { @class = "col form-control" }
                                                 )
@@ -152,7 +153,7 @@
                     <div class="row mx-2">
                         <div class="col-lg-2 col-sm-6">
                             <div class="form-group">
-                                <a href="#" class="btn btn-success-site btn-icon-split col addService" data-id="1" style="justify-content: left;">
+                                <a href="#" class="btn btn-success-site btn-icon-split col addService" data-id="8" style="justify-content: left;">
                                     <span class="icon">
                                         <i class="fas fa-check align-middle"></i>
                                     </span>
@@ -162,7 +163,7 @@
                         </div>
                         <div class="col-lg-2 col-sm-6">
                             <div class="form-group">
-                                <a href="#" class="btn btn-success-site btn-icon-split col addService" data-id="5" style="justify-content: left;">
+                                <a href="#" class="btn btn-success-site btn-icon-split col addService" data-id="12" style="justify-content: left;">
                                     <span class="icon">
                                         <i class="fas fa-check align-middle"></i>
                                     </span>
@@ -172,7 +173,7 @@
                         </div>
                         <div class="col-lg-2 col-sm-6">
                             <div class="form-group">
-                                <a href="#" class="btn btn-success-site btn-icon-split col addService" data-id="4" style="justify-content: left;">
+                                <a href="#" class="btn btn-success-site btn-icon-split col addService" data-id="11" style="justify-content: left;">
                                     <span class="icon">
                                         <i class="fas fa-check align-middle"></i>
                                     </span>
@@ -182,7 +183,7 @@
                         </div>
                         <div class="col-lg-2 col-sm-6">
                             <div class="form-group">
-                                <a href="#" class="btn btn-success-site btn-icon-split col addService" data-id="2" style="justify-content: left;">
+                                <a href="#" class="btn btn-success-site btn-icon-split col addService" data-id="9" style="justify-content: left;">
                                     <span class="icon">
                                         <i class="fas fa-check align-middle"></i>
                                     </span>
@@ -192,7 +193,7 @@
                         </div>
                         <div class="col-lg-2 col-sm-6">
                             <div class="form-group">
-                                <a href="#" class="btn btn-success-site btn-icon-split col addService" data-id="3" style="justify-content: left;">
+                                <a href="#" class="btn btn-success-site btn-icon-split col addService" data-id="10" style="justify-content: left;">
                                     <span class="icon">
                                         <i class="fas fa-check align-middle"></i>
                                     </span>
@@ -202,7 +203,7 @@
                         </div>
                         <div class="col-lg-2 col-sm-6">
                             <div class="form-group">
-                                <a href="#" class="btn btn-success-site btn-icon-split col addService" data-id="6" style="justify-content: left;">
+                                <a href="#" class="btn btn-success-site btn-icon-split col addService" data-id="13" style="justify-content: left;">
                                     <span class="icon">
                                         <i class="fas fa-check align-middle"></i>
                                     </span>

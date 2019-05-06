@@ -4,6 +4,7 @@ namespace Femalab.Model.Migrations
     using System;
     using System.Data.Entity;
     using System.Data.Entity.Migrations;
+    using System.IO;
     using System.Linq;
 
     internal sealed class Configuration : DbMigrationsConfiguration<Femalab.Model.Persistence.FemalabContext>
@@ -21,6 +22,19 @@ namespace Femalab.Model.Migrations
             //  You can use the DbSet<T>.AddOrUpdate() helper extension method 
             //  to avoid creating duplicate seed data. E.g.
             //
+            //var separador = '|';
+            var carpeta = @"C:\GitHub\Femalab\Femalab.Model\Data\";
+
+            if (!context.Ubigeo.Any())
+            {
+                var ubigeos = File.ReadAllLines($"{carpeta}Ubigeo.txt");
+                context.Ubigeo.AddOrUpdate(ubigeos.Select(linea => linea)
+                    .Select(valores => new Ubigeo
+                    {
+                        Code = valores.Substring(0, 6),
+                        Description = valores.Substring(7).Trim()
+                    }).ToArray());
+            }
 
             if (!context.Doctor.Any())
             {

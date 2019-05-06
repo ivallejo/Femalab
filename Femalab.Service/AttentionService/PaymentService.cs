@@ -21,5 +21,11 @@ namespace Femalab.Service.AttentionService
             _unitOfWork = unitOfWork;
             _paymentRepository = paymentRepository;
         }
+
+        public void UpdatePayment(Payment entity)
+        {
+            if (entity == null) throw new ArgumentNullException("entity");
+            _paymentRepository.Edit(entity);
+        }
     }
 }

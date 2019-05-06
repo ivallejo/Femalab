@@ -10,5 +10,7 @@ namespace Femalab.Repository.AttentionProcess.Interfaces
     public interface IInvoiceRepository : IGenericRepository<Invoice>
     {
         Invoice GetById(long id);
-    }
+        Invoice GetByIdAttention(long idAttention);
+        void UpdateInvoice(Invoice model);
+    }   
 }

@@ -211,6 +211,9 @@ function getPerson() {
             $("#Patient_FirstName").val(`${data.NOMBRES}`)
             $("#Patient_LastName").val(`${data.APE_PATERNO} ${data.APE_MATERNO}`)
             $("#Patient_Gender").val(`${(data.SEXO == '2') ? 'F' : 'M'}`)
+            $("#Patient_Address").val(`${data.Address}`)
+            $("#Patient_Email").val(`${data.Email}`)
+            $("#Patient_Phone").val(`${data.Phone}`)
 
             const ano = data.FECHA_NACIMIENTO.substring(0, 4);
             const mes = data.FECHA_NACIMIENTO.substring(4, 6);
@@ -234,6 +237,9 @@ function getPerson() {
             $("#Patient_FirstName").val("")
             $("#Patient_LastName").val("")
             $("#Patient_Gender").val("0")
+            $("#Patient_Address").val("")
+            $("#Patient_Email").val("")
+            $("#Patient_Phone").val("")
 
             let today = new Date();
             const dd = ("0" + (today.getDate())).slice(-2);
@@ -241,8 +247,6 @@ function getPerson() {
             const yyyy = today.getFullYear();
             today = yyyy + '-' + mm + '-' + dd;
 
-            //$('#Patient_BirthDate').attr("value", today);
-            //$('#Patient_BirthDate').attr("value", today);
             $('#Patient_BirthDate').val(today);
             $("#Age").val("")
 

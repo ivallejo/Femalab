@@ -52,6 +52,7 @@
     <Compile Include="Master\Interfaces\IPersonaService.cs" />
     <Compile Include="Master\Interfaces\IProductService.cs" />
     <Compile Include="Master\Interfaces\ISpecialtyService.cs" />
+    <Compile Include="Master\Interfaces\IUbigeoService.cs" />
     <Compile Include="Master\PersonaService.cs" />
     <Compile Include="Master\ProductService.cs" />
     <Compile Include="AttentionService\AttentionCategoryService.cs" />
@@ -68,6 +69,7 @@
     <Compile Include="Master\Interfaces\IPatientService.cs" />
     <Compile Include="Master\PatientService.cs" />
     <Compile Include="Master\SpecialtyService.cs" />
+    <Compile Include="Master\UbigeoService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

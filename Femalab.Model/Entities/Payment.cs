@@ -16,7 +16,7 @@ namespace Femalab.Model.Entities
         [MaxLength(1)]
         public string PaymentType { get; set; }
         public decimal Amount { get; set; }
-
+        public bool State { get; set; }
         [ForeignKey("InvoiceId")]
         public Invoice Invoice { get; set; }
     }

@@ -26,5 +26,17 @@ namespace Femalab.Service.AttentionService
         {
             return _invoiceRepository.GetById(Id);
         }
+        public Invoice GetByIdAttention(long IdAttention)
+        {
+            return _invoiceRepository.GetByIdAttention(IdAttention);
+        }
+
+        public  void UpdateInvoice(Invoice entity)
+        {
+            if (entity == null) throw new ArgumentNullException("entity");
+            _invoiceRepository.UpdateInvoice(entity);
+            _unitOfWork.commit();
+        }
+
     }
 }

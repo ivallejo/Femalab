@@ -85,8 +85,10 @@
     <Compile Include="AttentionProcess\Interfaces\IAttentionTypeRepository.cs" />
     <Compile Include="AttentionProcess\Interfaces\IInvoiceRepository.cs" />
     <Compile Include="AttentionProcess\Interfaces\IPaymentRepository.cs" />
+    <Compile Include="AttentionProcess\Interfaces\IUbigeoRepository.cs" />
     <Compile Include="AttentionProcess\InvoiceRepository.cs" />
     <Compile Include="AttentionProcess\PaymentRepository.cs" />
+    <Compile Include="AttentionProcess\UbigeoRepository.cs" />
     <Compile Include="GenericRepository.cs" />
     <Compile Include="IGenericRepository.cs" />
     <Compile Include="IUnitOfWork.cs" />

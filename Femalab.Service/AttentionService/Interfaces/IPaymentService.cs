@@ -9,5 +9,6 @@ namespace Femalab.Service.AttentionService.Interfaces
 {
     public interface IPaymentService : IEntityService<Payment>
     {
+        void UpdatePayment(Payment entity);
     }
 }

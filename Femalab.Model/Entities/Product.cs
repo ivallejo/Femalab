@@ -24,6 +24,9 @@ namespace Femalab.Model.Entities
 
         public bool State { get; set; }
 
+        [MaxLength(8)]
+        public string SunatCode { get; set; }
+
         [ForeignKey("CategoryId")]
         public Category Category { get; set; }
 

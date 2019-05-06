@@ -9,5 +9,8 @@ namespace Femalab.Service.AttentionService.Interfaces
 {
     public interface IInvoiceService : IEntityService<Invoice>
     {
+        Invoice GetById(long Id);
+        Invoice GetByIdAttention(long IdAttention);
+        void UpdateInvoice(Invoice entity);
     }
 }

@@ -1,226 +1,344 @@
-﻿@model Femalab.Model.Entities.Attention
+﻿@model Femalab.Model.Entities.Invoice
 
-@*@using (Html.BeginForm("Laboratory", "Attention", FormMethod.Post, new { @id = "AddOrEditFormID", @class = "needs-validation", role = "form" }))
-{*@
-<input type="hidden" id="hddTotal" value="@Model.AttentionDetails.Sum(x => x.Product.Price)" />
-    <div class="modal-dialog modal-xl" role="document">
-        <div class="modal-content " style="border: none;background-color: transparent;">
-            <div class="row">
-                <!-- Area Chart -->
-                <div class="col-xl-8 col-lg-7">
-                    <div id="card-invoice" class="card shadow">
-                        <!-- Card Header - Dropdown -->
-                        <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                            <h6 class="m-0 font-weight-bold text-primary">Boleta / Factura / NC / ND</h6>
-                            <div class="dropdown no-arrow">
-                                <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
-                                </a>
-                            </div>
-                        </div>
-                        <!-- Card Body -->
-                        <div class="card-body">
+@using (Html.BeginForm("Invoice", "Attention", FormMethod.Post, new { @id = "AddOrEditFormID", @class = "needs-validation", role = "form" }))
+{
+    @Html.AntiForgeryToken()
+    HtmlHelper.UnobtrusiveJavaScriptEnabled = false;
 
-                            <div class="row mx-2">
-                                <div class="col-lg-8 col-sm-12">
-                                    <div class="form-group">
-                                        <label for="Nombres">Tipo Comprobante</label>
-                                        @Html.DropDownListFor(p => p.Patient.DocumentType,
-                                                      new List<SelectListItem>{
-                                                                              new SelectListItem{ Text="BOLETA ELECTRONICA", Value="01"},
-                                                                              new SelectListItem{ Text="FACTURA ELECTRONICA", Value="01"}
-                                                                              },
-                                                      htmlAttributes: new { @class = "col form-control" }
-                                                      )
-                                    </div>
-                                </div>
-                                <div class="col-lg-2 col-sm-12">
-                                    <div class="form-group">
-                                        <label for="Nombres">Serie</label>
-                                        @Html.DropDownListFor(p => p.Patient.DocumentType,
-                                                      new List<SelectListItem>{
-                                                                              new SelectListItem{ Text="F001", Value="01"}
-                                                                              },
-                                                      htmlAttributes: new { @class = "col form-control" }
-                                                      )
-                                    </div>
-                                </div>
-                                <div class="col-lg-2 col-sm-12">
-                                    <div class="form-group">
-                                        <label for="Nombres">T. Cambio</label>
-                                        @Html.EditorFor(p => p.Patient.Document, new { htmlAttributes = new { @class = "col form-control", placeholder = "Documento" } })
-                                    </div>
-                                </div>
+    @Html.HiddenFor(m => m.Id, new { @Value = (int)Model.Id })
 
-                            </div>
+    @Html.HiddenFor(p => p.AttentionId)
+    @Html.HiddenFor(p => p.Currency)
+    @Html.HiddenFor(p => p.Observations)
+    @Html.HiddenFor(p => p.IGV)
+    @Html.HiddenFor(p => p.TotalSale)
+    @Html.HiddenFor(p => p.TotalTax)
+    @Html.HiddenFor(p => p.TotalValue)
+    @Html.HiddenFor(p => p.CustomerId)
 
-                            <div class="row mx-2">
-                                <div class="col-lg-2 col-sm-12">
-                                    <div class="form-group">
-                                        <label for="Nombres">T.Documento</label>
-                                        @Html.DropDownListFor(p => p.Patient.DocumentType,
-                                                      new List<SelectListItem>{
-                                                                              new SelectListItem{ Text="Tipo Documento", Value="00"},
-                                                                              new SelectListItem{ Text="DNI", Value="01"},
-                                                                              new SelectListItem{ Text="CE", Value="02"},
-                                                                              new SelectListItem{ Text="PASAPORTE", Value="03"}
-                                                                              },
-                                                      htmlAttributes: new { @class = "col form-control" }
-                                                      )
-                                    </div>
-                                </div>
-                                <div class="col-lg-2 col-sm-12">
-                                    <div class="form-group">
-                                        <label for="Nombres">Documento</label>
-                                        @Html.EditorFor(p => p.Patient.Document, new { htmlAttributes = new { @class = "col form-control", placeholder = "Documento" } })
-                                    </div>
-                                </div>
+    @Html.HiddenFor(p => p.Customer.Id)
 
-                                <div class="col-lg-4 col-sm-12">
-                                    <div class="form-group">
-                                        <label for="Nombres">Paciente</label>
-                                        @Html.EditorFor(p => p.Patient.FirstName, new { htmlAttributes = new { @class = "col form-control", placeholder = "Nombres" } })
-                                    </div>
-                                </div>
-                                <div class="col-lg-4 col-sm-12">
-                                    <div class="form-group">
-                                        <label for="Apellido">.</label>
-                                        @Html.EditorFor(p => p.Patient.LastName, new { htmlAttributes = new { @class = "col form-control", placeholder = "Apellidos" } })
-                                    </div>
-                                </div>
 
-                            </div>
+    for (int i = 0; i < Model.InvoiceDetails.Count; i++)
+    {
 
-                            <div class="row mx-2">
-                                <div class="col">
-                                    <label for="Apellido">Detalle</label>
-                                    <table class="table table-bordered" id="tbProduct" width="100%" cellspacing="0">
-                                        <thead>
-                                            <tr>
-                                                <th style="width:95px">Código</th>
-                                                <th>Examén</th>
-                                                <th style="width:130px">Tipo</th>
-                                                <th style="width:40px">Cnt.</th>
-                                                <th style="width:60px">Precio</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody id="tbProductBody">
-                                            @foreach (var item in Model.AttentionDetails)
-                                            {
-                                                <tr id="tr-@item.ProductId" data-id="@item.ProductId">
-                                                    <td>@item.Product.Code</td>
-                                                    <td>@item.Product.Description</td>
-                                                    <td>@item.Product.Specialty.Description</td>
-                                                    <td>1</td>
-                                                    <td>@item.Product.Price</td>
-                                                </tr>
-                                            }
-                                        </tbody>
-                                        <tfooter>
-                                            <tr>
-                                                <th></th>
-                                                <th></th>
-                                                <th></th>
-                                                <th>Total</th>
-                                                <th>@Model.AttentionDetails.Sum(x => x.Product.Price)</th>
-                                            </tr>
-                                        </tfooter>
-                                    </table>
-                                </div>
-                            </div>
+        @Html.HiddenFor(m => m.InvoiceDetails.ElementAt(i).Id, new { @Value = (int)Model.InvoiceDetails.ElementAt(i).Id, Name = "InvoiceDetails[" + i + "].Id" })
 
-                        </div>
-                    </div>
-                </div>
-                <!-- Pie Chart -->
-                <div class="col-xl-4 col-lg-5">
-                    <div id="card-pay" class="card shadow">
-                        <!-- Card Header - Dropdown -->
-                        <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                            <h6 class="m-0 font-weight-bold text-primary">Pago</h6>
-                            <div class="dropdown no-arrow">
-                                <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
-                                </a>
-                            </div>
-                        </div>
-                        <!-- Card Body -->
-                        <div class="card-body">
+        @Html.HiddenFor(it => Model.InvoiceDetails.ElementAt(i).InvoiceId, new { Name = "InvoiceDetails[" + i + "].InvoiceId" })
+        @Html.HiddenFor(it => Model.InvoiceDetails.ElementAt(i).Description, new { Name = "InvoiceDetails[" + i + "].Description" })
+        @Html.HiddenFor(it => Model.InvoiceDetails.ElementAt(i).ProductId, new { Name = "InvoiceDetails[" + i + "].ProductId" })
+        @Html.HiddenFor(it => Model.InvoiceDetails.ElementAt(i).Price, new { Name = "InvoiceDetails[" + i + "].Price" })
+        @Html.HiddenFor(it => Model.InvoiceDetails.ElementAt(i).Quantity, new { Name = "InvoiceDetails[" + i + "].Quantity" })
+    }
 
-                            <div class="row mr-2">
-
-                                <div class="col-5 mb-3">
-                                    <label for="validationDefaultUsername2">Efectivo</label>
-                                    <div class="input-group">
-                                        <div class="input-group-prepend">
-                                            <span class="input-group-text" id="inputGroupPrepend4">$</span>
-                                        </div>
-                                        <input type="text" class="form-control" id="txtEfectivo" placeholder="Efectivo" aria-describedby="inputGroupPrepend4" value="@Model.AttentionDetails.Sum(x => x.Product.Price)">
-                                    </div>
-                                </div>
-                                <div class="col-5 mb-3">
-                                    <label for="validationDefaultUsername">Tarjeta</label>
-                                    <div class="input-group">
-                                        <div class="input-group-prepend">
-                                            <span class="input-group-text" id="inputGroupPrepend2">$</span>
-                                        </div>
-                                        <input type="text" class="form-control" id="txtTarjeta" placeholder="Tarjeta" aria-describedby="inputGroupPrepend2" value="0.00">
-
-                                    </div>
-                                </div>
-                                <div class="col-2 mb-3">
-                                    <label for="validationDefaultUsername2">.</label>
-                                    <div class="input-group">
-                                        <button class="btn btn-success ml-1 addPay">
-                                            <i class="fas fa-plus-circle"></i>
-                                        </button>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="row ">
-                                <div class="col">
-                                    <label for="Apellido">Detalle</label>
-                                    <table class="table table-bordered" id="tbPay" width="100%" cellspacing="0">
-                                        <thead>
-                                            <tr>
-                                                <th style="width:100px">Tipo</th>
-                                                <th style="width:150px">Importe</th>
-                                                <th style="width:30px;text-align:center">x</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody id="tbPayBody">
-                                            @*<tr>
-                                                <td>Efectivo</td>
-                                                <td>10.00</td>
-                                                <td><button title="Eliminar" data-id="" class="btn btn-danger mb-2 mr-2 remove-pay"> <i class="fas fa-trash"></i></button></td>
-                                            </tr>
-                                            <tr>
-                                                <td>Efectivo</td>
-                                                <td>10.00</td>
-                                                <td><button title="Eliminar" data-id="" class="btn btn-danger mb-2 mr-2 remove-pay"> <i class="fas fa-trash"></i></button></td>
-                                            </tr>*@
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
-
-                            <div class="row ">
-                                <div class="col text-right">
-                                    <input type="submit" class="btn btn-primary" value="Guardar" />
-                                </div>
-                            </div>
-                        </div>
-
-                        
-
-                    </div>
-                </div>
+    <div id="divPayments">
+        @{ int iPayments = 0; }
+        @for (iPayments = 0; iPayments < Model.Payments.Count; iPayments++)
+         {
+            <div id="tr-@Model.Payments.ElementAt(iPayments).PaymentType">
+                @Html.HiddenFor(m => m.Payments.ElementAt(iPayments).Id, new { @Value = (int)Model.Payments.ElementAt(iPayments).Id, Name = "Payments[" + iPayments + "].Id" })
+                @Html.HiddenFor(it => Model.Payments.ElementAt(iPayments).InvoiceId, new { Name = "Payments[" + iPayments + "].InvoiceId" })
+                @Html.HiddenFor(it => Model.Payments.ElementAt(iPayments).PaymentType, new { Name = "Payments[" + iPayments + "].PaymentType" })
+                @Html.HiddenFor(it => Model.Payments.ElementAt(iPayments).Amount, new { Name = "Payments[" + iPayments + "].Amount" })
+                @Html.HiddenFor(it => Model.Payments.ElementAt(iPayments).State, new { Name = "Payments[" + iPayments + "].State" })
             </div>
-                       
-        </div>
+         }
+        @Html.HiddenFor(it => iPayments)
+        
     </div>
-@*}*@
+        <input type="hidden" id="hddTotal" value="@Model.InvoiceDetails.Sum(x => x.Product.Price)" />
+        <div class="modal-dialog modal-xl" role="document">
+            <div class="modal-content " style="border: none;background-color: transparent;">
+                <div class="row">
+                    <!-- Area Chart -->
+                    <div class="col-xl-8 col-lg-7">
+                        <div id="card-invoice" class="card shadow">
+                            <!-- Card Header - Dropdown -->
+                            <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                                <h6 class="m-0 font-weight-bold text-primary">Boleta / Factura / NC / ND</h6>
+                                <div class="dropdown no-arrow">
+                                    <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
+                                    </a>
+                                </div>
+                            </div>
+                            <!-- Card Body -->
+                            <div class="card-body">
 
-<script src="~/Scripts/attention/invoice.js"></script>
+                                <div class="row mx-2">
+                                    <div class="col-lg-6 col-sm-12">
+                                        <div class="form-group">
+                                            <label for="Nombres">Tipo Comprobante</label>
+                                            @Html.DropDownListFor(p => p.VoucherType,
+                                                            new List<SelectListItem>{
+                                                                                    new SelectListItem{ Text="BOLETA ELECTRONICA", Value="03"},
+                                                                                    new SelectListItem{ Text="FACTURA ELECTRONICA", Value="01"}
+                                                                                    },
+                                                            htmlAttributes: new { @class = "col form-control" }
+                                                            )
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-2 col-sm-12">
+                                        <div class="form-group">
+                                            <label for="Nombres">Serie</label>
+                                            @Html.DropDownListFor(p => p.Series,
+                                                            new List<SelectListItem>{
+                                                                                    //new SelectListItem{ Text="F001", Value="01"},
+                                                                                    new SelectListItem{ Text="B001", Value="03"}
+                                                                                    },
+                                                            htmlAttributes: new { @class = "col form-control" }
+                                                            )
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-2 col-sm-12">
+                                        <div class="form-group">
+                                            <label for="Nombres">Número</label>
+                                            @Html.EditorFor(p => p.DocumentNumber, new { htmlAttributes = new { @class = "col form-control", placeholder = "Documento" } })
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-2 col-sm-12">
+                                        <div class="form-group">
+                                            <label for="Nombres">T. Cambio</label>
+                                            @Html.EditorFor(p => p.DocumentNumber, new { htmlAttributes = new { @class = "col form-control", placeholder = "Documento" } })
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row mx-2">
+                                    <div class="col-lg-3 col-sm-12">
+                                        <div class="form-group">
+                                            <label for="Nombres">T. Documento</label>
+                                            @Html.DropDownListFor(p => p.Customer.DocumentType,
+                                                                    new List<SelectListItem>{
+                                                                            //new SelectListItem{ Text="DOC.TRIB.NO.DOM.SIN.RUC", Value="00"},
+                                                                            //new SelectListItem{ Text="DOC. NACIONAL DE IDENTIDAD", Value="1"},
+                                                                            //new SelectListItem{ Text="CARNET DE EXTRANJERIA", Value="4"},
+                                                                            //new SelectListItem{ Text="REG. UNICO DE CONTRIBUYENTES", Value="6"},
+                                                                            //new SelectListItem{ Text="PASAPORTE", Value="7"},
+                                                                            //new SelectListItem{ Text="CED. DIPLOMATICA DE IDENTIDAD", Value="A"}
+                                                                            new SelectListItem{ Text="TIPO DOCUMENTO", Value="00"},
+                                                                            new SelectListItem{ Text="DNI", Value="01"},
+                                                                            new SelectListItem{ Text="CE", Value="04"},
+                                                                            new SelectListItem{ Text="PASAPORTE", Value="07"},
+                                                                            new SelectListItem{ Text="CED. DIPLOMATICA DE IDENTIDAD", Value="0A"}
+
+                                                                    },
+                                                            htmlAttributes: new { @class = "col form-control" }
+                                                            )
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-3 col-sm-12">
+                                        <div class="form-group">
+                                            <label for="Nombres">Documento</label>
+                                            @Html.EditorFor(p => p.Customer.Document, new { htmlAttributes = new { @class = "col form-control", placeholder = "Documento" } })
+                                        </div>
+                                    </div>
+
+                                    <div class="col-lg-6 col-sm-12">
+                                        <div class="form-group">
+                                            <label for="Nombres">Nombre</label>
+                                            @Html.EditorFor(p => p.Customer.FirstName, new { htmlAttributes = new { @class = "col form-control", placeholder = "Nombres" } })
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                                <div class="row mx-2">
+
+                                    <div class="col-lg-3 col-sm-12">
+                                        <div class="form-group">
+                                            <label for="Nombres">País</label>
+                                            @Html.DropDownListFor(p => p.Customer.Country,
+                                                            new List<SelectListItem>{
+                                                                                    new SelectListItem{ Text="PERÚ", Value="PE"}
+                                                                                    },
+                                                            htmlAttributes: new { @class = "col form-control" }
+                                                            )
+                                        </div>
+                                    </div>
+
+                                    <div class="col-lg-3 col-sm-12">
+                                        <div class="form-group">
+                                            <label for="Nombres">Departamento</label>
+                                            @Html.DropDownListFor(x => Model.Customer.Department, ViewBag.departments as IEnumerable<SelectListItem>, htmlAttributes: new { @class = "form-control" })
+                                        </div>
+                                    </div>
+
+                                    <div class="col-lg-3 col-sm-12">
+                                        <div class="form-group">
+                                            <label for="Nombres">Provincia</label>
+                                            @Html.DropDownListFor(x => Model.Customer.Province, ViewBag.provinces as IEnumerable<SelectListItem>, htmlAttributes: new { @class = "form-control" })
+
+                                        </div>
+                                    </div>
+
+                                    <div class="col-lg-3 col-sm-12">
+                                        <div class="form-group">
+                                            <label for="Nombres">Distrito</label>
+                                            @Html.DropDownListFor(x => Model.Customer.District, ViewBag.districts as IEnumerable<SelectListItem>, htmlAttributes: new { @class = "form-control" })
+
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                                <div class="row mx-2">
+
+                                    <div class="col-lg-6 col-sm-12">
+                                        <div class="form-group">
+                                            <label for="Nombres">Dirección</label>
+                                            @Html.EditorFor(p => p.Customer.Address, new { htmlAttributes = new { @class = "col form-control", placeholder = "Dirección" } })
+                                        </div>
+                                    </div>
+
+                                    <div class="col-lg-3 col-sm-12">
+                                        <div class="form-group">
+                                            <label for="Nombres">Teléfono</label>
+                                            @Html.EditorFor(p => p.Customer.Phone, new { htmlAttributes = new { @class = "col form-control", placeholder = "Teléfono" } })
+                                        </div>
+                                    </div>
+
+                                    <div class="col-lg-3 col-sm-12">
+                                        <div class="form-group">
+                                            <label for="Nombres">Correo electronico</label>
+                                            @Html.EditorFor(p => p.Customer.Email, new { htmlAttributes = new { @class = "col form-control", placeholder = "Correo" } })
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                                <div class="row mx-2">
+                                    <div class="col">
+                                        <label for="Apellido">Detalle</label>
+                                        <table class="table table-bordered" id="tbProduct" width="100%" cellspacing="0">
+                                            <thead>
+                                                <tr>
+                                                    <th style="width:95px">Código</th>
+                                                    <th>Examén</th>
+                                                    <th style="width:130px">Tipo</th>
+                                                    <th style="width:40px">Cnt.</th>
+                                                    <th style="width:60px">Precio</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody id="tbProductBody">
+                                                @foreach (var item in Model.InvoiceDetails)
+                                                {
+                                                    <tr id="tr-@item.ProductId" data-id="@item.ProductId">
+                                                        <td>@item.Product.Code</td>
+                                                        <td>@item.Product.Description</td>
+                                                        <td>@item.Product.Specialty.Description</td>
+                                                        <td>1</td>
+                                                        <td>@item.Product.Price</td>
+                                                    </tr>
+                                                }
+
+                                            </tbody>
+                                            <tfooter>
+                                                <tr>
+                                                    <th></th>
+                                                    <th></th>
+                                                    <th></th>
+                                                    <th>Total</th>
+                                                    <th>@Model.InvoiceDetails.Sum(x => x.Product.Price)</th>
+                                                </tr>
+                                            </tfooter>
+                                        </table>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Pie Chart -->
+                    <div class="col-xl-4 col-lg-5">
+                        <div id="card-pay" class="card shadow">
+                            <!-- Card Header - Dropdown -->
+                            <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                                <h6 class="m-0 font-weight-bold text-primary">Pago</h6>
+                                <div class="dropdown no-arrow">
+                                    <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
+                                    </a>
+                                </div>
+                            </div>
+                            <!-- Card Body -->
+                            <div class="card-body">
+
+                                <div class="row mr-2">
+
+                                    <div class="col-5 mb-3">
+                                        <label for="validationDefaultUsername2">Efectivo</label>
+                                        <div class="input-group">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text" id="inputGroupPrepend4">$</span>
+                                            </div>
+                                            <input type="text" class="form-control" id="txtEfectivo" placeholder="Efectivo" aria-describedby="inputGroupPrepend4" value="@Model.InvoiceDetails.Sum(x => x.Product.Price)">
+                                        </div>
+                                    </div>
+                                    <div class="col-5 mb-3">
+                                        <label for="validationDefaultUsername">Tarjeta</label>
+                                        <div class="input-group">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text" id="inputGroupPrepend2">$</span>
+                                            </div>
+                                            <input type="text" class="form-control" id="txtTarjeta" placeholder="Tarjeta" aria-describedby="inputGroupPrepend2" value="0.00">
+
+                                        </div>
+                                    </div>
+                                    <div class="col-2 mb-3">
+                                        <label for="validationDefaultUsername2">.</label>
+                                        <div class="input-group">
+                                            <button type="button" class="btn btn-success ml-1 addPay">
+                                                <i class="fas fa-plus-circle"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row ">
+                                    <div class="col">
+                                        <label for="Apellido">Detalle</label>
+                                        <table class="table table-bordered" id="tbPay" width="100%" cellspacing="0">
+                                            <thead>
+                                                <tr>
+                                                    <th style="width:100px">Tipo</th>
+                                                    <th style="width:150px">Importe</th>
+                                                    <th style="width:30px;text-align:center">x</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody id="tbPayBody">
+
+                                                @foreach (var item in Model.Payments)
+                                                {
+                                                    <tr data-id="tr-@item.PaymentType">
+                                                        <td>@item.PaymentType</td>
+                                                        <td>@item.Amount</td>
+                                                        <td>
+                                                            <button type="button" title="Eliminar" class="btn btn-danger my-sm-1 removePay"> <i class="fas fa-trash"></i></button>
+                                                        </td>
+                                                    </tr>
+                                                }
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+
+                                <div class="row ">
+                                    <div class="col text-right">
+                                        <input type="submit" class="btn btn-primary" value="Guardar" />
+                                    </div>
+                                </div>
+                            </div>
+
+
+
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    }
+
+    <script src="~/Scripts/attention/invoice.js"></script>
 

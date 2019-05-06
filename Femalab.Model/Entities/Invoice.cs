@@ -36,6 +36,6 @@ namespace Femalab.Model.Entities
         public Attention Attention { get; set; }
 
         public ICollection<InvoiceDetails> InvoiceDetails { get; set; }
-        public Payment Payment { get; set; }
+        public ICollection<Payment> Payments { get; set; }
     }
 }
