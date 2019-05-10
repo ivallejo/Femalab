@@ -23,7 +23,7 @@ namespace Femalab.Model.Migrations
             //  to avoid creating duplicate seed data. E.g.
             //
             //var separador = '|';
-            var carpeta = @"C:\GitHub\Femalab\Femalab.Model\Data\";
+            var carpeta = @"D:\repositories\Femalab\Femalab.Model\Data\";
 
             if (!context.Ubigeo.Any())
             {
@@ -74,6 +74,7 @@ namespace Femalab.Model.Migrations
 
                 );
             }
+            context.SaveChanges();
             if (!context.Specialty.Any())
             {
                 context.Specialty.AddOrUpdate(
@@ -91,6 +92,7 @@ namespace Femalab.Model.Migrations
 
                 );
             }
+            context.SaveChanges();
             if (!context.Product.Any())
             {
                 context.Product.AddOrUpdate(

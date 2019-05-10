@@ -71,33 +71,9 @@
     <Compile Include="Infrastructure\Entity.cs" />
     <Compile Include="Infrastructure\IEntity.cs" />
     <Compile Include="Entities\Patient.cs" />
-    <Compile Include="Migrations\201904050411306_Model initial.cs" />
-    <Compile Include="Migrations\201904050411306_Model initial.Designer.cs">
-      <DependentUpon>201904050411306_Model initial.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201904131746114_updatemodels.cs" />
-    <Compile Include="Migrations\201904131746114_updatemodels.Designer.cs">
-      <DependentUpon>201904131746114_updatemodels.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201904131747566_updatemodels-data.cs" />
-    <Compile Include="Migrations\201904131747566_updatemodels-data.Designer.cs">
-      <DependentUpon>201904131747566_updatemodels-data.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201905040508586_payment-04052019.cs" />
-    <Compile Include="Migrations\201905040508586_payment-04052019.Designer.cs">
-      <DependentUpon>201905040508586_payment-04052019.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201905040511043_payment-04052019-2.cs" />
-    <Compile Include="Migrations\201905040511043_payment-04052019-2.Designer.cs">
-      <DependentUpon>201905040511043_payment-04052019-2.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201905052007377_Payment-State.cs" />
-    <Compile Include="Migrations\201905052007377_Payment-State.Designer.cs">
-      <DependentUpon>201905052007377_Payment-State.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201905060518248_Product-CodeSunat.cs" />
-    <Compile Include="Migrations\201905060518248_Product-CodeSunat.Designer.cs">
-      <DependentUpon>201905060518248_Product-CodeSunat.cs</DependentUpon>
+    <Compile Include="Migrations\201905102038183_Migrate Initial.cs" />
+    <Compile Include="Migrations\201905102038183_Migrate Initial.Designer.cs">
+      <DependentUpon>201905102038183_Migrate Initial.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Persistence\FemalabContext.cs" />
@@ -133,29 +109,6 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201904050411306_Model initial.resx">
-      <DependentUpon>201904050411306_Model initial.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201904131746114_updatemodels.resx">
-      <DependentUpon>201904131746114_updatemodels.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201904131747566_updatemodels-data.resx">
-      <DependentUpon>201904131747566_updatemodels-data.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201905040508586_payment-04052019.resx">
-      <DependentUpon>201905040508586_payment-04052019.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201905040511043_payment-04052019-2.resx">
-      <DependentUpon>201905040511043_payment-04052019-2.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201905052007377_Payment-State.resx">
-      <DependentUpon>201905052007377_Payment-State.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201905060518248_Product-CodeSunat.resx">
-      <DependentUpon>201905060518248_Product-CodeSunat.cs</DependentUpon>
-    </EmbeddedResource>
-  </ItemGroup>
-  <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <ItemGroup>
@@ -174,6 +127,11 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="ViewModel\" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\201905102038183_Migrate Initial.resx">
+      <DependentUpon>201905102038183_Migrate Initial.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

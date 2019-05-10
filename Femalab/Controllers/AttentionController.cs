@@ -277,7 +277,7 @@ namespace Femalab.Controllers
                     //Customer
                     invoice.Customer = new Customer();
                     invoice.Customer.Address = attention.Patient.Address;
-                    invoice.Customer.DocumentType = "1";
+                    invoice.Customer.DocumentType = "01";
                     invoice.Customer.Document = attention.Patient.Document;
                     invoice.Customer.Country = "PE";
                     invoice.Customer.Email = attention.Patient.Email;
@@ -506,6 +506,8 @@ namespace Femalab.Controllers
         [HttpGet]
         public ActionResult FacturaloJson()
         {
+
+
             var facturalo = new Facturalo();
             facturalo.serie_documento = "B001";
             facturalo.numero_documento = "#";
@@ -597,5 +599,7 @@ namespace Femalab.Controllers
 
             return View();
         }
+
+
     }
 }
