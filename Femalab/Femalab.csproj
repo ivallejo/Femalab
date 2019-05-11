@@ -175,6 +175,7 @@
     <Content Include="Content\Site.css" />
     <Content Include="Scripts\attention\addoredit.js" />
     <Content Include="Scripts\attention\attention.js" />
+    <Content Include="Scripts\attention\pending.js" />
     <Content Include="Scripts\attention\index.js" />
     <Content Include="Scripts\attention\invoice.js" />
     <Content Include="Scripts\attention\laboratory.js" />
@@ -253,6 +254,7 @@
     <Content Include="Views\Attention\InvoiceTest.cshtml" />
     <Content Include="Views\Attention\Facturalo.cshtml" />
     <Content Include="Views\Attention\FacturaloJson.cshtml" />
+    <Content Include="Views\Attention\Pending.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

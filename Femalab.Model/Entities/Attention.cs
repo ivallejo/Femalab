@@ -45,6 +45,7 @@ namespace Femalab.Model.Entities
         public AttentionCategory AttentionCategory { get; set; }
 
         public ICollection<AttentionDetails> AttentionDetails { get; set; }
+        public ICollection<Invoice> Invoice { get; set; }
     }
 }
 

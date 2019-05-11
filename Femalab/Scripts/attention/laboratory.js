@@ -214,6 +214,8 @@ function getPerson() {
             $("#Patient_Address").val(`${data.Address}`)
             $("#Patient_Email").val(`${data.Email}`)
             $("#Patient_Phone").val(`${data.Phone}`)
+            $("#Weight").val(`${data.Weight}`)
+            $("#Size").val(`${data.Size}`)
 
             const ano = data.FECHA_NACIMIENTO.substring(0, 4);
             const mes = data.FECHA_NACIMIENTO.substring(4, 6);
@@ -240,6 +242,8 @@ function getPerson() {
             $("#Patient_Address").val("")
             $("#Patient_Email").val("")
             $("#Patient_Phone").val("")
+            $("#Weight").val("")
+            $("#Size").val("")
 
             let today = new Date();
             const dd = ("0" + (today.getDate())).slice(-2);

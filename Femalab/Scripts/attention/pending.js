@@ -57,7 +57,8 @@ function addActionsAttention() {
 function getAllAttentions() {
     $.ajax({
         type: "POST",
-        url: "../Attention/GetAll",
+        url: "../Attention/GetAllPending",
+        data: { filtro: $('#cboFiltro').val() ,dateBegin: $('#dateBegin').val(), dateEnd: $('#dateEnd').val(), },
         success: function (data) {
             $('#dataTable').DataTable().clear();
             $('#dataTable').DataTable().destroy();
@@ -66,11 +67,11 @@ function getAllAttentions() {
                 let formattedCreatedDate = createdDate.getFullYear() + "-" + pad((createdDate.getMonth() + 1), 2) + "-" + pad(createdDate.getDate(), 2) + " " + pad(createdDate.getHours(), 2) + ":" + pad(createdDate.getMinutes(), 2) + ":" + pad(createdDate.getSeconds(), 2)
                 
                 $("#tbAttentionBody").append(`\
-                        <tr id="tr-${item.Id}">\  
-                        <td style="text-align:center">\ 
-                            <a title="Descargar PDF" class="btn btn-primary my-sm-1 invoice-pdf" href="${item.Pdf}"> <i class="fas fa-file-pdf fa-sm"></i></a>\
-                        </td>\
-                        <td class="border-left-${item.CategoryTag}"> ${item.Document} </td>\
+                        <tr id="tr-${item.Id}">\                
+                        <td> ${item.Total.toFixed(2)} </td>\                
+                        <td> ${item.Pay.toFixed(2)} </td>\         
+                        <td> ${(item.Total - item.Pay).toFixed(2)} </td>\
+                        <td> ${item.Document} </td>\
                         <td> ${item.LastName + ' ' + item.FirstName} </td>\
                         <td style='text-align:center'> ${((item.Gender == 'M') ? '<i class="fas fa-mars fa-2x text-primary"></i>' : '<i class="fas fa-2x fa-venus text-danger"></i>')} </td>\
                         <td> ${item.Age} </td>\
@@ -81,7 +82,6 @@ function getAllAttentions() {
                             <button title="Editar" data-id="${item.Id}" class="btn btn-warning my-sm-1 edit-attention" data-url="/Attention/${item.Action + '/' + item.Id}" > <i class="fas fa-pen fa-sm"></i></button>\
                             <button title="Recibo" data-id="${item.Id}" class="btn btn-success my-sm-1 receipt-attention" data-url="/Attention/InvoiceTest/${item.Id}" > <i class="fas fa-receipt fa-sm"></i></button>\
                             <button title="Pagar" data-id="${item.Id}" class="btn btn-primary my-sm-1 invoice-attention" data-url="/Attention/Invoice/${item.Id}" > <i class="fas fa-file-invoice fa-sm"></i></button>\
-                            
                         </td>\
                     </tr>\
                 `)
@@ -120,6 +120,16 @@ function getAllAttentions() {
 }
 
 $(document).ready(function () {
+
+    document.getElementById('dateBegin').valueAsDate = new Date();
+    document.getElementById('dateEnd').valueAsDate = new Date();
+
+    $('.finpenfing').click(function () {
+        getAllAttentions()
+    });
+    $("#cboFiltro").change(function () {
+        getAllAttentions();
+    });
     getAllAttentions()
     //addActionsAttention()
 

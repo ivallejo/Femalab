@@ -1,0 +1,87 @@
+﻿
+@{
+    ViewBag.Title = "Pending";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@section styles {
+    @Styles.Render("~/Content/admintablescss")
+    @Styles.Render("~/Content/toas")
+}
+
+<h1 class="h3 mb-2 text-gray-800">Atenciones</h1>
+<p class="mb-4"></p>
+
+<div class="card shadow mb-4">
+    <div class="card-header py-3">
+        <h6 class="m-0 font-weight-bold text-primary">Listado de Atenciones.</h6>
+    </div>
+    <div class="card-body">
+        <div class="table-responsive">
+
+            <div class="row mx-2 col-lg-8 col-sm-12">
+                <div class="col-lg-3 col-sm-12">
+                    <div class="form-group">
+                        <label for="exampleFormControlSelect1">Filtro</label>
+                        <select class="col form-control" id="cboFiltro" name="cboFiltro">
+                            <option value="00">Total</option>
+                            <option value="01">Pagado</option>
+                            <option value="02">Pendiente</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-sm-12">
+                    <div class="form-group">
+                        <label for="Fecha">Fecha Inicio</label>
+                        <input class="col form-control" id="dateBegin" type="date">
+                    </div>
+                </div>
+                <div class="col-lg-3 col-sm-12">
+                    <div class="form-group">
+                        <label for="Fecha">Fecha Fin</label>
+                        <input class="col form-control" id="dateEnd" type="date">
+                    </div>
+                </div>
+                <div class="col-lg-3 col-sm-12 mt-4">
+                    <div class="form-group mt-2">
+                        <button type="button" id="btnFindPending" class="btn btn-primary ml-1 finpenfing"><i class="fas fa-search"></i> Buscar </button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal fade bd-example-modal-xl" id="ModalAttentionAddOrEdit" tabindex="-1" role="dialog" aria-labelledby="ModalCenterTitle" aria-hidden="true"></div>
+
+            <br />
+            <br />
+
+            <input type="hidden" id="hddUrlRemoveAttention" value="@Url.Action("Remove","Attention")" />
+
+            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                <thead>
+                    <tr>
+                        <th style="width:50px">Total</th>
+                        <th style="width:50px">Pagado</th>
+                        <th style="width:50px">Saldo</th>
+                        <th style="width:60px">Código</th>
+                        <th>Paciente</th>
+                        <th style="width:40px">Género</th>
+                        <th style="width:40px">Edad</th>
+                        <th style="width:40px">Peso</th>
+                        <th style="width:40px">Talla</th>
+                        <th style="width:160px">Agregado</th>
+                        <th style="width:130px">Acciones</th>
+                    </tr>
+                </thead>
+                <tbody id="tbAttentionBody"></tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+@section scripts
+{
+    @Scripts.Render("~/bundles/admintablesjs")
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/bundles/toas")
+    @Scripts.Render("~/bundles/attentionpending")
+
+}

@@ -4,7 +4,6 @@
 
 function addPay() {
     $('.addPay').click(function () {
-        debugger
         let txtEfectivo = $('#txtEfectivo').val()
         let txtTarjeta = $('#txtTarjeta').val()
 
@@ -107,7 +106,6 @@ function validateImporteTotal() {
 
 function removePay() {
     $('.removePay').click(function () {
-        debugger
         let tr = $(this).parent().parent()
         let type = $(tr).attr('data-id')
         let divType = $("#" + type)
@@ -231,6 +229,7 @@ $(document).ready(function () {
             }
         },
         submitHandler: function (form) {
+            $(".loading").show()
             if ($("#Customer.Document").val() == "") $("#Age").val("0")
             if ($("#Customer.FirstName").val() == "") $("#Age").val("0")
             if ($("#Customer.Address").val() == "") $("#Weight").val("0.00")
@@ -250,22 +249,25 @@ $(document).ready(function () {
                 $("#ModalAttentionAddOrEdit").modal('hide')
                 let notifier = new Notifier();
                 switch (data.response) {
-                    case 0: {
-                        notifier.error('Comuniquese con el administrador.', 'Error!');
-                        break
-                    }
-                    case 1: {
-                        notifier.success('Atención registrada satisfactoriamente.', 'Atención Registrada!');
+                    case "0": {
+                        notifier.success('Factura registrada satisfactoriamente.', 'Factura Registrada!');
+                        notifier.error('Error al comunicarse con SUNAT.', 'Error!');
                         getAllAttentions()
                         break
                     }
-                    case 2: {                       
-
-                        notifier.info('Atención actualizada satisfactoriamente.', 'Atención Actualizada!');
+                    case "1": {
+                        notifier.success('Factura registrada satisfactoriamente.', 'Factura Registrada!');
+                        getAllAttentions()
                         break
                     }
+                    case "2": {
+                        notifier.success('Factura actualizada satisfactoriamente.', 'Factura Actualizada!');
+                        getAllAttentions()
+                        break
+                    }                      
                 }
             });
+
             return false;
         }
     });

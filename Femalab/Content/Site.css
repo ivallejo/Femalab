@@ -89,3 +89,74 @@ textarea {
     }
 }
 
+
+.loading {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    position: fixed;
+    z-index: 1000;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    background: rgba( 255, 255, 255, .8 )50% 50% no-repeat;
+}
+
+.loading-bar {
+    display: inline-block;
+    width: 4px;
+    height: 18px;
+    border-radius: 4px;
+    animation: loading 1s ease-in-out infinite;
+}
+
+    .loading-bar:nth-child(1) {
+        background-color: #3498db;
+        animation-delay: 0;
+        position: fixed;
+        z-index: 1000;
+        top: 50%;
+        left: 49%;
+    }
+
+    .loading-bar:nth-child(2) {
+        background-color: #c0392b;
+        animation-delay: 0.09s;
+        position: fixed;
+        z-index: 1000;
+        top: 50%;
+        left: 49.5%;
+    }
+
+    .loading-bar:nth-child(3) {
+        background-color: #f1c40f;
+        animation-delay: .18s;
+        position: fixed;
+        z-index: 1000;
+        top: 50%;
+        left: 50%;
+    }
+
+    .loading-bar:nth-child(4) {
+        background-color: #27ae60;
+        animation-delay: .27s;
+        position: fixed;
+        z-index: 1000;
+        top: 50%;
+        left: 50.5%;
+    }
+
+@keyframes loading {
+    0% {
+        transform: scale(1);
+    }
+
+    20% {
+        transform: scale(1, 2.2);
+    }
+
+    40% {
+        transform: scale(1);
+    }
+}

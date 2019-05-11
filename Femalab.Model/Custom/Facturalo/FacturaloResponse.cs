@@ -9,6 +9,9 @@ namespace Femalab.Model.Custom.Facturalo
     public class FacturaloResponse
     {
         public bool success { get; set; }
+        public string message { get; set; }
+        public string file { get; set; }
+        public string line { get; set; }
         public data data { get; set; }
         public links links { get; set; }
         public object response { get; set; }
@@ -29,7 +32,5 @@ namespace Femalab.Model.Custom.Facturalo
         public string pdf { get; set; }
         public string cdr { get; set; }
     }
-
-
 
 }

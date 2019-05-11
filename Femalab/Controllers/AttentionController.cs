@@ -4,11 +4,13 @@ using Femalab.Service.AttentionService;
 using Femalab.Service.AttentionService.Interfaces;
 using Femalab.Service.Master.Interfaces;
 using Femalab.Service.MasterService;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Headers;
+using System.Web.Configuration;
 using System.Web.Mvc;
 
 namespace Femalab.Controllers
@@ -45,7 +47,7 @@ namespace Femalab.Controllers
         {
             return View();
         }
-
+    
         [HttpPost]
         [AllowAnonymous]
         public JsonResult GetAll()
@@ -66,7 +68,8 @@ namespace Femalab.Controllers
                                   at.AttentionType.Type,
                                   CategoryTag = at.AttentionCategory.Tag,
                                   at.AttentionCategory.Action,
-                                  at.CreatedDate
+                                  at.CreatedDate,
+                                  Pdf = ((at.Invoice.FirstOrDefault() != null) ? (at.Invoice.FirstOrDefault().SunatPdf != null && at.Invoice.FirstOrDefault().SunatPdf != "") ? at.Invoice.FirstOrDefault().SunatPdf : "#" : "#")
                               }).OrderByDescending(x => x.CreatedDate).ToList();
             return Json(attentions);
         }
@@ -262,7 +265,7 @@ namespace Femalab.Controllers
                     //Invoice
                     invoice.Id = 0;
                     invoice.AttentionId = attention.Id;
-                    invoice.Currency = "PE";
+                    invoice.Currency = "PEN";
                     invoice.Observations = "";
                     invoice.VoucherType = "03";
                     invoice.Series = "03";
@@ -276,13 +279,13 @@ namespace Femalab.Controllers
 
                     //Customer
                     invoice.Customer = new Customer();
-                    invoice.Customer.Address = attention.Patient.Address;
-                    invoice.Customer.DocumentType = "1";
+                    invoice.Customer.Address = (attention.Patient.Address == null | attention.Patient.Address == "") ? "CAL.JORGE Ó CONNOR NRO. 110 URB. JAVIER PRADO LIMA - LIMA - SAN BORJA" : attention.Patient.Address;
+                    invoice.Customer.DocumentType = attention.Patient.DocumentType; //"1";
                     invoice.Customer.Document = attention.Patient.Document;
                     invoice.Customer.Country = "PE";
-                    invoice.Customer.Email = attention.Patient.Email;
+                    invoice.Customer.Email = (attention.Patient.Email == null | attention.Patient.Email == "") ? "administracion@femalab.pe" : attention.Patient.Email;
                     invoice.Customer.FirstName = $"{attention.Patient.FirstName} {attention.Patient.LastName}";
-                    invoice.Customer.Phone = attention.Patient.Phone;
+                    invoice.Customer.Phone = (attention.Patient.Phone == null | attention.Patient.Phone == "") ? "000-00000" : attention.Patient.Phone;
                     invoice.Customer.TradeName = $"{attention.Patient.FirstName} {attention.Patient.LastName}";
 
                     //InvoiceDetails
@@ -345,8 +348,10 @@ namespace Femalab.Controllers
                            .ToList();
                 ViewBag.districts = districts;
                 invoice.Customer.District = "23";
-
+                    
             }
+
+            ViewBag.Saldo = invoice.InvoiceDetails.Sum(x => x.Product.Price) - invoice.Payments.Sum(x => x.Amount);
 
             return PartialView(invoice);
         }
@@ -356,38 +361,99 @@ namespace Femalab.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Invoice(Invoice Model)
         {
-            var now = DateTime.UtcNow;
-            var code = $"{Model.Customer.Department}{Model.Customer.Province}{Model.Customer.District}";
-            var ubigeo = ubigeoService.GetBy(x => x.Code == code).FirstOrDefault();
+            string response = "0";
 
-            Model.IssueDate = now;
-            Model.ExpirationDate = now;
-
-            Model.Customer.IdUbigeo = ubigeo.Id;
-
-            if (Model.Customer.DocumentType != "6")
+            try
             {
-                var patient = attentionService.GetById(Model.AttentionId).Patient;
-                patient.DocumentType = Model.Customer.DocumentType;
-                patient.Document = Model.Customer.Document;
-                patient.Address = Model.Customer.Address;
-                patient.Email = Model.Customer.Email;
-                patient.Phone = Model.Customer.Phone;
+                var now = DateTime.UtcNow;
+                var code = $"{Model.Customer.Department}{Model.Customer.Province}{Model.Customer.District}";
+                var ubigeo = ubigeoService.GetBy(x => x.Code == code).FirstOrDefault();
 
-                patientService.Update(patient);
+                Model.IssueDate = now;
+                Model.ExpirationDate = now;
+
+                Model.Customer.IdUbigeo = ubigeo.Id;
+
+                if (Model.Customer.DocumentType != "06")
+                {
+                    var patient = attentionService.GetById(Model.AttentionId).Patient;
+                    patient.DocumentType = Model.Customer.DocumentType.Substring(1,1);
+                    patient.Document = Model.Customer.Document;
+                    patient.Address = Model.Customer.Address;
+                    patient.Email = Model.Customer.Email;
+                    patient.Phone = Model.Customer.Phone;
+
+                    patientService.Update(patient);
+                }
+
+
+                if (Model.Id == 0)
+                {
+                    invoiceService.Create(Model);
+
+                    var invoiceSucces = invoiceService.GetByIdAttention(Model.AttentionId);
+                    invoiceSucces.Customer.DocumentType = invoiceSucces.Customer.DocumentType.Substring(1, 1);
+                    Facturalo invoice = CreateJson(invoiceSucces);
+
+                    using (var client = new HttpClient())
+                    {
+                        string url = WebConfigurationManager.AppSettings["urlApi"].ToString();
+                        client.BaseAddress = new Uri(url);
+                        client.DefaultRequestHeaders.Accept.Clear();
+                        client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+
+                        string apiKey = WebConfigurationManager.AppSettings["apiKey"].ToString(); //"hsMqs2uxCwi3LRb9pA6v9DMxl7Gv2LIVihHsFdQSXplazRh9JM";
+                        client.DefaultRequestHeaders.Add("Authorization", String.Format("Bearer {0}", apiKey));
+
+                        var json = JsonConvert.SerializeObject(invoice);
+                        var postTask = client.PostAsJsonAsync<Facturalo>("api/documents", invoice);
+                        postTask.Wait();
+
+                        var result = postTask.Result;
+                        var cont = result.Content.ReadAsAsync<FacturaloResponse>();
+                        if (result.IsSuccessStatusCode)
+                        {
+                            response = "1";
+                            invoiceSucces.ApiSuccess = cont.Result.success;
+                            invoiceSucces.ApiMessage = cont.Result.message;
+                            invoiceSucces.ApiFile = cont.Result.file;
+                            invoiceSucces.ApiLine = cont.Result.line;
+
+                            invoiceSucces.SunatNumber = cont.Result.data.number;
+                            invoiceSucces.SunatFilename = cont.Result.file;
+                            invoiceSucces.SunatExternalId = cont.Result.data.external_id;
+                            invoiceSucces.SunatNumberToLetter = cont.Result.data.number_to_letter;
+                            invoiceSucces.SunatHash = cont.Result.data.hash;
+                            invoiceSucces.SunatQr = cont.Result.data.qr;
+                            invoiceSucces.SunatPdf = cont.Result.links.pdf;
+                            invoiceSucces.SunatXml = cont.Result.links.xml;
+                            invoiceSucces.SunatCdr = cont.Result.links.cdr;
+
+                            invoiceService.UpdateInvoice(invoiceSucces);
+                        }
+                        else
+                        {
+                            response = "0";
+                            invoiceSucces.ApiSuccess = cont.Result.success;
+                            invoiceSucces.ApiMessage = cont.Result.message;
+                            invoiceSucces.ApiFile = cont.Result.file;
+                            invoiceSucces.ApiLine = cont.Result.line;
+                            invoiceService.UpdateInvoice(invoiceSucces);
+                        }
+                    }
+                }
+                else
+                {
+                    response = "2";
+                    invoiceService.UpdateInvoice(Model);
+                }
+            }
+            catch (Exception)
+            {
+
             }
             
-
-            if (Model.Id == 0)
-            {
-                invoiceService.Create(Model);
-            }
-            else
-            {
-                invoiceService.UpdateInvoice(Model);
-            }
-            
-            return null;
+            return Json(new { response });
         }
 
         [HttpPost]
@@ -444,6 +510,7 @@ namespace Femalab.Controllers
             var at = personaService.GetById(Id);
             if (atFM != null)
             {
+                var atencion = attentionService.GetBy(x => x.Patient.Document == atFM.Document).LastOrDefault(); ;
                 var person = new
                 {
                     ID = atFM.Id,
@@ -454,14 +521,17 @@ namespace Femalab.Controllers
                     SEXO = (atFM.Gender == "M") ? 1 : 2,
                     FECHA_NACIMIENTO = atFM.BirthDate.Year + atFM.BirthDate.Month.ToString().PadLeft(2, '0') + atFM.BirthDate.Day.ToString().PadLeft(2, '0'),
                     UBIGEO_DIRECCION = "",
-                    atFM.Address,
-                    atFM.Email,
-                    atFM.Phone
+                    Address = (atFM.Address == null) ? "" : atFM.Address,
+                    Email = (atFM.Email == null) ? "" : atFM.Email,
+                    Phone = (atFM.Phone == null) ? "" : atFM.Phone,
+                    Weight = (atencion != null) ? atencion.Weight : 0M,
+                    Size = (atencion != null) ? atencion.Size : 0M
                 };
                 return Json(person);
             }
             else if (at != null)
             {
+                var atencion = attentionService.GetBy(x => x.Patient.Document == at.DNI).LastOrDefault();
                 var person = new
                 {
                     ID = 0,
@@ -474,7 +544,11 @@ namespace Femalab.Controllers
                     at.UBIGEO_DIRECCION,
                     Address = "",
                     Email = "",
-                    Phone = ""
+                    Phone = "",
+                    Weight = (atencion != null) ? atencion.Weight : 0M,
+                    Size = (atencion != null) ? atencion.Size : 0M
+
+                
                 };
                 return Json(person);
             }
@@ -502,6 +576,110 @@ namespace Femalab.Controllers
         {            
             return View();
         }
+
+        private Facturalo CreateJson(Invoice Model)
+        {
+            var facturalo = new Facturalo();
+
+            string serie = "";
+
+            switch (Model.Series)
+            {
+                case "01":
+                    serie = "F001";
+                    break;
+                case "03":
+                    serie = "B001";
+                    break;
+                case "07":
+                    serie = "F001";
+                    break;
+                case "08":
+                    serie = "F001";
+                    break;
+            }
+
+            facturalo.serie_documento = serie; //"B001"
+            facturalo.numero_documento = "#"; 
+            facturalo.fecha_de_emision = Model.IssueDate.ToString("yyyy-MM-dd"); // "2018-10-09";
+            facturalo.hora_de_emision = Model.IssueDate.ToString("HH:mm:ss"); //"10:11:11";
+            facturalo.codigo_tipo_operacion = "0101";
+            facturalo.codigo_tipo_documento = Model.VoucherType; //"03";
+            facturalo.codigo_tipo_moneda = Model.Currency; //"PEN";
+            facturalo.fecha_de_vencimiento = Model.ExpirationDate.ToString("yyyy-MM-dd"); //"2018-10-09";
+            facturalo.numero_orden_de_compra = "";
+
+            facturalo.datos_del_emisor = new datos_del_emisor();
+            facturalo.datos_del_emisor.codigo_pais = "PE";
+            facturalo.datos_del_emisor.ubigeo = "150130";
+            facturalo.datos_del_emisor.direccion = "CAL.JORGE Ó CONNOR NRO. 110 URB. JAVIER PRADO LIMA - LIMA - SAN BORJA";
+            facturalo.datos_del_emisor.correo_electronico = "vallejoaguilar@gmail.com";
+            facturalo.datos_del_emisor.telefono = "";
+            facturalo.datos_del_emisor.codigo_del_domicilio_fiscal = "0000";
+
+            facturalo.datos_del_cliente_o_receptor = new datos_del_cliente_o_receptor();
+            facturalo.datos_del_cliente_o_receptor.codigo_tipo_documento_identidad = Model.Customer.DocumentType; //"6"
+            facturalo.datos_del_cliente_o_receptor.numero_documento = Model.Customer.Document; //"10414711225";
+            facturalo.datos_del_cliente_o_receptor.apellidos_y_nombres_o_razon_social = Model.Customer.FirstName; // "EMPRESA XYZ S.A.";
+            facturalo.datos_del_cliente_o_receptor.codigo_pais = "PE";
+            facturalo.datos_del_cliente_o_receptor.ubigeo = Model.Customer.Ubigeo.Code; //"150101";
+            facturalo.datos_del_cliente_o_receptor.direccion = Model.Customer.Address; // "Av. 2 de Mayo";
+            facturalo.datos_del_cliente_o_receptor.correo_electronico = Model.Customer.Email; // "demo@gmail.com";
+            facturalo.datos_del_cliente_o_receptor.telefono = Model.Customer.Phone; // "427-1148";
+
+            var Total = Model.InvoiceDetails.Sum(x => x.Price);
+            var TotalBase = Math.Round((Total / 1.18M), 2);
+            var TotalIgv = Math.Round((Total - (Total / 1.18M)), 2);
+
+            facturalo.totales = new totales();
+            facturalo.totales.total_exportacion = 0.00M;
+            facturalo.totales.total_operaciones_gravadas = TotalBase; //100.00M;
+            facturalo.totales.total_operaciones_inafectas = 0.00M;
+            facturalo.totales.total_operaciones_exoneradas = 0.00M;
+            facturalo.totales.total_operaciones_gratuitas = 0.00M;
+            facturalo.totales.total_igv = TotalIgv; //18.00M;
+            facturalo.totales.total_impuestos = TotalIgv; //18.00M;
+            facturalo.totales.total_valor = TotalBase; // 100.00M;
+            facturalo.totales.total_venta = Total; // 118.00M;
+
+
+            List<items> items = new List<items>();
+            items item;
+
+            decimal price;
+            decimal import;
+            foreach (var detail in Model.InvoiceDetails)
+            {
+                item = new items();
+
+                price = Math.Round(((detail.Price * detail.Quantity) / 1.18M), 2);
+                import = Math.Round((detail.Price * detail.Quantity), 2);
+
+                item.codigo_interno = detail.Product.Code; // "P0121";
+                item.descripcion = detail.Product.Description; //"Inca Kola 250 ml";
+                item.codigo_producto_sunat = detail.Product.SunatCode; //"51121703";
+                item.codigo_producto_gsl = detail.Product.SunatCode; //"51121703";
+                item.unidad_de_medida = "NIU";
+                item.cantidad = detail.Quantity; // 2;
+                item.valor_unitario = Math.Round(detail.Price, 2); ; // 50;
+                item.codigo_tipo_precio = "01";
+                item.precio_unitario = detail.Price;
+                item.codigo_tipo_afectacion_igv = "10";
+                item.total_base_igv = Math.Round((import - price),2);//100.00M;
+                item.porcentaje_igv = 18;
+                item.total_igv = Math.Round((import - price), 2);
+                item.total_impuestos = Math.Round((import - price), 2);
+                item.total_valor_item = price;
+                item.total_item = import;
+
+                items.Add(item);
+            }
+
+            facturalo.items = items;
+
+            return facturalo;
+        }
+
 
         [HttpGet]
         public ActionResult FacturaloJson()
@@ -596,6 +774,54 @@ namespace Femalab.Controllers
             }
 
             return View();
+        }
+
+        // GET: Attention
+        public ActionResult Pending()
+        {
+            return View();
+        }
+        [HttpPost]
+        [AllowAnonymous]
+        public JsonResult GetAllPending(string filtro, string dateBegin,string dateEnd)
+        {
+
+            var lst = attentionService.GetAllPending().ToList();
+            var attentions = (from at in lst
+                              where (at.CreatedDate.Date >= Convert.ToDateTime(dateBegin).Date && at.CreatedDate.Date <= Convert.ToDateTime(dateEnd).Date)
+                              select new
+                              {
+                                  at.Id,
+                                  at.AttentionCategory.Category,
+                                  at.Patient.Document,
+                                  at.Patient.FirstName,
+                                  at.Patient.LastName,
+                                  at.Patient.Gender,
+                                  at.Age,
+                                  at.Weight,
+                                  at.Size,
+                                  TypeTag = at.AttentionType.Tag,
+                                  at.AttentionType.Type,
+                                  CategoryTag = at.AttentionCategory.Tag,
+                                  at.AttentionCategory.Action,
+                                  at.CreatedDate,
+                                  Pdf = "#",
+                                  Total = at.AttentionDetails.Sum(x=>x.Price),
+                                  Pay = at.Invoice.Sum(x => (x.Payments == null) ? 0M : x.Payments.Sum(s => s.Amount))
+                                  
+                              }).OrderByDescending(x => x.CreatedDate).ToList();
+            switch (filtro)
+            {
+                case "00":
+                    return Json(attentions);
+                case "01":
+                    return Json(attentions.FindAll(s => s.Pay != 0));
+                case "02":
+                    return Json(attentions.FindAll(s => s.Pay == 0));
+                default:
+                    return Json(attentions);
+            }
+
         }
     }
 }

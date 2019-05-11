@@ -23,7 +23,22 @@ namespace Femalab.Repository.AttentionProcess
                 .Include(x => x.AttentionType)
                 .Include(x => x.AttentionCategory)
                 .Include(x => x.AttentionDetails)
+                .Include(x => x.Invoice)
                 .AsEnumerable();
+        }
+
+        public IEnumerable<Attention> GetAllPending()
+        {
+            return _entities.Set<Attention>()
+                .Include(x => x.Patient)
+                .Include(x => x.Doctor)
+                .Include(x => x.AttentionType)
+                .Include(x => x.AttentionCategory)
+                .Include(x => x.AttentionDetails)
+                .Include(x => x.Invoice.Select(p => p.Payments))
+                //.Include(ad => ad.AttentionDetails.Select(p => p.Product).Select(s => s.Specialty))
+                .AsEnumerable();
+
         }
 
         public void CreateAttention(Attention model)

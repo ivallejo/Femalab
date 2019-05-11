@@ -28,6 +28,21 @@ namespace Femalab.Model.Entities
         [MaxLength(250)]
         public string Observations { get; set; }
 
+        public bool ApiSuccess { get; set; }
+        public string ApiMessage { get; set; }
+        public string ApiFile { get; set; }
+        public string ApiLine { get; set; }
+
+        public string SunatNumber { get; set; }
+        public string SunatFilename { get; set; }
+        public string SunatExternalId { get; set; }
+        public string SunatNumberToLetter { get; set; }
+        public string SunatHash { get; set; }
+        public string SunatQr { get; set; }
+        public string SunatPdf { get; set; }
+        public string SunatXml { get; set; }
+        public string SunatCdr { get; set; }
+
         public long CustomerId { get; set; }
         [ForeignKey("CustomerId")]
         public Customer Customer { get; set; }
@@ -37,5 +52,6 @@ namespace Femalab.Model.Entities
 
         public ICollection<InvoiceDetails> InvoiceDetails { get; set; }
         public ICollection<Payment> Payments { get; set; }
+
     }
 }

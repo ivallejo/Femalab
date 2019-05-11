@@ -1,6 +1,7 @@
 ﻿using Femalab.Model.Entities;
 using Femalab.Repository;
 using Femalab.Repository.AttentionProcess;
+using System.Collections.Generic;
 
 namespace Femalab.Service.AttentionService
 {
@@ -14,6 +15,10 @@ namespace Femalab.Service.AttentionService
         {
             _unitOfWork = unitOfWork;
             _attentionRepository = attentionRepository;
+        }
+        public IEnumerable<Attention> GetAllPending()
+        {
+            return _attentionRepository.GetAllPending();
         }
 
         public void CreateAttention(Attention model)
