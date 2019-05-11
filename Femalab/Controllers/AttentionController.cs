@@ -448,7 +448,7 @@ namespace Femalab.Controllers
                     invoiceService.UpdateInvoice(Model);
                 }
             }
-            catch (Exception)
+            catch (Exception e)
             {
 
             }
@@ -647,11 +647,12 @@ namespace Femalab.Controllers
             items item;
 
             decimal price;
+            decimal priceUnitario;
             decimal import;
             foreach (var detail in Model.InvoiceDetails)
             {
                 item = new items();
-
+                priceUnitario = Math.Round(((detail.Price) / 1.18M), 2);
                 price = Math.Round(((detail.Price * detail.Quantity) / 1.18M), 2);
                 import = Math.Round((detail.Price * detail.Quantity), 2);
 
@@ -661,11 +662,11 @@ namespace Femalab.Controllers
                 item.codigo_producto_gsl = detail.Product.SunatCode; //"51121703";
                 item.unidad_de_medida = "NIU";
                 item.cantidad = detail.Quantity; // 2;
-                item.valor_unitario = Math.Round(detail.Price, 2); ; // 50;
+                item.valor_unitario = priceUnitario; // 50;
                 item.codigo_tipo_precio = "01";
                 item.precio_unitario = detail.Price;
                 item.codigo_tipo_afectacion_igv = "10";
-                item.total_base_igv = Math.Round((import - price),2);//100.00M;
+                item.total_base_igv = price; //Math.Round((import - price),2);//100.00M;
                 item.porcentaje_igv = 18;
                 item.total_igv = Math.Round((import - price), 2);
                 item.total_impuestos = Math.Round((import - price), 2);
@@ -676,7 +677,11 @@ namespace Femalab.Controllers
             }
 
             facturalo.items = items;
-
+            facturalo.totales.total_igv = facturalo.items.Sum(x => x.total_igv);
+            facturalo.totales.total_impuestos = facturalo.items.Sum(x => x.total_igv);
+            facturalo.totales.total_valor = facturalo.items.Sum(x => x.total_valor_item);
+            facturalo.totales.total_operaciones_gravadas = facturalo.items.Sum(x => x.total_valor_item);
+            facturalo.totales.total_venta = facturalo.items.Sum(x => x.total_item);
             return facturalo;
         }
 
