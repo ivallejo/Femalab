@@ -174,6 +174,12 @@ namespace Femalab.Controllers
             Model.AttentionCategoryId = 2;
             Model.AttentionTypeId = 1;
             Model.DoctorId = 1;
+
+            if (Model.Patient.Document != "" && Model.Patient.DocumentType == "00")
+            {
+                Model.Patient.Document = Model.Patient.FirstName.ToUpper().Substring(0, 2) + Model.Patient.LastName.ToUpper().Substring(0, 2) + Model.Patient.BirthDate.Day.ToString().PadLeft(2, '0') + Model.Patient.BirthDate.Month.ToString().PadLeft(2, '0');                
+            }
+
             if (ModelState.IsValid)
             {
                 if (Model.Id == 0)
@@ -270,7 +276,7 @@ namespace Femalab.Controllers
                     invoice.VoucherType = "03";
                     invoice.Series = "03";
                     invoice.DocumentNumber = 0;
-                    var total = attention.AttentionDetails.Sum(x => x.Product.Price);
+                    var total = attention.AttentionDetails.Sum(x => x.Import);
 
                     invoice.IGV = 18;
                     invoice.TotalValue = total;
@@ -300,7 +306,7 @@ namespace Femalab.Controllers
                         invoiceDetails.Description = item.Product.Description;
                         invoiceDetails.ProductId = item.ProductId;
                         invoiceDetails.Product = item.Product;
-                        invoiceDetails.Price = item.Price;
+                        invoiceDetails.Price = item.Import;
                         invoiceDetails.Quantity = item.Quantity;
                         invoice.InvoiceDetails.Add(invoiceDetails);
                     }
@@ -351,7 +357,7 @@ namespace Femalab.Controllers
                     
             }
 
-            ViewBag.Saldo = invoice.InvoiceDetails.Sum(x => x.Product.Price) - invoice.Payments.Sum(x => x.Amount);
+            ViewBag.Saldo = invoice.InvoiceDetails.Sum(x => x.Price) - invoice.Payments.Sum(x => x.Amount);
 
             return PartialView(invoice);
         }
@@ -389,68 +395,134 @@ namespace Femalab.Controllers
 
                 if (Model.Id == 0)
                 {
+                    if (Model.Payments == null) Model.Payments = new List<Payment>();
                     invoiceService.Create(Model);
-
+                                        
                     var invoiceSucces = invoiceService.GetByIdAttention(Model.AttentionId);
-                    invoiceSucces.Customer.DocumentType = invoiceSucces.Customer.DocumentType.Substring(1, 1);
-                    Facturalo invoice = CreateJson(invoiceSucces);
 
-                    using (var client = new HttpClient())
+                    if (invoiceSucces.TotalValue == invoiceSucces.Payments.Where(x=> x.State==true).Sum(x=> x.Amount) )
                     {
-                        string url = WebConfigurationManager.AppSettings["urlApi"].ToString();
-                        client.BaseAddress = new Uri(url);
-                        client.DefaultRequestHeaders.Accept.Clear();
-                        client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+                        invoiceSucces.Customer.DocumentType = invoiceSucces.Customer.DocumentType.Substring(1, 1);
+                        Facturalo invoice = CreateJson(invoiceSucces);
 
-                        string apiKey = WebConfigurationManager.AppSettings["apiKey"].ToString(); //"hsMqs2uxCwi3LRb9pA6v9DMxl7Gv2LIVihHsFdQSXplazRh9JM";
-                        client.DefaultRequestHeaders.Add("Authorization", String.Format("Bearer {0}", apiKey));
-
-                        var json = JsonConvert.SerializeObject(invoice);
-                        var postTask = client.PostAsJsonAsync<Facturalo>("api/documents", invoice);
-                        postTask.Wait();
-
-                        var result = postTask.Result;
-                        var cont = result.Content.ReadAsAsync<FacturaloResponse>();
-                        if (result.IsSuccessStatusCode)
+                        using (var client = new HttpClient())
                         {
-                            response = "1";
-                            invoiceSucces.ApiSuccess = cont.Result.success;
-                            invoiceSucces.ApiMessage = cont.Result.message;
-                            invoiceSucces.ApiFile = cont.Result.file;
-                            invoiceSucces.ApiLine = cont.Result.line;
+                            string url = WebConfigurationManager.AppSettings["urlApi"].ToString();
+                            client.BaseAddress = new Uri(url);
+                            client.DefaultRequestHeaders.Accept.Clear();
+                            client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
 
-                            invoiceSucces.SunatNumber = cont.Result.data.number;
-                            invoiceSucces.SunatFilename = cont.Result.file;
-                            invoiceSucces.SunatExternalId = cont.Result.data.external_id;
-                            invoiceSucces.SunatNumberToLetter = cont.Result.data.number_to_letter;
-                            invoiceSucces.SunatHash = cont.Result.data.hash;
-                            invoiceSucces.SunatQr = cont.Result.data.qr;
-                            invoiceSucces.SunatPdf = cont.Result.links.pdf;
-                            invoiceSucces.SunatXml = cont.Result.links.xml;
-                            invoiceSucces.SunatCdr = cont.Result.links.cdr;
+                            string apiKey = WebConfigurationManager.AppSettings["apiKey"].ToString(); //"hsMqs2uxCwi3LRb9pA6v9DMxl7Gv2LIVihHsFdQSXplazRh9JM";
+                            client.DefaultRequestHeaders.Add("Authorization", String.Format("Bearer {0}", apiKey));
 
-                            invoiceService.UpdateInvoice(invoiceSucces);
+                            var json = JsonConvert.SerializeObject(invoice);
+                            var postTask = client.PostAsJsonAsync<Facturalo>("api/documents", invoice);
+                            postTask.Wait();
+
+                            var result = postTask.Result;
+                            var cont = result.Content.ReadAsAsync<FacturaloResponse>();
+                            if (result.IsSuccessStatusCode)
+                            {
+                                response = "1";
+                                invoiceSucces.ApiSuccess = cont.Result.success;
+                                invoiceSucces.ApiMessage = cont.Result.message;
+                                invoiceSucces.ApiFile = cont.Result.file;
+                                invoiceSucces.ApiLine = cont.Result.line;
+
+                                invoiceSucces.SunatNumber = cont.Result.data.number;
+                                invoiceSucces.SunatFilename = cont.Result.file;
+                                invoiceSucces.SunatExternalId = cont.Result.data.external_id;
+                                invoiceSucces.SunatNumberToLetter = cont.Result.data.number_to_letter;
+                                invoiceSucces.SunatHash = cont.Result.data.hash;
+                                invoiceSucces.SunatQr = cont.Result.data.qr;
+                                invoiceSucces.SunatPdf = cont.Result.links.pdf;
+                                invoiceSucces.SunatXml = cont.Result.links.xml;
+                                invoiceSucces.SunatCdr = cont.Result.links.cdr;
+
+                                invoiceService.UpdateInvoice(invoiceSucces);
+                            }
+                            else
+                            {
+                                response = "0";
+                                invoiceSucces.ApiSuccess = cont.Result.success;
+                                invoiceSucces.ApiMessage = cont.Result.message;
+                                invoiceSucces.ApiFile = cont.Result.file;
+                                invoiceSucces.ApiLine = cont.Result.line;
+                                invoiceService.UpdateInvoice(invoiceSucces);
+                            }
                         }
-                        else
-                        {
-                            response = "0";
-                            invoiceSucces.ApiSuccess = cont.Result.success;
-                            invoiceSucces.ApiMessage = cont.Result.message;
-                            invoiceSucces.ApiFile = cont.Result.file;
-                            invoiceSucces.ApiLine = cont.Result.line;
-                            invoiceService.UpdateInvoice(invoiceSucces);
-                        }
+                    }
+                    else
+                    {
+                        response = "1";
                     }
                 }
                 else
                 {
                     response = "2";
+                    if (Model.Payments == null) Model.Payments = new List<Payment>();
                     invoiceService.UpdateInvoice(Model);
+
+                    var invoiceSucces = invoiceService.GetByIdAttention(Model.AttentionId);
+
+                    if (invoiceSucces.TotalValue == invoiceSucces.Payments.Where(x => x.State == true).Sum(x => x.Amount) && (invoiceSucces.SunatNumber == "" || invoiceSucces.SunatNumber == null))
+                    {
+                        invoiceSucces.Customer.DocumentType = invoiceSucces.Customer.DocumentType.Substring(1, 1);
+                        Facturalo invoice = CreateJson(invoiceSucces);
+
+                        using (var client = new HttpClient())
+                        {
+                            string url = WebConfigurationManager.AppSettings["urlApi"].ToString();
+                            client.BaseAddress = new Uri(url);
+                            client.DefaultRequestHeaders.Accept.Clear();
+                            client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+
+                            string apiKey = WebConfigurationManager.AppSettings["apiKey"].ToString(); //"hsMqs2uxCwi3LRb9pA6v9DMxl7Gv2LIVihHsFdQSXplazRh9JM";
+                            client.DefaultRequestHeaders.Add("Authorization", String.Format("Bearer {0}", apiKey));
+
+                            var json = JsonConvert.SerializeObject(invoice);
+                            var postTask = client.PostAsJsonAsync<Facturalo>("api/documents", invoice);
+                            postTask.Wait();
+
+                            var result = postTask.Result;
+                            var cont = result.Content.ReadAsAsync<FacturaloResponse>();
+                            if (result.IsSuccessStatusCode)
+                            {
+                                response = "1";
+                                invoiceSucces.ApiSuccess = cont.Result.success;
+                                invoiceSucces.ApiMessage = cont.Result.message;
+                                invoiceSucces.ApiFile = cont.Result.file;
+                                invoiceSucces.ApiLine = cont.Result.line;
+
+                                invoiceSucces.SunatNumber = cont.Result.data.number;
+                                invoiceSucces.SunatFilename = cont.Result.file;
+                                invoiceSucces.SunatExternalId = cont.Result.data.external_id;
+                                invoiceSucces.SunatNumberToLetter = cont.Result.data.number_to_letter;
+                                invoiceSucces.SunatHash = cont.Result.data.hash;
+                                invoiceSucces.SunatQr = cont.Result.data.qr;
+                                invoiceSucces.SunatPdf = cont.Result.links.pdf;
+                                invoiceSucces.SunatXml = cont.Result.links.xml;
+                                invoiceSucces.SunatCdr = cont.Result.links.cdr;
+
+                                invoiceService.UpdateInvoice(invoiceSucces);
+                            }
+                            else
+                            {
+                                response = "0";
+                                invoiceSucces.ApiSuccess = cont.Result.success;
+                                invoiceSucces.ApiMessage = cont.Result.message;
+                                invoiceSucces.ApiFile = cont.Result.file;
+                                invoiceSucces.ApiLine = cont.Result.line;
+                                invoiceService.UpdateInvoice(invoiceSucces);
+                            }
+                        }
+                    }
+
                 }
             }
             catch (Exception e)
             {
-
+                response = "0";                
             }
             
             return Json(new { response });
@@ -497,7 +569,9 @@ namespace Femalab.Controllers
                                   Category = at.Category.Description,
                                   at.SpecialtyId,
                                   Specialty = at.Specialty.Description,
-                                  at.Price
+                                  at.Price,
+                                  Discount = 0.0M,
+                                  Import = at.Price
                               }).OrderByDescending(x => x.Description).ToList();
             return Json(attentions);
         }
@@ -613,7 +687,7 @@ namespace Femalab.Controllers
             facturalo.datos_del_emisor.codigo_pais = "PE";
             facturalo.datos_del_emisor.ubigeo = "150130";
             facturalo.datos_del_emisor.direccion = "CAL.JORGE Ó CONNOR NRO. 110 URB. JAVIER PRADO LIMA - LIMA - SAN BORJA";
-            facturalo.datos_del_emisor.correo_electronico = "vallejoaguilar@gmail.com";
+            facturalo.datos_del_emisor.correo_electronico = "administracion@femalab.com";
             facturalo.datos_del_emisor.telefono = "";
             facturalo.datos_del_emisor.codigo_del_domicilio_fiscal = "0000";
 
@@ -811,8 +885,8 @@ namespace Femalab.Controllers
                                   at.AttentionCategory.Action,
                                   at.CreatedDate,
                                   Pdf = "#",
-                                  Total = at.AttentionDetails.Sum(x=>x.Price),
-                                  Pay = at.Invoice.Sum(x => (x.Payments == null) ? 0M : x.Payments.Sum(s => s.Amount))
+                                  Total = at.AttentionDetails.Sum(x=>x.Import),
+                                  Pay = at.Invoice.Sum(x => (x.Payments.Where(p => p.State == true) == null) ? 0M : x.Payments.Where(p => p.State == true).Sum(s => s.Amount))
                                   
                               }).OrderByDescending(x => x.CreatedDate).ToList();
             switch (filtro)
@@ -820,9 +894,9 @@ namespace Femalab.Controllers
                 case "00":
                     return Json(attentions);
                 case "01":
-                    return Json(attentions.FindAll(s => s.Pay != 0));
+                    return Json(attentions.FindAll(s => s.Total <= s.Pay));
                 case "02":
-                    return Json(attentions.FindAll(s => s.Pay == 0));
+                    return Json(attentions.FindAll(s => s.Total > s.Pay));
                 default:
                     return Json(attentions);
             }

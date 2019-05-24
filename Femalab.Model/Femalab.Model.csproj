@@ -119,6 +119,10 @@
     <Compile Include="Migrations\201905110501018_Properties-Invoice-5.Designer.cs">
       <DependentUpon>201905110501018_Properties-Invoice-5.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201905192252210_attention details discount-import.cs" />
+    <Compile Include="Migrations\201905192252210_attention details discount-import.Designer.cs">
+      <DependentUpon>201905192252210_attention details discount-import.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Persistence\FemalabContext.cs" />
     <Compile Include="Persistence\PERSONA.cs">
@@ -188,6 +192,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201905110501018_Properties-Invoice-5.resx">
       <DependentUpon>201905110501018_Properties-Invoice-5.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201905192252210_attention details discount-import.resx">
+      <DependentUpon>201905192252210_attention details discount-import.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

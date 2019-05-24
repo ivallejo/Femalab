@@ -19,6 +19,8 @@ namespace Femalab.Model.Entities
         public string Description { get; set; }
         public decimal Quantity { get; set; }
         public decimal Price { get; set; }
+        public decimal Discount { get; set; }
+        public decimal Import { get; set; }
 
         [ForeignKey("AttentionId")]
         public Attention Attention { get; set; }

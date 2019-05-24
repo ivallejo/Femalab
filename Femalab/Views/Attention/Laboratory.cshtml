@@ -214,14 +214,14 @@
                     </div>
                     <div class="row mx-2">
 
-                        <div class="col-lg-2 col-sm-6">
+                        <div class="col-lg-1 col-sm-6">
                             <div class="form-group">
                                 <label for="txtCodeProduct">Código : </label>
                                 <input type="text" data-id="" class="col form-control" id="txtCodeProduct" placeholder="A0000">
                             </div>
                         </div>
 
-                        <div class="col-lg-6 col-sm-12">
+                        <div class="col-lg-5 col-sm-12">
                             <div class="form-group">
                                 <label for="txtProduct">Examenes : </label>
                                 <input type="text" class="col form-control" id="txtProduct" aria-describedby="Prueba" placeholder="Perfil / Prueba / Paquete">
@@ -243,9 +243,23 @@
                             </div>
                         </div>
 
+
+                        <div class="col-lg-1 col-sm-12">
+                            <div class="form-group">
+                                <label for="Nombres">Desc :</label>
+                                <input type="text" class="col form-control" id="txtDiscountProduct" placeholder="0.00">
+                            </div>
+                        </div>
+
+                        <div class="col-lg-1 col-sm-6">
+                            <div class="form-group">
+                                <label for="Nombres">Importe : </label>
+                                <input type="text" class="col form-control" id="txtImportProduct" placeholder="0.00">
+                            </div>
+                        </div>
+
                         <div class="col-lg-1 col-sm-6 text-right">
                             <label for="Nombres"> . </label><br />
-
                             <button type="button" class="btn btn-primary addProduct">
                                 <i class="fas fa-plus-circle"></i>
                             </button>
@@ -264,24 +278,28 @@
                                     <th style="width:130px">Tipo</th>
                                     <th style="width:40px">Cnt.</th>
                                     <th style="width:60px">Precio</th>
+                                    <th style="width:60px">Descuento</th>
+                                    <th style="width:60px">Importe</th>
                                     <th style="width:70px"></th>
                                 </tr>
                             </thead>
                             <tbody id="tbProductBody">
                                 @foreach (var item in Model.AttentionDetails)
                                 {
-                                    <tr id="tr-@item.ProductId" data-id="@item.ProductId">
-                                        <td>@item.Product.Code</td>
-                                        <td>@item.Product.Description</td>
-                                        <td>@item.Product.Specialty.Description</td>
-                                        <td>1</td>
-                                        <td>@item.Product.Price</td>
-                                        <td>
-                                            <button  title="Eliminar" data-id="@item.ProductId" class="btn btn-danger my-sm-1 removeProduct"> 
-                                                <i class="fas fa-trash"></i>
-                                            </button>
-                                        </td>
-                                    </tr>
+                                <tr id="tr-@item.ProductId" data-id="@item.ProductId">
+                                    <td>@item.Product.Code</td>
+                                    <td>@item.Product.Description</td>
+                                    <td>@item.Product.Specialty.Description</td>
+                                    <td>1</td>
+                                    <td>@item.Price</td>
+                                    <td>@item.Discount</td>
+                                    <td>@item.Import</td>
+                                    <td>
+                                        <button title="Eliminar" data-id="@item.ProductId" class="btn btn-danger my-sm-1 removeProduct">
+                                            <i class="fas fa-trash"></i>
+                                        </button>
+                                    </td>
+                                </tr>
                                 }
                             </tbody>
                         </table>

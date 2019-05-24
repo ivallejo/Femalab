@@ -33,8 +33,10 @@ function addPosData() {
         
         let id = $(element).data("id")
         let price = $(element).children()[4].innerHTML
+        let discount = $(element).children()[5].innerHTML
+        let _import = $(element).children()[6].innerHTML
 
-        postData.push({ ProductId: id, Quantity: 1, Price: price })
+        postData.push({ ProductId: id, Quantity: 1, Price: price, Discount: discount, Import: _import })
     })
 
 }
@@ -63,6 +65,8 @@ function getAllProducts() {
                         $("#txtProduct").val(Description).trigger("change");
                         $("#txtTypeProduct").val(Specialty).trigger("change");
                         $("#txtPriceProduct").val(Price).trigger("change");
+                        $("#txtDiscountProduct").val("0.00").trigger("change");
+                        $("#txtImportProduct").val(Price).trigger("change");
                     }
                 },
             };
@@ -83,6 +87,8 @@ function getAllProducts() {
                         $("#txtCodeProduct").val(Code).trigger("change");
                         $("#txtTypeProduct").val(Specialty).trigger("change");
                         $("#txtPriceProduct").val(Price).trigger("change");
+                        $("#txtDiscountProduct").val("0.00").trigger("change");
+                        $("#txtImportProduct").val(Price).trigger("change");
                     }
                 },
             };
@@ -108,8 +114,10 @@ function addService() {
             let exam = obj.Description
             let type = obj.Specialty
             let price = obj.Price.toFixed(2)
+            let discount = obj.Discount.toFixed(2)
+            let _import = obj.Import.toFixed(2)
 
-            postData.push({ ProductId: id, Quantity: 1, Price: price })
+            postData.push({ ProductId: id, Quantity: 1, Price: price, Discount: discount, Import: _import })
 
 
             $("#tbProductBody").append(`\
@@ -119,6 +127,8 @@ function addService() {
                             <td> ${type} </td>\
                             <td> 1 </td>\
                             <td> ${price} </td>\
+                            <td> ${discount} </td>\
+                            <td> ${_import} </td>\
                             <td>\
                                <button title="Eliminar" data-id="${id}" class="btn btn-danger my-sm-1 removeProduct"> <i class="fas fa-trash"></i></button>\
                             </td>\
@@ -143,8 +153,10 @@ function addProduct() {
             let exam = $("#txtProduct").val()
             let type = $("#txtTypeProduct").val()
             let price = $("#txtPriceProduct").val()
+            let discount = $("#txtDiscountProduct").val()
+            let _import = $("#txtImportProduct").val()
 
-            postData.push({ ProductId : id,Quantity : 1,Price : price})
+            postData.push({ ProductId: id, Quantity: 1, Price: price, Discount: discount, Import: _import})
 
 
             $("#tbProductBody").append(`\
@@ -154,6 +166,8 @@ function addProduct() {
                             <td> ${type} </td>\
                             <td> 1 </td>\
                             <td> ${price} </td>\
+                            <td> ${discount} </td>\
+                            <td> ${_import} </td>\
                             <td>\
                                <button title="Eliminar" data-id="${id}" class="btn btn-danger my-sm-1 removeProduct"> <i class="fas fa-trash"></i></button>\
                             </td>\
@@ -162,6 +176,12 @@ function addProduct() {
 
             removeProduct()
 
+            $("#txtCodeProduct").val("")
+            $("#txtProduct").val("")
+            $("#txtTypeProduct").val("")
+            $("#txtPriceProduct").val("0.00")
+            $("#txtDiscountProduct").val(").00")
+            $("#txtImportProduct").val("0.00")
         }
 
     })
@@ -196,6 +216,17 @@ $("#Patient_Document").focusout(function (e) {
 
 $("#Patient_BirthDate").focusout(function (e) {
     clearInputs()
+});
+
+$("#txtDiscountProduct").focusout(function (e) {
+    var price = $("#txtPriceProduct").val()
+    var discount = $("#txtDiscountProduct").val()
+
+    var price_discount = price * discount
+    var _import = price - price_discount
+    $("#txtImportProduct").val(_import.toFixed(2))
+    //var price = $("#txtDiscountProduct").val()
+
 });
 
 function getPerson() {
@@ -292,12 +323,12 @@ $(document).ready(function () {
             'Patient.LastName': {
                 required: true
             },
-            'Patient.DocumentType': {
-                valueNotEquals: "00"
-            },
-            'Patient.Document': {
-                required: true
-            },
+            //'Patient.DocumentType': {
+            //    valueNotEquals: "00"
+            //},
+            //'Patient.Document': {
+            //    required: true
+            //},
             'Patient.Gender': {
                 valueNotEquals: "0"
             },
@@ -319,12 +350,12 @@ $(document).ready(function () {
             'Patient.LastName': {
                 required: 'Por favor, ingrese un apellido'
             },
-            'Patient.DocumentType': {
-                valueNotEquals: 'Por favor, seleccione una tipo de documento'
-            },
-            'Patient.Document': {
-                required: 'Por favor, ingrese un documento'
-            },
+            //'Patient.DocumentType': {
+            //    valueNotEquals: 'Por favor, seleccione una tipo de documento'
+            //},
+            //'Patient.Document': {
+            //    required: 'Por favor, ingrese un documento'
+            //},
             'Patient.Gender': {
                 valueNotEquals: 'Por favor, seleccione un género'
             },
@@ -348,7 +379,7 @@ $(document).ready(function () {
 
             let i;
             for (i = 0; i < postData.length; i++) {
-                createElement(i, postData[i].ProductId, postData[i].Quantity, postData[i].Price)
+                createElement(i, postData[i].ProductId, postData[i].Quantity, postData[i].Price, postData[i].Discount , postData[i].Import)
             }
 
             var posting = $.post("../Attention/Laboratory", $(form).serialize() );
@@ -400,10 +431,7 @@ $(document).ready(function () {
 });
 
 
-
-
-
-function createElement(Index,_ProductId, _Quantity, _Price) {
+function createElement(Index, _ProductId, _Quantity, _Price, _Discount, _Import) {
        
     var ProductId = document.createElement("input");
     ProductId.setAttribute("type", "hidden");
@@ -420,9 +448,21 @@ function createElement(Index,_ProductId, _Quantity, _Price) {
     Price.setAttribute("name", `AttentionDetails[${Index}].Price`);
     Price.setAttribute("value", `${_Price}`)
 
+    var Discount = document.createElement("input");
+    Discount.setAttribute("type", "hidden");
+    Discount.setAttribute("name", `AttentionDetails[${Index}].Discount`);
+    Discount.setAttribute("value", `${_Discount}`)
+
+    var Import = document.createElement("input");
+    Import.setAttribute("type", "hidden");
+    Import.setAttribute("name", `AttentionDetails[${Index}].Import`);
+    Import.setAttribute("value", `${_Import}`)
+
     document.getElementById("divAttentionDetails").appendChild(ProductId);
     document.getElementById("divAttentionDetails").appendChild(Quantity);
     document.getElementById("divAttentionDetails").appendChild(Price);
+    document.getElementById("divAttentionDetails").appendChild(Discount);
+    document.getElementById("divAttentionDetails").appendChild(Import);
 
 
 }

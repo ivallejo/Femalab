@@ -57,7 +57,7 @@
         @Html.HiddenFor(it => iPayments)
 
     </div>
-    <input type="hidden" id="hddTotal" value="@Model.InvoiceDetails.Sum(x => x.Product.Price)" />
+    <input type="hidden" id="hddTotal" value="@Model.InvoiceDetails.Sum(x => x.Price)" />
     <div class="modal-dialog modal-xl" role="document">
         <div class="modal-content " style="border: none;background-color: transparent;">
             <div class="row">
@@ -81,38 +81,38 @@
                                     <div class="form-group">
                                         <label for="Nombres">Tipo Comprobante</label>
                                         @Html.DropDownListFor(p => p.VoucherType,
-                     new List<SelectListItem>{
-                                                                                new SelectListItem{ Text="BOLETA ELECTRONICA", Value="03"},
-                                                                                new SelectListItem{ Text="FACTURA ELECTRONICA", Value="01"}
-                                             },
-                     htmlAttributes: new { @class = "col form-control" }
-                     )
+                                        new List<SelectListItem>{
+                                            new SelectListItem{ Text="BOLETA ELECTRONICA", Value="03"},
+                                            new SelectListItem{ Text="FACTURA ELECTRONICA", Value="01"}
+                                        },
+                                        htmlAttributes: new { @class = "col form-control" }
+                                        )
                                     </div>
                                 </div>
                                 <div class="col-lg-2 col-sm-12">
                                     <div class="form-group">
                                         <label for="Nombres">Serie</label>
                                         @Html.DropDownListFor(p => p.Series,
-                     new List<SelectListItem>{
-                                                                                //new SelectListItem{ Text="F001", Value="01"},
-                                                                                new SelectListItem{ Text="B001", Value="03"}
-                                             },
-                     htmlAttributes: new { @class = "col form-control" }
-                     )
+                                        new List<SelectListItem>{
+                                            //new SelectListItem{ Text="F001", Value="01"},
+                                            new SelectListItem{ Text="B001", Value="03"}
+                                        },
+                                         htmlAttributes: new { @class = "col form-control" }
+                                         )
                                     </div>
                                 </div>
                                 <div class="col-lg-2 col-sm-12">
                                     <div class="form-group">
                                         <label for="Nombres">Número</label>
-                                        @Html.EditorFor(p => p.SunatNumber, new { htmlAttributes = new { @class = "col form-control", placeholder = "Documento" } })
+                                        @Html.EditorFor(p => p.SunatNumber, new { htmlAttributes = new { @class = "col form-control", placeholder = "" } })
                                     </div>
                                 </div>
-                                <div class="col-lg-2 col-sm-12">
+                                @*<div class="col-lg-2 col-sm-12">
                                     <div class="form-group">
                                         <label for="Nombres">T. Cambio</label>
                                         @Html.EditorFor(p => p.DocumentNumber, new { htmlAttributes = new { @class = "col form-control", placeholder = "Documento" } })
                                     </div>
-                                </div>
+                                </div>*@
                             </div>
 
                             <div class="row mx-2">
@@ -120,17 +120,17 @@
                                     <div class="form-group">
                                         <label for="Nombres">T. Documento</label>
                                         @Html.DropDownListFor(p => p.Customer.DocumentType,
-                             new List<SelectListItem>{
-                                                                        new SelectListItem{ Text="TIPO DOCUMENTO", Value="00"},
-                                                                        new SelectListItem{ Text="DNI", Value="01"},
-                                                                        new SelectListItem{ Text="CE", Value="04"},
-                                                                        new SelectListItem{ Text="RUC", Value="06"},
-                                                                        new SelectListItem{ Text="PASAPORTE", Value="07"},
-                                                                        new SelectListItem{ Text="CED. DIPLOMATICA DE IDENTIDAD", Value="0A"}
+                                        new List<SelectListItem>{
+                                            new SelectListItem{ Text="TIPO DOCUMENTO", Value="00"},
+                                            new SelectListItem{ Text="DNI", Value="01"},
+                                            new SelectListItem{ Text="CE", Value="04"},
+                                            new SelectListItem{ Text="RUC", Value="06"},
+                                            new SelectListItem{ Text="PASAPORTE", Value="07"},
+                                            new SelectListItem{ Text="CED. DIPLOMATICA DE IDENTIDAD", Value="0A"}
 
-                             },
-                     htmlAttributes: new { @class = "col form-control" }
-                     )
+                                        },
+                                         htmlAttributes: new { @class = "col form-control" }
+                                         )
                                     </div>
                                 </div>
                                 <div class="col-lg-3 col-sm-12">
@@ -155,11 +155,11 @@
                                     <div class="form-group">
                                         <label for="Nombres">País</label>
                                         @Html.DropDownListFor(p => p.Customer.Country,
-                     new List<SelectListItem>{
-                                                                                new SelectListItem{ Text="PERÚ", Value="PE"}
-                                             },
-                     htmlAttributes: new { @class = "col form-control" }
-                     )
+                                            new List<SelectListItem>{
+                                            new SelectListItem{ Text="PERÚ", Value="PE"}
+                                        },
+                                        htmlAttributes: new { @class = "col form-control" }
+                                        )
                                     </div>
                                 </div>
 
@@ -234,7 +234,7 @@
                                                     <td>@item.Product.Description</td>
                                                     <td>@item.Product.Specialty.Description</td>
                                                     <td>1</td>
-                                                    <td>@item.Product.Price</td>
+                                                    <td>@item.Price</td>
                                                 </tr>
                                             }
 
@@ -245,7 +245,7 @@
                                                 <th></th>
                                                 <th></th>
                                                 <th>Total</th>
-                                                <th>@Model.InvoiceDetails.Sum(x => x.Product.Price)</th>
+                                                <th>@Model.InvoiceDetails.Sum(x => x.Price)</th>
                                             </tr>
                                             <tr>
                                                 <th></th>
@@ -291,7 +291,7 @@
                                         <div class="input-group-prepend">
                                             <span class="input-group-text" id="inputGroupPrepend4">$</span>
                                         </div>
-                                        <input type="text" class="form-control" id="txtEfectivo" placeholder="Efectivo" aria-describedby="inputGroupPrepend4" value="@Model.InvoiceDetails.Sum(x => x.Product.Price)">
+                                        <input type="text" class="form-control" id="txtEfectivo" placeholder="Efectivo" aria-describedby="inputGroupPrepend4" value="@Model.InvoiceDetails.Sum(x => x.Price)">
                                     </div>
                                 </div>
                                 <div class="col-5 mb-3">
