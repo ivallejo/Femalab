@@ -127,6 +127,19 @@ $(document).ready(function () {
     $('.finpenfing').click(function () {
         getAllAttentions()
     });
+    $('.finpenfingReport').click(function () {
+        var url = '../Attention/ReportVentas?dateBegin=' + $('#dateBegin').val() + '&dateEnd=' + $('#dateEnd').val() 
+        $.get(url, function (data) {
+
+            win = window.open();
+            win.document.write(data);
+
+            var document_focus = false;
+            $(document).ready(function () { win.window.print(); document_focus = true; });
+            setInterval(function () { if (document_focus === true) { win.window.close(); } }, 300);
+
+        });
+    });
     $("#cboFiltro").change(function () {
         getAllAttentions();
     });

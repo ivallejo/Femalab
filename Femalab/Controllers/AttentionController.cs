@@ -1,5 +1,6 @@
 ﻿using Femalab.Model.Custom.Facturalo;
 using Femalab.Model.Entities;
+using Femalab.Model.ViewModel;
 using Femalab.Service.AttentionService;
 using Femalab.Service.AttentionService.Interfaces;
 using Femalab.Service.Master.Interfaces;
@@ -645,6 +646,8 @@ namespace Femalab.Controllers
             return PartialView(attention);
         }
 
+
+
         [HttpGet]
         public ActionResult Facturalo()
         {            
@@ -902,5 +905,37 @@ namespace Femalab.Controllers
             }
 
         }
+
+        [HttpGet]
+        public ActionResult ReportVentas(string dateBegin, string dateEnd)
+        {
+            var lst = attentionService.GetAllPending().Where(x => x.CreatedDate.Date >= Convert.ToDateTime(dateBegin).Date && x.CreatedDate.Date <= Convert.ToDateTime(dateEnd).Date).ToList();
+            ViewBag.dateBegin = dateBegin;
+            ViewBag.dateEnd = dateEnd;
+            //var attentions = (from at in lst
+            //                  where (at.CreatedDate.Date >= Convert.ToDateTime(dateBegin).Date && at.CreatedDate.Date <= Convert.ToDateTime(dateEnd).Date)
+            //                  select new ReportVentas
+            //                  {
+            //                      Order  = new Order {
+            //                          Code = at.Id.ToString().PadLeft(10,'0'),
+            //                          FullName = $"{at.Patient.LastName}, {at.Patient.FirstName}",
+            //                          RegisterDate = at.CreatedDate,
+            //                          IsPay = (at.AttentionDetails.Sum(x => x.Import) == at.Invoice.Sum(x => (x.Payments.Where(p => p.State == true) == null) ? 0M : x.Payments.Where(p => p.State == true).Sum(s => s.Amount))),
+            //                          Pay = at.Invoice.Sum(x => (x.Payments.Where(p => p.State == true) == null) ? 0M : x.Payments.Where(p => p.State == true).Sum(s => s.Amount))
+
+            //                      },
+            //                      OrderDetails = new OrderDetails
+            //                      {
+            //                          Code = at.Id.ToString().PadLeft(10, '0'),
+            //                          Product = at.AttentionDetails
+            //                      }
+
+            //                      Code = at.Id,
+
+            //                  }).OrderByDescending(x => x.CreatedDate).ToList();
+
+            return PartialView(lst);
+        }
+
     }
 }

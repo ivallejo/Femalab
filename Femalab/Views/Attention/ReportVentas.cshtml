@@ -1,0 +1,244 @@
+﻿@model List<Femalab.Model.Entities.Attention>
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title</title>
+    <!-- Custom fonts for this template-->
+    @Styles.Render("~/Content/adminfont")
+    <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
+
+    <!-- Custom styles for this template-->
+    @Styles.Render("~/Content/admincss")
+    @Styles.Render("~/Content/admintablescss")
+    @Styles.Render("~/Content/toas")
+
+
+    <style>
+    .invoice-box {
+        max-width: 800px;
+        margin: auto;
+        padding: 30px;
+        /*border: 1px solid #eee;
+        box-shadow: 0 0 10px rgba(0, 0, 0, .15);*/
+        font-size: 12px;
+        line-height: 24px;
+        font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif;
+        color: #555;
+    }
+
+    .invoice-box table {
+        width: 100%;
+        line-height: inherit;
+        text-align: left;
+    }
+
+    .invoice-box table td {
+        padding: 5px;
+        vertical-align: top;
+    }
+    .invoice-box table tr.top table td {
+        padding-bottom: 20px;
+    }
+
+    .invoice-box table tr.top table td.title {
+        font-size: 45px;
+        line-height: 45px;
+        color: #333;
+    }
+
+    .invoice-box table tr.information table td {
+        padding-bottom: 40px;
+    }
+
+    .invoice-box table tr.heading td {
+        background: #eee;
+        border: 1px solid #000;
+        font-weight: bold;
+    }
+
+    .invoice-box table tr.details td {
+        padding-bottom: 20px;
+    }
+
+    .invoice-box table tr.item td{
+        border-bottom: 1px solid #eee;
+    }
+
+    .invoice-box table tr.item.last td {
+        border-bottom: none;
+    }
+
+    .invoice-box table tr.total td:nth-child(2) {
+        border-top: 2px solid #eee;
+        font-weight: bold;
+    }
+    
+    /** RTL **/
+    .rtl {
+        direction: rtl;
+        font-family: Tahoma, 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif;
+    }
+
+    .rtl table {
+        text-align: right;
+    }
+
+    .rtl table tr td:nth-child(2) {
+        text-align: left;
+    }
+    </style>
+
+</head>
+<body>
+
+    <div class="invoice-box">
+        <table cellpadding="0" cellspacing="0">
+            <tr class="top">
+                <td colspan="8">
+                    <table>
+                        <tr>
+                            <td style="text-align: center">
+                                <div style="font-weight: bold">ORDENES DE TRABAJO</div>
+                                (DETALLADO @ViewBag.dateBegin - @ViewBag.dateEnd)
+                                <br>
+                                NUESTRA SEÑORA VIRGEN DE GUADALUPE
+                            </td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+            <tr class="heading" style="font-size: 10px;">
+                <td style="text-align: center;width: 30px">
+                    N°
+                </td>
+                <td style="border-left: 0px;text-align: center">
+                    ORDEN
+                </td>
+                <td style="border-left: 0px;text-align: center">
+                    HORA
+                </td>
+                <td style="border-left: 0px;text-align: center">
+                    PACIENTE
+                </td>
+                <td style="border-left: 0px;text-align: center">
+                    FACTURACIÓN
+                </td>
+                <td style="border-left: 0px;text-align: center">
+                    DSCTO
+                </td>
+                <td style="border-left: 0px;text-align: center">
+                    SALDO
+                </td>
+                <td style="border-left: 0px;text-align: center">
+                    TOTAL
+                </td>
+            </tr>
+            <tr class="heading" style="font-size: 10px;">
+                <td style="background: #fff;border:0px;border-right: 1px solid #000"></td>
+                <td colspan="3" style="border-top: 0px;border-left: 0px;text-align: center">
+                    CONCEPTO
+                </td>
+                <td style="background: #fff;border:0px"></td>
+                <td style="background: #fff;border:0px"></td>
+                <td style="background: #fff;border:0px"></td>
+                <td style="background: #fff;border:0px"></td>
+            </tr>
+
+            @{
+                int index = 1;
+                int indexDetails = 1;
+                DateTime date = DateTime.MinValue;
+                foreach (var item in Model)
+                {
+                    if (date.ToShortDateString() != item.CreatedDate.ToShortDateString())
+                    {
+                        <tr class="top">
+                            <td colspan="7">
+                                <table>
+                                    <tr>
+                                        <td style="text-align: center;font-weight: bold">
+                                            @item.CreatedDate.ToShortDateString()
+                                        </td>
+                                    </tr>
+                                </table>
+                            </td>
+                        </tr>
+                        date = item.CreatedDate;
+                    }
+
+
+                    <tr>
+                        <td style="text-align: center;width: 30px">
+                            @index
+                        </td>
+                        <td style="text-align: center">
+                            @item.Id.ToString().PadLeft(10, '0')
+                        </td>
+                        <td style="text-align: center">
+                            @item.CreatedDate.ToShortTimeString()
+                        </td>
+                        <td>
+                            @($"{item.Patient.LastName.ToUpper()}, {item.Patient.FirstName.ToUpper()}")
+                        </td>
+                        <td>
+                            @if ((item.AttentionDetails.Sum(x => x.Import) == item.Invoice.Sum(x => (x.Payments.Where(p => p.State == true) == null) ? 0M : x.Payments.Where(p => p.State == true).Sum(s => s.Amount))))
+                            {
+                                <p>
+                                    PAGADO
+                                </p>
+                            }
+                            else
+                            {
+                                <p>
+                                    PENDIENTE
+                                </p>
+                            }
+                        </td>
+                        <td style="text-align: center"></td>
+                        <td style="text-align: center"></td>
+                        <td style="text-align: center">
+                            @item.Invoice.Sum(x => (x.Payments.Where(p => p.State == true) == null) ? 0M : x.Payments.Where(p => p.State == true).Sum(s => s.Amount)).ToString("0.00")
+                        </td>
+                    </tr>
+                    indexDetails = 1;
+                    foreach (var details in item.AttentionDetails)
+                    {
+
+                    <tr>
+                        <td></td>
+                        <td colspan="3">
+                            @($"{indexDetails}  -  {details.Product.Description}")
+                        </td>
+                        <td>
+                            @details.Import
+                        </td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+
+                        indexDetails = indexDetails + 1;
+                    }
+
+
+
+                    index = index + 1;
+                }
+            }
+
+
+
+        </table>
+    </div>
+
+    <script type="text/javascript">
+
+           
+
+    </script>
+
+</body>
+</html>

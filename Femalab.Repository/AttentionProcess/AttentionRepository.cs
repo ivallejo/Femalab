@@ -36,6 +36,7 @@ namespace Femalab.Repository.AttentionProcess
                 .Include(x => x.AttentionCategory)
                 .Include(x => x.AttentionDetails)
                 .Include(x => x.Invoice.Select(p => p.Payments))
+                .Include(x => x.AttentionDetails.Select(p => p.Product))
                 //.Include(ad => ad.AttentionDetails.Select(p => p.Product).Select(s => s.Specialty))
                 .AsEnumerable();
 

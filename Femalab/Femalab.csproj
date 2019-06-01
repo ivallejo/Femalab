@@ -255,6 +255,7 @@
     <Content Include="Views\Attention\Facturalo.cshtml" />
     <Content Include="Views\Attention\FacturaloJson.cshtml" />
     <Content Include="Views\Attention\Pending.cshtml" />
+    <Content Include="Views\Attention\ReportVentas.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
