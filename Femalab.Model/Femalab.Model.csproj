@@ -52,6 +52,7 @@
   <ItemGroup>
     <Compile Include="Custom\Facturalo\Facturalo.cs" />
     <Compile Include="Custom\Facturalo\FacturaloResponse.cs" />
+    <Compile Include="Custom\Facturalo\FacturaloSend.cs" />
     <Compile Include="Entities\Attention.cs" />
     <Compile Include="Entities\AttentionCategory.cs" />
     <Compile Include="Entities\AttentionDetails.cs" />
@@ -122,6 +123,10 @@
     <Compile Include="Migrations\201905192252210_attention details discount-import.cs" />
     <Compile Include="Migrations\201905192252210_attention details discount-import.Designer.cs">
       <DependentUpon>201905192252210_attention details discount-import.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201906150731082_SunatState.cs" />
+    <Compile Include="Migrations\201906150731082_SunatState.Designer.cs">
+      <DependentUpon>201906150731082_SunatState.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Persistence\FemalabContext.cs" />
@@ -196,6 +201,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201905192252210_attention details discount-import.resx">
       <DependentUpon>201905192252210_attention details discount-import.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201906150731082_SunatState.resx">
+      <DependentUpon>201906150731082_SunatState.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

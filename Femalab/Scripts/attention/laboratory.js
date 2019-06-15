@@ -397,7 +397,7 @@ $(document).ready(function () {
                         break
                     }
                     case 2: {
-
+                        /*
                         const { Id, Document, LastName, FirstName, TypeTag, Type, Gender, Age, Weight, Size } = data
                         const tr = document.getElementById(`tr-${Id}`)
                         //const _type = tr.children[2].children[0].children[0].classList
@@ -413,6 +413,10 @@ $(document).ready(function () {
                         //_type.add(`badge-${TypeTag}`)
 
                         notifier.info('Atención actualizada satisfactoriamente.', 'Atención Actualizada!');
+                        break
+                        */
+                        notifier.success('Atención actualizada satisfactoriamente.', 'Atención Actualizada!');
+                        getAllAttentions()
                         break
                     }
                 }

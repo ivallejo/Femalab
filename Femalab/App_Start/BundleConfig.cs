@@ -61,6 +61,9 @@ namespace Femalab
             bundles.Add(new ScriptBundle("~/bundles/attentionpending").Include(
                "~/Scripts/attention/pending.js"));
 
+            bundles.Add(new ScriptBundle("~/bundles/document").Include(
+               "~/Scripts/document/index.js"));
+
             bundles.Add(new ScriptBundle("~/bundles/Product").Include(
                "~/Scripts/product/index.js"));
 

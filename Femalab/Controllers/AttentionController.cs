@@ -397,6 +397,7 @@ namespace Femalab.Controllers
                 if (Model.Id == 0)
                 {
                     if (Model.Payments == null) Model.Payments = new List<Payment>();
+                    Model.SunatState = 0;
                     invoiceService.Create(Model);
                                         
                     var invoiceSucces = invoiceService.GetByIdAttention(Model.AttentionId);
@@ -690,7 +691,7 @@ namespace Femalab.Controllers
             facturalo.datos_del_emisor.codigo_pais = "PE";
             facturalo.datos_del_emisor.ubigeo = "150130";
             facturalo.datos_del_emisor.direccion = "CAL.JORGE Ó CONNOR NRO. 110 URB. JAVIER PRADO LIMA - LIMA - SAN BORJA";
-            facturalo.datos_del_emisor.correo_electronico = "administracion@femalab.com";
+            facturalo.datos_del_emisor.correo_electronico = "administracion@femalab.pe";
             facturalo.datos_del_emisor.telefono = "";
             facturalo.datos_del_emisor.codigo_del_domicilio_fiscal = "0000";
 

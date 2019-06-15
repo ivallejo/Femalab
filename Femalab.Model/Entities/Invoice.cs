@@ -42,6 +42,7 @@ namespace Femalab.Model.Entities
         public string SunatPdf { get; set; }
         public string SunatXml { get; set; }
         public string SunatCdr { get; set; }
+        public long SunatState { get; set; }
 
         public long CustomerId { get; set; }
         [ForeignKey("CustomerId")]
