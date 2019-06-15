@@ -690,8 +690,8 @@ namespace Femalab.Controllers
             facturalo.datos_del_emisor.codigo_pais = "PE";
             facturalo.datos_del_emisor.ubigeo = "150130";
             facturalo.datos_del_emisor.direccion = "CAL.JORGE Ó CONNOR NRO. 110 URB. JAVIER PRADO LIMA - LIMA - SAN BORJA";
-            facturalo.datos_del_emisor.correo_electronico = "administracion@femalab.com";
-            facturalo.datos_del_emisor.telefono = "";
+            facturalo.datos_del_emisor.correo_electronico = "administracion@femalab.pe";
+            facturalo.datos_del_emisor.telefono = "692 5953";
             facturalo.datos_del_emisor.codigo_del_domicilio_fiscal = "0000";
 
             facturalo.datos_del_cliente_o_receptor = new datos_del_cliente_o_receptor();
