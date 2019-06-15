@@ -1,0 +1,79 @@
+﻿
+@{
+    ViewBag.Title = "Pending";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@section styles {
+    @Styles.Render("~/Content/admintablescss")
+    @Styles.Render("~/Content/toas")
+}
+
+<h1 class="h3 mb-2 text-gray-800">Atenciones</h1>
+<p class="mb-4"></p>
+
+<div class="card shadow mb-4">
+    <div class="card-header py-3">
+        <h6 class="m-0 font-weight-bold text-primary">Listado de Atenciones.</h6>
+    </div>
+    <div class="card-body">
+        <div class="table-responsive">
+
+            <div class="row col-lg-12 col-sm-12">
+
+                <div class="col-lg-2 col-sm-12">
+                    <div class="form-group">
+                        <label for="Fecha">Fecha Inicio</label>
+                        <input class="col form-control" id="dateBegin" type="date">
+                    </div>
+                </div>
+                <div class="col-lg-2 col-sm-12">
+                    <div class="form-group">
+                        <label for="Fecha">Fecha Fin</label>
+                        <input class="col form-control" id="dateEnd" type="date">
+                    </div>
+                </div>
+                <div class="col-lg-2 col-sm-12 mt-4">
+                    <div class="form-group mt-2">
+                        <button type="button" id="btnFindPending" class="btn btn-primary ml-1 finpenfing"><i class="fas fa-search"></i> Buscar </button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal fade bd-example-modal-xl" id="ModalAttentionAddOrEdit" tabindex="-1" role="dialog" aria-labelledby="ModalCenterTitle" aria-hidden="true"></div>
+
+            <br />
+            <br />
+
+
+            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                <thead>
+                    <tr>
+                        <th style="width:40px;text-align:center">Documento</th>
+                        <th style="width:80px;text-align:center">Estado</th>
+                        <th style="width:50px;text-align:center">SUNAT</th>
+                        <th style="width:250px">Cliente</th>
+                        <th style="width:80px">Total</th>
+                        <th style="width:90px">F. Registro</th>
+                        <th style="width:90px">F. Pago</th>
+                        <th style="width:30px;text-align:center">Acciones</th>
+                    </tr>
+                </thead>
+                <tbody id="tbDocumentBody"></tbody>
+            </table>
+        </div>
+    </div>
+    <div class="loading" style="display:none">
+        <div class="loading-bar"></div>
+        <div class="loading-bar"></div>
+        <div class="loading-bar"></div>
+        <div class="loading-bar"></div>
+    </div>
+</div>
+
+@section scripts
+{
+    @Scripts.Render("~/bundles/admintablesjs")
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/bundles/toas")
+    @Scripts.Render("~/bundles/document")
+}

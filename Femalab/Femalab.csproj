@@ -143,6 +143,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\AttentionController.cs" />
     <Compile Include="Controllers\AuthController.cs" />
+    <Compile Include="Controllers\DocumentController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\PatientController.cs" />
     <Compile Include="Controllers\ProductController.cs" />
@@ -187,6 +188,7 @@
     <Content Include="Content\vendor\webfonts\fa-solid-900.ttf" />
     <Content Include="Content\vendor\webfonts\fa-solid-900.woff" />
     <Content Include="Content\vendor\webfonts\fa-solid-900.woff2" />
+    <Content Include="Scripts\document\index.js" />
     <Content Include="Scripts\jquery-1.10.2.min.map" />
     <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
     <None Include="Scripts\jquery-3.3.1.intellisense.js" />
@@ -256,6 +258,7 @@
     <Content Include="Views\Attention\FacturaloJson.cshtml" />
     <Content Include="Views\Attention\Pending.cshtml" />
     <Content Include="Views\Attention\ReportVentas.cshtml" />
+    <Content Include="Views\Document\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -397,6 +397,7 @@ namespace Femalab.Controllers
                 if (Model.Id == 0)
                 {
                     if (Model.Payments == null) Model.Payments = new List<Payment>();
+                    Model.SunatState = 0;
                     invoiceService.Create(Model);
                                         
                     var invoiceSucces = invoiceService.GetByIdAttention(Model.AttentionId);

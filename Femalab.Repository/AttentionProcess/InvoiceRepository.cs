@@ -25,6 +25,15 @@ namespace Femalab.Repository.AttentionProcess
                          .Include(p => p.Payments)
                          .FirstOrDefault();
         }
+
+        public override IEnumerable<Invoice> GetAll()
+        {
+            return _entities.Set<Invoice>()
+                .Include(x => x.Customer)
+                .Include(x => x.Payments)
+                .AsEnumerable();
+        }
+
         public Invoice GetByIdAttention(long idAttention)
         {
             return _dbset.Where(x => x.AttentionId == idAttention)

@@ -46,7 +46,7 @@ namespace Femalab.Model.Persistence
                 if (entity != null)
                 {
                     string identityName = Thread.CurrentPrincipal.Identity.Name;
-                    DateTime now = DateTime.UtcNow;
+                    DateTime now = DateTime.Now;
 
                     if (entry.State == System.Data.Entity.EntityState.Added)
                     {
