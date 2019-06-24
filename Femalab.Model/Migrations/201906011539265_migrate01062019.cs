@@ -3,7 +3,7 @@ namespace Femalab.Model.Migrations
     using System;
     using System.Data.Entity.Migrations;
     
-    public partial class attentiondetailsdiscountimport : DbMigration
+    public partial class migrate01062019 : DbMigration
     {
         public override void Up()
         {

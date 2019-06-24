@@ -160,7 +160,7 @@
                                 <table>
                                     <tr>
                                         <td style="text-align: center;font-weight: bold">
-                                            @item.CreatedDate.ToShortDateString()
+                                            @item.CreatedDate.ToString("dd/MM/yyyy")
                                         </td>
                                     </tr>
                                 </table>
@@ -174,7 +174,7 @@
                         <td style="text-align: center;width: 30px">
                             @index
                         </td>
-                        <td style="text-align: center">
+                        <td style="text-align: center">  
                             @item.Id.ToString().PadLeft(10, '0')
                         </td>
                         <td style="text-align: center">
@@ -198,9 +198,9 @@
                             }
                         </td>
                         <td style="text-align: center"></td>
-                        <td style="text-align: center"></td>
-                        <td style="text-align: center">
-                            @item.Invoice.Sum(x => (x.Payments.Where(p => p.State == true) == null) ? 0M : x.Payments.Where(p => p.State == true).Sum(s => s.Amount)).ToString("0.00")
+                        <td style="text-align: center"> @(item.AttentionDetails.Sum(x => x.Import) - item.Invoice.Sum(x => (x.Payments.Where(p => p.State == true) == null) ? 0M : x.Payments.Where(p => p.State == true).Sum(s => s.Amount))) </td>
+                        <td style="text-align: center">                            
+                            @item.AttentionDetails.Sum(x => x.Import).ToString("0.00")
                         </td>
                     </tr>
                     indexDetails = 1;
@@ -213,9 +213,9 @@
                             @($"{indexDetails}  -  {details.Product.Description}")
                         </td>
                         <td>
-                            @details.Import
+                            @details.Import.ToString("0.00")
                         </td>
-                        <td></td>
+                        <td>@details.Discount</td>
                         <td></td>
                         <td></td>
                     </tr>

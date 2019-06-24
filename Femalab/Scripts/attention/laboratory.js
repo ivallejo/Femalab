@@ -180,7 +180,7 @@ function addProduct() {
             $("#txtProduct").val("")
             $("#txtTypeProduct").val("")
             $("#txtPriceProduct").val("0.00")
-            $("#txtDiscountProduct").val(").00")
+            $("#txtDiscountProduct").val("0.00")
             $("#txtImportProduct").val("0.00")
         }
 
