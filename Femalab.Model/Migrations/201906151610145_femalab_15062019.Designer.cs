@@ -7,13 +7,13 @@ namespace Femalab.Model.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.2.0-61023")]
-    public sealed partial class SunatState : IMigrationMetadata
+    public sealed partial class femalab_15062019 : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(SunatState));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(femalab_15062019));
         
         string IMigrationMetadata.Id
         {
-            get { return "201906150731082_SunatState"; }
+            get { return "201906151610145_femalab_15062019"; }
         }
         
         string IMigrationMetadata.Source

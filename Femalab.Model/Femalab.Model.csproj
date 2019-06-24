@@ -72,61 +72,9 @@
     <Compile Include="Infrastructure\Entity.cs" />
     <Compile Include="Infrastructure\IEntity.cs" />
     <Compile Include="Entities\Patient.cs" />
-    <Compile Include="Migrations\201904050411306_Model initial.cs" />
-    <Compile Include="Migrations\201904050411306_Model initial.Designer.cs">
-      <DependentUpon>201904050411306_Model initial.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201904131746114_updatemodels.cs" />
-    <Compile Include="Migrations\201904131746114_updatemodels.Designer.cs">
-      <DependentUpon>201904131746114_updatemodels.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201904131747566_updatemodels-data.cs" />
-    <Compile Include="Migrations\201904131747566_updatemodels-data.Designer.cs">
-      <DependentUpon>201904131747566_updatemodels-data.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201905040508586_payment-04052019.cs" />
-    <Compile Include="Migrations\201905040508586_payment-04052019.Designer.cs">
-      <DependentUpon>201905040508586_payment-04052019.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201905040511043_payment-04052019-2.cs" />
-    <Compile Include="Migrations\201905040511043_payment-04052019-2.Designer.cs">
-      <DependentUpon>201905040511043_payment-04052019-2.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201905052007377_Payment-State.cs" />
-    <Compile Include="Migrations\201905052007377_Payment-State.Designer.cs">
-      <DependentUpon>201905052007377_Payment-State.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201905060518248_Product-CodeSunat.cs" />
-    <Compile Include="Migrations\201905060518248_Product-CodeSunat.Designer.cs">
-      <DependentUpon>201905060518248_Product-CodeSunat.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201905110403557_Properties-Invoice.cs" />
-    <Compile Include="Migrations\201905110403557_Properties-Invoice.Designer.cs">
-      <DependentUpon>201905110403557_Properties-Invoice.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201905110440369_Properties-Invoice-2.cs" />
-    <Compile Include="Migrations\201905110440369_Properties-Invoice-2.Designer.cs">
-      <DependentUpon>201905110440369_Properties-Invoice-2.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201905110444475_Properties-Invoice-3.cs" />
-    <Compile Include="Migrations\201905110444475_Properties-Invoice-3.Designer.cs">
-      <DependentUpon>201905110444475_Properties-Invoice-3.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201905110453581_Properties-Invoice-4.cs" />
-    <Compile Include="Migrations\201905110453581_Properties-Invoice-4.Designer.cs">
-      <DependentUpon>201905110453581_Properties-Invoice-4.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201905110501018_Properties-Invoice-5.cs" />
-    <Compile Include="Migrations\201905110501018_Properties-Invoice-5.Designer.cs">
-      <DependentUpon>201905110501018_Properties-Invoice-5.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201905192252210_attention details discount-import.cs" />
-    <Compile Include="Migrations\201905192252210_attention details discount-import.Designer.cs">
-      <DependentUpon>201905192252210_attention details discount-import.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201906150731082_SunatState.cs" />
-    <Compile Include="Migrations\201906150731082_SunatState.Designer.cs">
-      <DependentUpon>201906150731082_SunatState.cs</DependentUpon>
+    <Compile Include="Migrations\201906151610145_femalab_15062019.cs" />
+    <Compile Include="Migrations\201906151610145_femalab_15062019.Designer.cs">
+      <DependentUpon>201906151610145_femalab_15062019.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Persistence\FemalabContext.cs" />
@@ -163,50 +111,6 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201904050411306_Model initial.resx">
-      <DependentUpon>201904050411306_Model initial.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201904131746114_updatemodels.resx">
-      <DependentUpon>201904131746114_updatemodels.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201904131747566_updatemodels-data.resx">
-      <DependentUpon>201904131747566_updatemodels-data.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201905040508586_payment-04052019.resx">
-      <DependentUpon>201905040508586_payment-04052019.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201905040511043_payment-04052019-2.resx">
-      <DependentUpon>201905040511043_payment-04052019-2.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201905052007377_Payment-State.resx">
-      <DependentUpon>201905052007377_Payment-State.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201905060518248_Product-CodeSunat.resx">
-      <DependentUpon>201905060518248_Product-CodeSunat.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201905110403557_Properties-Invoice.resx">
-      <DependentUpon>201905110403557_Properties-Invoice.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201905110440369_Properties-Invoice-2.resx">
-      <DependentUpon>201905110440369_Properties-Invoice-2.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201905110444475_Properties-Invoice-3.resx">
-      <DependentUpon>201905110444475_Properties-Invoice-3.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201905110453581_Properties-Invoice-4.resx">
-      <DependentUpon>201905110453581_Properties-Invoice-4.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201905110501018_Properties-Invoice-5.resx">
-      <DependentUpon>201905110501018_Properties-Invoice-5.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201905192252210_attention details discount-import.resx">
-      <DependentUpon>201905192252210_attention details discount-import.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201906150731082_SunatState.resx">
-      <DependentUpon>201906150731082_SunatState.cs</DependentUpon>
-    </EmbeddedResource>
-  </ItemGroup>
-  <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <ItemGroup>
@@ -223,6 +127,10 @@
       <LastGenOutput>PersonaModel.cs</LastGenOutput>
     </Content>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\201906151610145_femalab_15062019.resx">
+      <DependentUpon>201906151610145_femalab_15062019.cs</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

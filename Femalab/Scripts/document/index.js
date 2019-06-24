@@ -15,7 +15,7 @@ function addActionsDocument() {
             getAllDocuments()
             $(".loading").hide()
         }).done(function () {
-            alert("second success");
+            //alert("second success");
             $(".loading").hide()
         })
         .fail(function () {
@@ -23,7 +23,7 @@ function addActionsDocument() {
             $(".loading").hide()
         })
         .always(function () {
-            alert("finished");
+            //alert("finished");
             $(".loading").hide()
         });
 
@@ -58,16 +58,18 @@ function getAllDocuments() {
 
                 $("#tbDocumentBody").append(`\
                         <tr id="tr-${item.Id}">\   
-                        <td style="width:40px;text-align:center"> ${item.SunatNumber} </td>\
-                        <td style="width:80px;text-align:center"> <h5>${strState}</h5> </td>\
-                        <td style="width:50px;text-align:center">\
-                            <button title="Enviar a SUNAT" data-id="${item.Id}" class="btn btn-warning my-sm-1 send-document" data-url="/Document/Send" > <i class="fas fa-file-upload fa-sm"></i></button>\                                                    </td>\
-                        </td>\                        
+                        <td style="width:30px;text-align:center"> ${item.SunatNumber} </td>\
+                        <td style="width:70px;text-align:center"> <h5>${strState}</h5> </td>\
+                        
+                        <td style="width:50px;text-align:center;" >\
+                            <button style="${(item.SunatState == 1) ? 'display:none;' : ''}" title="Enviar a SUNAT" data-id="${item.Id}" class="btn btn-warning my-sm-1 send-document" data-url="/Document/Send" > <i class="fas fa-file-upload fa-sm"></i></button>\                                                    </td>\
+                        </td>\       
+
                         <td style="width:250px"> ${item.FirstName} </td>\
-                        <td style="width:80px"> ${item.TotalValue.toFixed(2)} </td>\                            
-                        <td style="width:90px"> ${formattedCreatedDate} </td>\
-                        <td style="width:90px"> ${formattedPaidDate} </td>\
-                        <td style="width:30px;text-align:center">\
+                        <td style="width:50px"> ${item.TotalValue.toFixed(2)} </td>\                            
+                        <td style="width:120px"> ${formattedCreatedDate} </td>\
+                        <td style="width:120px"> ${formattedPaidDate} </td>\
+                        <td style="width:20px;text-align:center">\
                             <a title="Descargar PDF" class="btn btn-primary my-sm-1 invoice-pdf" href="${item.SunatPdf}"> <i class="fas fa-file-pdf fa-sm"></i></a>\
                         </td>\
                     </tr>\

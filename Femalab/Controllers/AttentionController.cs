@@ -286,13 +286,13 @@ namespace Femalab.Controllers
 
                     //Customer
                     invoice.Customer = new Customer();
-                    invoice.Customer.Address = (attention.Patient.Address == null | attention.Patient.Address == "") ? "CAL.JORGE Ó CONNOR NRO. 110 URB. JAVIER PRADO LIMA - LIMA - SAN BORJA" : attention.Patient.Address;
+                    invoice.Customer.Address = (attention.Patient.Address == null | attention.Patient.Address == "") ? "" : attention.Patient.Address;
                     invoice.Customer.DocumentType = attention.Patient.DocumentType; //"1";
                     invoice.Customer.Document = attention.Patient.Document;
                     invoice.Customer.Country = "PE";
-                    invoice.Customer.Email = (attention.Patient.Email == null | attention.Patient.Email == "") ? "administracion@femalab.pe" : attention.Patient.Email;
+                    invoice.Customer.Email = (attention.Patient.Email == null | attention.Patient.Email == "") ? "" : attention.Patient.Email;
                     invoice.Customer.FirstName = $"{attention.Patient.FirstName} {attention.Patient.LastName}";
-                    invoice.Customer.Phone = (attention.Patient.Phone == null | attention.Patient.Phone == "") ? "000-00000" : attention.Patient.Phone;
+                    invoice.Customer.Phone = (attention.Patient.Phone == null | attention.Patient.Phone == "") ? "" : attention.Patient.Phone;
                     invoice.Customer.TradeName = $"{attention.Patient.FirstName} {attention.Patient.LastName}";
 
                     //InvoiceDetails
@@ -522,7 +522,9 @@ namespace Femalab.Controllers
 
                 }
             }
+#pragma warning disable CS0168 // La variable 'e' se ha declarado pero nunca se usa
             catch (Exception e)
+#pragma warning restore CS0168 // La variable 'e' se ha declarado pero nunca se usa
             {
                 response = "0";                
             }

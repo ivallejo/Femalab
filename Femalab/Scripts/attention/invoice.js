@@ -200,16 +200,7 @@ $(document).ready(function () {
             },
             'Customer.FirstName': {
                 required: true
-            },
-            'Customer.Address': {
-                required: true
-            },
-            'Customer.Phone': {
-                required: true
-            },
-            'Customer.Email': {
-                required: true
-            },
+            }
         },
         messages: {
             'Customer.Document': {
@@ -217,24 +208,15 @@ $(document).ready(function () {
             },
             'Customer.FirstName': {
                 required: 'PPor favor, ingrese un nombre'
-            },
-            'Customer.Address': {
-                valueNotEquals: 'Por favor, ingrese una dirección'
-            },
-            'Customer.Phone': {
-                required: 'Por favor, ingrese un teléfono'
-            },
-            'Customer.Email': {
-                valueNotEquals: 'Por favor, ingrese un correo'
             }
         },
         submitHandler: function (form) {
             $(".loading").show()
-            if ($("#Customer.Document").val() == "") $("#Age").val("0")
-            if ($("#Customer.FirstName").val() == "") $("#Age").val("0")
-            if ($("#Customer.Address").val() == "") $("#Weight").val("0.00")
-            if ($("#Customer.Phone").val() == "") $("#Size").val("0.00")
-            if ($("#Customer.Email").val() == "") $("#Height").val("0.00")
+            if ($("#Customer.Document").val() == "") $("#Customer.Document").val("")
+            if ($("#Customer.FirstName").val() == "") $("#Customer.FirstName").val("")
+            if ($("#Customer.Address").val() == "") $("#Customer.Address").val("")
+            if ($("#Customer.Phone").val() == "") $("#Customer.Phone").val("")
+            if ($("#Customer.Email").val() == "") $("#Customer.Email").val("")
 
             let invoiceId = $("#Id").val()
             let iPayments = $("#iPayments").val()
