@@ -4,6 +4,7 @@ using Femalab.Repository.AttentionProcess.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -17,9 +18,15 @@ namespace Femalab.Repository.AttentionProcess
         {
         }
 
+        public Invoice GetNumber(string series)
+        {
+            return _dbset.Where(x => x.Series == series && x.State == true)
+                         .LastOrDefault();
+        }
+
         public Invoice GetById(long id)
         {
-            return _dbset.Where(x => x.Id == id)
+            return _dbset.Where(x => x.Id == id).Where(x => x.State == true)
                          .Include(i => i.InvoiceDetails)
                          .Include(c => c.Customer)
                          .Include(p => p.Payments)
@@ -28,7 +35,7 @@ namespace Femalab.Repository.AttentionProcess
 
         public override IEnumerable<Invoice> GetAll()
         {
-            return _entities.Set<Invoice>()
+            return _entities.Set<Invoice>().Where(x => x.State == true)
                 .Include(x => x.Customer)
                 .Include(x => x.Payments)
                 .AsEnumerable();
@@ -36,7 +43,7 @@ namespace Femalab.Repository.AttentionProcess
 
         public Invoice GetByIdAttention(long idAttention)
         {
-            return _dbset.Where(x => x.AttentionId == idAttention)
+            return _dbset.Where(x => x.AttentionId == idAttention && x.State == true)
                          .Include(id => id.InvoiceDetails)
                          .Include(id => id.InvoiceDetails.Select(p => p.Product).Select(s => s.Specialty))
                          .Include(c => c.Customer)
@@ -63,10 +70,24 @@ namespace Femalab.Repository.AttentionProcess
             }
 
             _entities.Entry(model).State = EntityState.Modified;
-
-                     
             
         }
+
+        public int GetNumberSerie(string Series)
+        {
+            int sunatNumber = _entities.Database.SqlQuery<int>("Select Top 1 Cast(SunatNumber as int) from [dbo].[Invoice] where State = 1 and Series = '" + Series + "' Order By 1 desc").FirstOrDefault();
+            
+            if (sunatNumber != 0)
+            {
+                sunatNumber = sunatNumber + 1;
+            }
+            else
+            {
+                sunatNumber = 1;
+            }
+            return sunatNumber;
+        }
+
 
         //public override Invoice Add(Invoice model)
         //{

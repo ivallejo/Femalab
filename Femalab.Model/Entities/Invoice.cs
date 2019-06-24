@@ -27,12 +27,13 @@ namespace Femalab.Model.Entities
         public DateTime ExpirationDate { get; set; }        
         [MaxLength(250)]
         public string Observations { get; set; }
-
+        public bool State { get; set; }
         public bool ApiSuccess { get; set; }
         public string ApiMessage { get; set; }
         public string ApiFile { get; set; }
         public string ApiLine { get; set; }
 
+        public string SunatSerie { get; set; }
         public string SunatNumber { get; set; }
         public string SunatFilename { get; set; }
         public string SunatExternalId { get; set; }

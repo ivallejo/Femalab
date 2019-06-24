@@ -85,63 +85,63 @@
             </li>
 
             @*<hr class="sidebar-divider">
-        <!-- Nav Item - Citas -->
-        <li class="nav-item">
-            <a class="nav-link" href='@Url.Action("Index", "Home")'>
-                <i class="fas fa-fw fa-tachometer-alt"></i>
-                <span>Citas Médicas</span>
-            </a>
-        </li>
+                <!-- Nav Item - Citas -->
+                <li class="nav-item">
+                    <a class="nav-link" href='@Url.Action("Index", "Home")'>
+                        <i class="fas fa-fw fa-tachometer-alt"></i>
+                        <span>Citas Médicas</span>
+                    </a>
+                </li>
 
-        <hr class="sidebar-divider">
-        <!-- Nav Item - Medicamentos -->
-        <li class="nav-item">
-            <a class="nav-link" href='@Url.Action("Index", "Home")'>
-                <i class="fas fa-fw fa-tachometer-alt"></i>
-                <span>Medicamentos</span>
-            </a>
-        </li>
+                <hr class="sidebar-divider">
+                <!-- Nav Item - Medicamentos -->
+                <li class="nav-item">
+                    <a class="nav-link" href='@Url.Action("Index", "Home")'>
+                        <i class="fas fa-fw fa-tachometer-alt"></i>
+                        <span>Medicamentos</span>
+                    </a>
+                </li>
 
-        <hr class="sidebar-divider">
-        <!-- Nav Item - Consultas Médicas -->
-        <li class="nav-item">
-            <a class="nav-link" href='@Url.Action("Index", "Home")'>
-                <i class="fas fa-fw fa-tachometer-alt"></i>
-                <span>Consultas Médicas</span>
-            </a>
-        </li>
-
-
-        <hr class="sidebar-divider">
-        <!-- Nav Item - Pruebas de Laboratorio -->
-        <li class="nav-item">
-            <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
-                <i class="fas fa-fw fa-cog"></i>
-                <span>Pruebas de Laboratorio</span>
-            </a>
-            <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
-                <div class="bg-white py-2 collapse-inner rounded">
-                    <a class="collapse-item" href="buttons.html">informes</a>
-                </div>
-            </div>
-        </li>
+                <hr class="sidebar-divider">
+                <!-- Nav Item - Consultas Médicas -->
+                <li class="nav-item">
+                    <a class="nav-link" href='@Url.Action("Index", "Home")'>
+                        <i class="fas fa-fw fa-tachometer-alt"></i>
+                        <span>Consultas Médicas</span>
+                    </a>
+                </li>
 
 
-        <hr class="sidebar-divider">
-        <!-- Nav Item - Actividades Financieras -->
-        <li class="nav-item">
-            <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
-                <i class="fas fa-fw fa-cog"></i>
-                <span>Actividades Financieras</span>
-            </a>
-            <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
-                <div class="bg-white py-2 collapse-inner rounded">
-                    <a class="collapse-item" href="buttons.html">Factura</a>
-                    <a class="collapse-item" href="cards.html">Pagos</a>
-                    <a class="collapse-item" href="cards.html">Gastos</a>
-                </div>
-            </div>
-        </li>*@
+                <hr class="sidebar-divider">
+                <!-- Nav Item - Pruebas de Laboratorio -->
+                <li class="nav-item">
+                    <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
+                        <i class="fas fa-fw fa-cog"></i>
+                        <span>Pruebas de Laboratorio</span>
+                    </a>
+                    <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+                        <div class="bg-white py-2 collapse-inner rounded">
+                            <a class="collapse-item" href="buttons.html">informes</a>
+                        </div>
+                    </div>
+                </li>
+
+
+                <hr class="sidebar-divider">
+                <!-- Nav Item - Actividades Financieras -->
+                <li class="nav-item">
+                    <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
+                        <i class="fas fa-fw fa-cog"></i>
+                        <span>Actividades Financieras</span>
+                    </a>
+                    <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+                        <div class="bg-white py-2 collapse-inner rounded">
+                            <a class="collapse-item" href="buttons.html">Factura</a>
+                            <a class="collapse-item" href="cards.html">Pagos</a>
+                            <a class="collapse-item" href="cards.html">Gastos</a>
+                        </div>
+                    </div>
+                </li>*@
 
 
             @*<hr class="sidebar-divider">*@
@@ -407,7 +407,12 @@
             </div>
         </div>
     </div>
-
+    <div id="loading" class="loading" style="display:none">
+        <div class="loading-bar"></div>
+        <div class="loading-bar"></div>
+        <div class="loading-bar"></div>
+        <div class="loading-bar"></div>
+    </div>
     @Scripts.Render("~/bundles/adminjs")
     @Scripts.Render("~/bundles/adminpuglin")
     @RenderSection("scripts", required: false)

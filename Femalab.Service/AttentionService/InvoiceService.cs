@@ -37,6 +37,9 @@ namespace Femalab.Service.AttentionService
             _invoiceRepository.UpdateInvoice(entity);
             _unitOfWork.commit();
         }
-
+        public int GetNumberSerie(string Series)
+        {
+            return _invoiceRepository.GetNumberSerie(Series);
+        }
     }
 }

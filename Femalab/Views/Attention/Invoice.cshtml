@@ -15,8 +15,9 @@
     @Html.HiddenFor(p => p.TotalTax)
     @Html.HiddenFor(p => p.TotalValue)
     @Html.HiddenFor(p => p.CustomerId)
+    @Html.HiddenFor(p => p.State)
 
-    @Html.HiddenFor(p => p.SunatNumber)
+    //@Html.HiddenFor(p => p.SunatNumber)
     @Html.HiddenFor(p => p.SunatFilename)
     @Html.HiddenFor(p => p.SunatExternalId)
     @Html.HiddenFor(p => p.SunatNumberToLetter)
@@ -107,12 +108,14 @@
                                         @Html.EditorFor(p => p.SunatNumber, new { htmlAttributes = new { @class = "col form-control", placeholder = "" } })
                                     </div>
                                 </div>
-                                @*<div class="col-lg-2 col-sm-12">
+                                <div class="col-lg-1 col-sm-12 mt-4">
+
+                                </div>
+                                <div class="col-lg-1 col-sm-12 mt-4 pl-1">
                                     <div class="form-group">
-                                        <label for="Nombres">T. Cambio</label>
-                                        @Html.EditorFor(p => p.DocumentNumber, new { htmlAttributes = new { @class = "col form-control", placeholder = "Documento" } })
+                                        <button type="button" id="btnRemoveInvoice" data-url='@Url.Action("RemoveInvoice","Attention")' class="btn btn-danger mt-2 remove-invoice"><i class="fas fa-trash"></i></button>
                                     </div>
-                                </div>*@
+                                </div>
                             </div>
 
                             <div class="row mx-2">
@@ -260,7 +263,7 @@
                             </div>
 
                         </div>
-                        <div class="loading" style="display:none">
+                        <div id="invoiceLoading" class="loading" style="display:none">
                             <div class="loading-bar"></div>
                             <div class="loading-bar"></div>
                             <div class="loading-bar"></div>
