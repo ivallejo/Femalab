@@ -35,7 +35,7 @@ namespace Femalab.Controllers
         public JsonResult GetAll(string dateBegin, string dateEnd)
         {
 
-            var lst = invoiceService.GetAll();
+            var lst = invoiceService.GetAll().ToList();
             var attentions = (from at in lst
                               where (at.CreatedDate.Date >= Convert.ToDateTime(dateBegin).Date && at.CreatedDate.Date <= Convert.ToDateTime(dateEnd).Date)
                               select new
@@ -45,7 +45,7 @@ namespace Femalab.Controllers
                                   at.Customer.FirstName,
                                   at.TotalValue,
                                   at.CreatedDate,
-                                  PaidDate = at.Payments.Where(p => p.State == true) == null ? DateTime.Now : at.Payments.Where(p => p.State == true).LastOrDefault().CreatedDate,
+                                  PaidDate = at.Payments.Where(p => p.State == true).Count() == 0 ? DateTime.Now : at.Payments.Where(p => p.State == true).LastOrDefault().CreatedDate,
                                   at.SunatPdf ,
                                   at.SunatState
                               }).OrderByDescending(x => x.CreatedDate).ToList();

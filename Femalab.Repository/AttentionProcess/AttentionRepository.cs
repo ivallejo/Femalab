@@ -17,7 +17,7 @@ namespace Femalab.Repository.AttentionProcess
 
         public override IEnumerable<Attention> GetAll()
         {
-            return _entities.Set<Attention>()
+            return _entities.Set<Attention>().Where(x=> x.State == true)
                 .Include(x => x.Patient)
                 .Include(x => x.Doctor)
                 .Include(x => x.AttentionType)
@@ -29,7 +29,7 @@ namespace Femalab.Repository.AttentionProcess
 
         public IEnumerable<Attention> GetAllPending()
         {
-            return _entities.Set<Attention>()
+            return _entities.Set<Attention>().Where(x => x.State == true)
                 .Include(x => x.Patient)
                 .Include(x => x.Doctor)
                 .Include(x => x.AttentionType)
@@ -57,10 +57,10 @@ namespace Femalab.Repository.AttentionProcess
             _entities.Entry(model.Patient).State = System.Data.Entity.EntityState.Modified;
             _entities.Entry(model).State = System.Data.Entity.EntityState.Modified;            
         }
-
+            
         public Attention GetById(long id)
         {
-            return _dbset.Where(x => x.Id == id)
+            return _dbset.Where(x => x.Id == id).Where(x => x.State == true)
                          .Include(p => p.Patient)
                          .Include(d => d.Doctor)
                          .Include(at => at.AttentionType)
@@ -69,5 +69,7 @@ namespace Femalab.Repository.AttentionProcess
                          .Include(ad => ad.AttentionDetails.Select(p => p.Product).Select(s => s.Category))
                          .FirstOrDefault();
         }
+
+
     }
 }

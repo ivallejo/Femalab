@@ -6,6 +6,10 @@
 
 function addActionsAttention() {
 
+    $('#btnModal').click(function () {
+        $("#mdlPopUP").modal('show')        
+    });
+
     $('.addattention').click(function () {
         var url = $(this).data('url')
         $.get(url, function (data) {
@@ -31,11 +35,53 @@ function addActionsAttention() {
         });
     });
 
+    $('.remove-attention').click(function () {
+        debugger
+        var url = $(this).data('url')
+        
+        $.get(url, function (data) {
+            if (data.Id != 0) {
+                $('#mdlTitle').html(data.Title)
+                $('#mdlMessageHeader').html(data.MessageHead)
+                $('#mdlMessageBody').html(data.MessageBody)
+                $('#mdlAccion').html(data.AccionMessage)
+                $('#mdlAccion').data('accion', data.Accion)
+                $('#mdlAccion').data('id', data.Id)
+                $('#mdlAccion').addClass(data.CssAccion)
+
+                $("#mdlPopUP").modal('show')
+            }
+            else {
+                const notifier = new Notifier();
+                notifier.error('No se encontró el documento.', 'Error!');
+            }
+           
+        });
+    });
+
     $('.invoice-attention').click(function () {
         var url = $(this).data('url')
         $.get(url, function (data) {
             $("#ModalAttentionAddOrEdit").html(data)
             $("#ModalAttentionAddOrEdit").modal('show')
+        });
+    });
+
+    //invoice - pdf
+    $('.invoice-pdf').click(function () {
+        debugger
+        var url = $("#hddUrlGetPdf").val() + '/' + $(this).data('id') 
+        $.get(url, function (data) {
+
+            var blob = new Blob([data]);
+            var link = document.createElement('a');
+            link.href = window.URL.createObjectURL(blob);
+            link.download = "invoice.pdf";
+            link.click();
+            /*
+            $("#ModalAttentionAddOrEdit").html(data)
+            $("#ModalAttentionAddOrEdit").modal('show')
+            */
         });
     });
 
@@ -68,7 +114,7 @@ function getAllAttentions() {
                 $("#tbAttentionBody").append(`\
                         <tr id="tr-${item.Id}">\  
                         <td style="text-align:center">\ 
-                            <a title="Descargar PDF" class="btn btn-primary my-sm-1 invoice-pdf" href="${item.Pdf}"> <i class="fas fa-file-pdf fa-sm"></i></a>\
+                            <a title="Descargar PDF" data-id="${item.Id}" class="btn btn-primary my-sm-1" href="${window.location.origin + $("#hddUrlGetPdf").val() + '/' +  item.Id}"><i class="fas fa-file-pdf fa-sm"></i></a>\
                         </td>\
                         <td class="border-left-${item.CategoryTag}"> ${item.Document} </td>\
                         <td> ${item.LastName + ' ' + item.FirstName} </td>\
@@ -78,9 +124,9 @@ function getAllAttentions() {
                         <td> ${item.Size} </td>\                      
                         <td> ${formattedCreatedDate} </td>\
                         <td>\                            
-                            <button title="Editar" data-id="${item.Id}" class="btn btn-warning my-sm-1 edit-attention" data-url="/Attention/${item.Action + '/' + item.Id}" > <i class="fas fa-pen fa-sm"></i></button>\
-                            <button title="Recibo" data-id="${item.Id}" class="btn btn-success my-sm-1 receipt-attention" data-url="/Attention/InvoiceTest/${item.Id}" > <i class="fas fa-receipt fa-sm"></i></button>\
-                            <button title="Pagar" data-id="${item.Id}" class="btn btn-primary my-sm-1 invoice-attention" data-url="/Attention/Invoice/${item.Id}" > <i class="fas fa-file-invoice fa-sm"></i></button>\
+                            <button title="Editar" data-id="${item.Id}" class="btn btn-outline-warning my-sm-1 edit-attention" data-url="/Attention/${item.Action + '/' + item.Id}" > <i class="fas fa-pen fa-sm"></i></button>\
+                            <button title="Recibo" data-id="${item.Id}" class="btn btn-outline-danger my-sm-1 remove-attention" data-url="/Attention/Remove/${item.Id}" > <i class="fas fa-trash fa-sm"></i></button>\
+                            <button title="Pagar" data-id="${item.Id}" class="btn btn-outline-primary my-sm-1 invoice-attention" data-url="/Attention/Invoice/${item.Id}" > <i class="fas fa-file-invoice fa-sm"></i></button>\
                             
                         </td>\
                     </tr>\
@@ -123,6 +169,65 @@ $(document).ready(function () {
     getAllAttentions()
     //addActionsAttention()
 
+    $("#mdlAccion").click(function () {
+        $("#loading").show()
+        let accion = $(this).data('accion')
+        let id = $(this).data('id')
+
+        switch (accion){
+            case 'removeattention':
+                var posting = $.post("../Attention/RemoveAtt", { id: id });
+                posting
+                    .done(function (data) {
+                        const notifier = new Notifier();
+                        if (data.success) {
+                            notifier.success('Atención Eliminada satisfactoriamente.', 'Atención Eliminada!');
+                        } else {                            
+                            notifier.error('Error al eliminar la atención.', 'Error!');
+                        }                        
+                    })
+                    .fail(function () {
+                        const notifier = new Notifier();
+                        notifier.error('Error al eliminar la atención.', 'Error!');
+                    })
+                    .always(function () {
+                        debugger
+                        $("#loading").hide();
+                        $("#mdlPopUP").modal('hide')
+                        //getAllAttentions()
+                        $("#tr-" + id).remove();
+                    });
+                    
+                break;
+            case 'removeinvoice':
+                var posting = $.post("../Attention/RemoveInvoiceAtt", { id: id });
+                posting
+                    .done(function (data) {
+                        const notifier = new Notifier();
+                        if (data.success) {
+                            notifier.success('Documento Eliminado satisfactoriamente.', 'Documento Eliminado!');
+                        } else {
+                            notifier.error('Error al eliminar el documento.', 'Error!');
+                        }
+                    })
+                    .fail(function () {
+                        const notifier = new Notifier();
+                        notifier.error('Error al eliminar el documento.', 'Error!');
+                    })
+                    .always(function () {
+                        debugger
+                        $("#loading").hide();
+                        $("#mdlPopUP").modal('hide')
+                        $("#ModalAttentionAddOrEdit").modal('hide')
+                        //getAllAttentions()
+                       //$("#tr-" + id).remove();
+                    });
+
+                break;
+        }
+
+
+    });
 });
 
 

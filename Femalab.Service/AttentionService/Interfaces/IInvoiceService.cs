@@ -12,5 +12,6 @@ namespace Femalab.Service.AttentionService.Interfaces
         Invoice GetById(long Id);
         Invoice GetByIdAttention(long IdAttention);
         void UpdateInvoice(Invoice entity);
+        int GetNumberSerie(string Series);
     }
 }

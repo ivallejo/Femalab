@@ -19,10 +19,37 @@
 
             @*<a href="#" class="btn btn-success"><i class="fas fa-plus-circle"></i> Nuevo</a>*@
             @*<button type="button" id="btnAddAttention" data-url='@Url.Action("Attention","Attention")' class="btn btn-success ml-1 addattention"><i class="fas fa-plus-circle"></i> Consulta </button>*@
-            <button type="button" id="btnAddLaboratory" data-url='@Url.Action("Laboratory","Attention")' class="btn btn-info ml-1 addattention"><i class="fas fa-plus-circle"></i> Laboratorio </button>            
-            <button type="button" id="btnAddPharmacy" data-url='@Url.Action("Pharmacy","Attention")' class="btn btn-primary ml-1 addattention"><i class="fas fa-plus-circle"></i> Farmacia </button>
+            <button type="button" id="btnAddLaboratory" data-url='@Url.Action("Laboratory","Attention")' class="btn btn-info ml-1 addattention"><i class="fas fa-plus-circle"></i> Laboratorio </button>
+            
+            
+            <input type="hidden" id="hddUrlGetPdf" value="@Url.Action("GetPdf","Attention")" />
 
-            <div class="modal fade bd-example-modal-xl" id="ModalAttentionAddOrEdit" tabindex="-1" role="dialog" aria-labelledby="ModalCenterTitle" aria-hidden="true" ></div>
+            <div class="modal fade bd-example-modal-xl" id="ModalAttentionAddOrEdit" tabindex="-1" role="dialog" aria-labelledby="ModalCenterTitle" aria-hidden="true"></div>
+
+            <div class="modal fade" id="mdlPopUP" tabindex="-1" role="dialog">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header" style="text-align:center">
+                            <h5 class="modal-title" id="mdlTitle"></h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <h4 id="mdlMessageHeader" style="text-align:center"></h4>
+                            <br />
+                            <div id="mdlMessageBody">
+
+                            </div>
+
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn" data-id="0" data-accion="0" id="mdlAccion"></button>
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
             <br />
             <br />
@@ -42,7 +69,7 @@
                         <th style="width:160px">Agregado</th>
                         <th style="width:130px">Acciones</th>
                     </tr>
-                </thead>                
+                </thead>
                 <tbody id="tbAttentionBody"></tbody>
             </table>
         </div>

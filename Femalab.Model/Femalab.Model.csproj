@@ -51,6 +51,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Custom\Facturalo\Facturalo.cs" />
+    <Compile Include="Custom\Facturalo\FacturaloPdf.cs" />
     <Compile Include="Custom\Facturalo\FacturaloResponse.cs" />
     <Compile Include="Custom\Facturalo\FacturaloSend.cs" />
     <Compile Include="Entities\Attention.cs" />
@@ -128,6 +129,14 @@
     <Compile Include="Migrations\201906150731082_SunatState.Designer.cs">
       <DependentUpon>201906150731082_SunatState.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201906220600176_column_Model_Sunat.cs" />
+    <Compile Include="Migrations\201906220600176_column_Model_Sunat.Designer.cs">
+      <DependentUpon>201906220600176_column_Model_Sunat.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201906240419245_column_state_invoice.cs" />
+    <Compile Include="Migrations\201906240419245_column_state_invoice.Designer.cs">
+      <DependentUpon>201906240419245_column_state_invoice.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Persistence\FemalabContext.cs" />
     <Compile Include="Persistence\PERSONA.cs">
@@ -204,6 +213,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201906150731082_SunatState.resx">
       <DependentUpon>201906150731082_SunatState.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201906220600176_column_Model_Sunat.resx">
+      <DependentUpon>201906220600176_column_Model_Sunat.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201906240419245_column_state_invoice.resx">
+      <DependentUpon>201906240419245_column_state_invoice.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

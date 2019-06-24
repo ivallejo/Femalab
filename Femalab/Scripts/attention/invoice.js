@@ -121,17 +121,57 @@ function removePay() {
 }
 
 function ChangeInvoice() {
-    $('#VoucherType').on('change', function () {
+    $('#VoucherType').on('change', function () { 
+         debugger
         var voucherType = $(this).val()
+        var posting = $.post("../Attention/GetNumberSunat", { Series: voucherType });
+        posting
+            .done(function (data) {
+                $('#Series').html('')
+                $('#Series')
+                    .append($("<option></option>")
+                        .attr("value", voucherType)
+                        .text(data.sunatSeries));
+                $("#SunatNumber").val(data.sunatNumber)
+            })
+            .fail(function () {
+                const notifier = new Notifier();
+                notifier.error('Existen problemas al obtener el ultimo correlativo del servidor.', 'Error!');
+            })
+        /*
         $('#Series').empty();
         if (voucherType == '01') {
             $('#Series')
                 .append($("<option></option>")
                     .attr("value", "01")
                     .text("F001"));
-        } else {
+        }else {
             $("#Series").append('<option value="03">B001</option>');
         }
+        */
+
+    });
+
+    
+}
+
+function removeInvoice() {
+
+    $('.remove-invoice').click(function () {
+        var url = $(this).data('url') + '/' + $("#Id").val()
+
+        $.get(url, function (data) {
+
+            $('#mdlTitle').html(data.Title)
+            $('#mdlMessageHeader').html(data.MessageHead)
+            $('#mdlMessageBody').html(data.MessageBody)
+            $('#mdlAccion').html(data.AccionMessage)
+            $('#mdlAccion').data('accion', data.Accion)
+            $('#mdlAccion').data('id', data.Id)
+            $('#mdlAccion').addClass(data.CssAccion)
+
+            $("#mdlPopUP").modal('show')
+        });
     });
 }
 
@@ -229,7 +269,7 @@ $(document).ready(function () {
             }
         },
         submitHandler: function (form) {
-            $(".loading").show()
+            $("#invoiceLoading").show()
             if ($("#Customer.Document").val() == "") $("#Age").val("0")
             if ($("#Customer.FirstName").val() == "") $("#Age").val("0")
             if ($("#Customer.Address").val() == "") $("#Weight").val("0.00")
@@ -243,30 +283,34 @@ $(document).ready(function () {
                 createElement(iPayments, invoiceId, arrPagos[i].Type, arrPagos[i].Price)
                 iPayments++;
             }
-
+            
             var posting = $.post("../Attention/Invoice", $(form).serialize());
-            posting.done(function (data) {
-                $("#ModalAttentionAddOrEdit").modal('hide')
-                let notifier = new Notifier();
-                switch (data.response) {
-                    case "0": {
-                        notifier.success('Factura registrada satisfactoriamente.', 'Factura Registrada!');
-                        notifier.error('Error al comunicarse con SUNAT.', 'Error!');
-                        getAllAttentions()
-                        break
+            posting
+                .done(function (data) {
+                    $("#ModalAttentionAddOrEdit").modal('hide')
+                    let notifier = new Notifier();
+                    switch (data.response) {
+                        case "0": {
+                            notifier.success('Factura registrada satisfactoriamente.', 'Factura Registrada!');
+                            notifier.error('Error al comunicarse con SUNAT.', 'Error!');
+                            getAllAttentions()
+                            break
+                        }
+                        case "1": {
+                            notifier.success('Factura registrada satisfactoriamente.', 'Factura Registrada!');
+                            getAllAttentions()
+                            break
+                        }
+                        case "2": {
+                            notifier.success('Factura actualizada satisfactoriamente.', 'Factura Actualizada!');
+                            getAllAttentions()
+                            break
+                        }                      
                     }
-                    case "1": {
-                        notifier.success('Factura registrada satisfactoriamente.', 'Factura Registrada!');
-                        getAllAttentions()
-                        break
-                    }
-                    case "2": {
-                        notifier.success('Factura actualizada satisfactoriamente.', 'Factura Actualizada!');
-                        getAllAttentions()
-                        break
-                    }                      
-                }
-            });
+                })
+                .always(function () {
+                    $("#invoiceLoading").hide();
+                });
 
             return false;
         }
@@ -276,6 +320,13 @@ $(document).ready(function () {
     addPay()
     ChangeInvoice()
     ChangeUbigeo()
+    removeInvoice()
+
+    $("·SunatNumber").on('keyup', function () {
+        
+        alert('Changed!')
+    }).keyup();
+
 });
 
 
